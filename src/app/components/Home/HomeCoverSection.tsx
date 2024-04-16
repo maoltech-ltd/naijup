@@ -14,9 +14,7 @@ const HomeCoverSection: React.FC<Props> = ({blogs}) => {
         <div className="absolute top-0 left-0 bottom-o right-o h-full
         bg-gradient-to-b from-transparent from-0% to-dark/90 rounded-3xl z-0" />
       <article className="w-full flex flex-col items-start justify-end mx-10 relative h-[85vh]">
-        <Image src={blog.image}
-        // placeholder="blur"
-        // blurDataURL={blog.imaage.blurhashDataUrl}
+        <Image src={blog.image.link}
         alt={blog.title}
         fill
         className="w-full h-full object-center object-cover rounded-3xl"

@@ -7,7 +7,7 @@ const Header = () => {
     <header className="w-full p-4 px-10 flex items-center justify-between">
         <Logo />
         <nav  className="w-max py-3 px-8 border border-solid border-dark rounded-full font-medium capitalize flex items-center
-        fixed top-6 right-1/2 translate-x-1/2 bg-light/80 backdrop-blur-sm">
+        fixed top-6 right-1/2 translate-x-1/2 bg-light/80 backdrop-blur-sm z-40">
             <Link href="/" className="mr-2">Market</Link>
             <Link href="/" className="mx-2">Category</Link>
             <Link href="/about" className="mx-2">About</Link>
