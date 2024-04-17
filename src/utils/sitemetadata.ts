@@ -1,21 +1,21 @@
 const siteMetadata = {
-    title: 'Next.js Blog With Tailwind CSS and Contentlayer',
-    author: 'CodeBucks',
-    headerTitle: 'Next.js Blog',
-    description: 'A blog created with Next.js, Tailwind.css and contentlayer.',
+    title: 'NaijUp',
+    author: 'MaolTech',
+    headerTitle: 'NaijUp Blog',
+    description: 'A blog on finance in Nigeria and Africa',
     language: 'en-us',
-    theme: 'system', // system, dark or light
-    siteUrl: 'https://create-blog-with-nextjs.vercel.app', // your website URL
+    theme: 'light',
+    siteUrl: 'https://naijup.vercel.app',
     siteLogo: '/logo.png',
-    socialBanner: '/social-banner.png', // add social banner in the public folder
-    email: 'codebucks27@gmail.com', 
-    github: 'https://github.com/codebucks27',
-    twitter: 'https://twitter.com/code_bucks',
+    socialBanner: '/social-banner.png',
+    email: 'naijup27@gmail.com', 
+    github: 'https://github.com/maoltech',
+    twitter: 'https://twitter.com/maoltech',
     facebook: 'https://facebook.com',
-    youtube: 'https://youtube.com/codebucks',
-    linkedin: 'https://www.linkedin.com/in/codebucks/',
+    youtube: 'https://youtube.com/maoltech',
+    linkedin: 'https://www.linkedin.com/in/maoltech/',
     dribbble: 'https://www.dribbble.com',
-    locale: 'en-US',
+    locale: 'en-UK',
 }
 
 export default siteMetadata;

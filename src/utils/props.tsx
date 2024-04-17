@@ -16,3 +16,15 @@ export type blogDetailsProp = {
   blog: any,
   slug: string
 }
+
+export type CategoriesProp = {
+  categories: string[],
+  currentSlug: string
+}
+
+export type CategoryProp = {
+  link: string,
+  name: string,
+  active: boolean,
+  className?: string  
+}

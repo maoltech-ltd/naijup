@@ -1,5 +1,5 @@
 import Link from "next/link"
-import AboutCoverSection from "../components/AboutCoverSection"
+import AboutCoverSection from "../../components/About/AboutCoverSection"
 
 const About = () => {
   return (
