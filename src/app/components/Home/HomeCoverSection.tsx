@@ -2,7 +2,7 @@ import { sortBlogs } from "@/src/utils";
 import Image from "next/image";
 import Link from "next/link";
 import Category from "../Elements/Category";
-import { Props } from "@/src/props/props";
+import { Props } from "@/src/utils/props";
 
 
 const HomeCoverSection: React.FC<Props> = ({blogs}) => {

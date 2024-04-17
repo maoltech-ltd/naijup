@@ -1,4 +1,4 @@
-import { Props } from "@/src/props/props"
+import { Props } from "@/src/utils/props"
 import { sortBlogs } from "@/src/utils"
 import BlogLayoutOne from "../Blog/BlogLayoutOne"
 import BlogLayoutTwo from "../Blog/BlogLayoutTwo"

@@ -1,4 +1,4 @@
-import { BlogProp } from "@/src/props/props"
+import { BlogProp } from "@/src/utils/props"
 import Image from "next/image"
 import Link from "next/link"
 

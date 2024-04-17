@@ -14,7 +14,7 @@ export const blogHome = [
     author: "codebucks",
     isPublished: true,
     category: "Publications",
-    url: `http://localhost:3000/blog/${1}`,
+    url: `http://localhost:3000/blogs/${1}`,
     tags: ["productivity"]
 },
 {
@@ -31,7 +31,7 @@ export const blogHome = [
     author: "codebucks",
     isPublished: true,
     category: "code quality",
-    url: `http://localhost:3000/blog/${2}`,
+    url: `http://localhost:3000/blogs/${2}`,
     tags: ["productivity"]
 },
 {
@@ -48,7 +48,7 @@ export const blogHome = [
     author: "codebucks",
     isPublished: true,
     category: "Publications",
-    url: `http://localhost:3000/blog/${3}`,
+    url: `http://localhost:3000/blogs/${3}`,
     tags: ["productivity"]
 },
 {
@@ -65,7 +65,7 @@ export const blogHome = [
     author: "codebucks",
     isPublished: true,
     category: "Publications",
-    url: `http://localhost:3000/blog/${4}`,
+    url: `http://localhost:3000/blogs/${6}`,
     tags: ["productivity", "web development"]
 },
 {
@@ -82,7 +82,7 @@ export const blogHome = [
     author: "codebucks",
     isPublished: true,
     category: "Publications",
-    url: `http://localhost:3000/blog/${7}`,
+    url: `http://localhost:3000/blogs/${7}`,
     tags: ["productivity", "web development"]
 },
 {
@@ -99,7 +99,7 @@ export const blogHome = [
     author: "codebucks",
     isPublished: true,
     category: "Publications",
-    url: `http://localhost:3000/blog/${4}`,
+    url: `http://localhost:3000/blogs/${8}`,
     tags: ["productivity", "web development"]
 }
 ]

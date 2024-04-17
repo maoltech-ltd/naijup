@@ -11,3 +11,8 @@ export interface CategoryProps  {
 export type BlogProp ={
   blog: any;
 }
+
+export type blogDetailsProp = {
+  blog: any,
+  slug: string
+}

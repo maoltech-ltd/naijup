@@ -1,4 +1,4 @@
-import { CategoryProps } from "@/src/props/props"
+import { CategoryProps } from "@/src/utils/props"
 import { cs } from "@/src/utils"
 import Link from "next/link"
 
