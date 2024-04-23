@@ -423,20 +423,20 @@ export const DribbbleIcon = ({ className, ...rest }: IconProps) => {
   );
 };
 
-export const FacebookIcon = ({className, ...rest}: IconProps) => (
+export const FacebookIcon = ({ className, ...rest }: IconProps) => (
   <svg 
     xmlns="http://www.w3.org/2000/svg" 
     width={42}
-    height={43}
-    viewBox="0 0 42 43"
-    {...rest}
-    className={cs(className, "w-full h-auto")}
+      height={43}
+      viewBox="0 0 42 43"
+      className={cs("w-full h-auto", className)}
+      {...rest}
   >
     <linearGradient
       id="a"
       x1={9.993}
       x2={40.615}
-      y1={9.993} 
+      y1={9.993}
       y2={40.615}
       gradientUnits="userSpaceOnUse"
     >
