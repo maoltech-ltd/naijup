@@ -62,7 +62,7 @@ const Header = () => {
           </div>
         </button>
 
-        <nav  className="w-max py-3 sm:px-8 px-8 border border-solid border-dark rounded-full font-medium capitalize flex items-center
+        <nav  className="hidden lg-w-max py-3 sm:px-8 px-8 border border-solid border-dark rounded-full font-medium capitalize flex items-center
         fixed top-13 right-1/2 translate-x-1/2 bg-light/80 backdrop-blur-sm z-40">
             <Link href="/" className="mr-2">Market</Link>
             <button onClick={toggleCategories} className="mx-2">Category</button>
