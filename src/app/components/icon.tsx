@@ -340,6 +340,28 @@ export const MoonIcon = ({ className, ...rest }: IconProps) => (
   </svg>
 );
 
+export const BackIcon = ({ className, ...rest }: IconProps) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={42}
+      height={43}
+      viewBox="0 0 42 43"
+      className={cs("w-full h-auto", className)}
+      {...rest}
+    >
+      <path
+        fill="none"
+        stroke="#000"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="3"
+        d="M22 12L12 21.993 22 32"
+      />
+    </svg>
+  );
+};
+
 export const LinkedinIcon = ({ className, ...rest }: IconProps) => {
   return (
     <svg

@@ -62,7 +62,8 @@ const Header = () => {
           </div>
         </button>
 
-        <nav  className="hidden lg-w-max py-3 sm:px-8 px-8 border border-solid border-dark rounded-full font-medium capitalize flex items-center
+        {!click &&
+        (<nav  className="hidden w-max py-3 sm:px-8 px-8 border border-solid border-dark rounded-full font-medium capitalize sm:flex items-center
         fixed top-13 right-1/2 translate-x-1/2 bg-light/80 backdrop-blur-sm z-40">
             <Link href="/" className="mr-2">Market</Link>
             <button onClick={toggleCategories} className="mx-2">Category</button>
@@ -88,6 +89,7 @@ const Header = () => {
             </button>
             
         </nav>
+      )}
         <div className="hidden sm:flex items-center">
             <a href="http://twitter.com/" className="inline-block w-6 h-6 mr-4"><TwitterIcon 
             className="hover: scale-125 transition-all ease duration-200"/></a>

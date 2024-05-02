@@ -28,3 +28,24 @@ export type CategoryProp = {
   active: boolean,
   className?: string  
 }
+
+export type TPost = {
+  id: string;
+  title: string;
+  image: string;
+  content: any;
+  path: string;
+  // author: TUser;
+  author: any;
+  tags: string[];
+  type: "PUBLISHED" | "DRAFT";
+  // comments: TComment[];
+  comments: any[];
+  createdAt: Date;
+  updatedAt: Date;
+  // saved: TSavedPost[];
+  saved: any[];
+  _count: {
+    comments: number;
+  };
+};
