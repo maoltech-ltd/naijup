@@ -11,16 +11,6 @@ import { useParams, useRouter } from "next/navigation";
 import EditorJS from "@editorjs/editorjs";
 import { TPost } from "@/src/utils/props";
 import { BackIcon } from "../icon";
-const Table = require("@editorjs/table");
-const CheckList = require("@editorjs/checklist");
-const Code =  require("@editorjs/code");
-const Embed = require("@editorjs/embed");
-const InlineCode = require("@editorjs/inline-code");
-const List = require("@editorjs/list");
-const LinkTool = require("@editorjs/link");
-const Quote = require("@editorjs/quote");
-const Raw = require("@editorjs/raw")
-const Header = require("@editorjs/header")
 // import { convertImageToBase64 } from "@/utils/convertImageTobase64";
 
 type TForm = {
@@ -107,16 +97,16 @@ const Editor = ({ post }: { post: TPost | null }) => {
 
   const initEditor = useCallback(async () => {
     const EditorJS = (await import("@editorjs/editorjs")).default;
-    // const Header = (await import("@editorjs/header")).default;
-    // const Table = (await import("@editorjs/table")).default;
-    // const Embed = (await import("@editorjs/embed")).default;
-    // const List = (await import("@editorjs/list")).default;
-    // const Code = (await import("@editorjs/code")).default;
-    // const LinkTool = (await import("@editorjs/link")).default;
-    // const InlineCode = (await import("@editorjs/inline-code")).default;
-    // const Quote = (await import("@editorjs/quote")).default;
-    // const Raw = (await import("@editorjs/raw")).default;
-    // const CheckList = (await import("@editorjs/checklist")).default;
+    const Header = (await import("@editorjs/header")).default;
+    const Table = (await import("@editorjs/table")).default;
+    const Embed = (await import("@editorjs/embed")).default;
+    const List = (await import("@editorjs/list")).default;
+    const Code = (await import("@editorjs/code")).default;
+    const LinkTool = (await import("@editorjs/link")).default;
+    const InlineCode = (await import("@editorjs/inline-code")).default;
+    const Quote = (await import("@editorjs/quote")).default;
+    const Raw = (await import("@editorjs/raw")).default;
+    const CheckList = (await import("@editorjs/checklist")).default;
 
     if (!ref.current) {
       const editor = new EditorJS({
@@ -126,6 +116,7 @@ const Editor = ({ post }: { post: TPost | null }) => {
         data: post?.content,
         tools: {
           header: {
+            class: Header,
             inlineToolbar: true,
             config: {
               placeholder: "Enter a header",
@@ -170,14 +161,14 @@ const Editor = ({ post }: { post: TPost | null }) => {
   return (
     <form onSubmit={handleSubmit(onSubmitHandler)} className="h-full">
       <nav className="bg-transparent flex justify-between md:px-6 px-2 py-2 items-center">
-        {/* <Button
+        <Button
           radius="sm"
           variant="light"
           aria-label="Back button"
           onPress={() => router.back()}
         >
           <BackIcon name="chevron-left" /> back
-        </Button> */}
+        </Button>
 
         {post && post.type === "PUBLISHED" ? (
           <div>

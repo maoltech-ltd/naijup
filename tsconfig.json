@@ -22,5 +22,7 @@
     }
   },
   "include": ["next-env.d.ts", "editor.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/components/Footer", "src/app/(account)/signin", "src/app/(account)/signup"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "types": ["@types/editorjs__table", "@types/editorjs__embed"]
+
 }
