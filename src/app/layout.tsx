@@ -7,6 +7,8 @@ import { cs } from "../utils";
 import Footer from "./components/Footer";
 import siteMetadata from "../utils/sitemetadata";
 import Script from "next/script";
+import { Provider } from "react-redux";
+import store from "../redux/store";
 
 const inter = Inter({ 
   subsets: ["latin"], 
@@ -62,6 +64,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <Provider store={store}>
       <body className={cs(
         inter.variable, 
         manrope.variable, 
@@ -79,6 +82,7 @@ export default function RootLayout({
         {children}
         <Footer />
       </body>
+      </Provider>
     </html>
   );
 }
