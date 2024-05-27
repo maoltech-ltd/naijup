@@ -1,8 +1,8 @@
 import { blogDetailsProp } from "@/src/utils/props"
-import BlogLayoutThree from "../../components/Blog/BlogLayoutThree"
 import { blogHome } from "@/src/content"
 import { sortBlogs } from "@/src/utils"
-import Categories from "../../components/Blog/Categories"
+import Categories from "@/src/components/Blog/Categories";
+import BlogLayoutThree from "@/src/components/Blog/BlogLayoutThree";
 
 
 export async function generateStaticParams() {

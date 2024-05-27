@@ -1,18 +1,41 @@
+"use-client";
 import { sortBlogs } from "@/src/utils";
-import Category from "../../components/Elements/Category";
-import { blogHome } from "@/src/content";
 import Image from "next/image";
-import BlogDetails from "../../components/Blog/BlogDetails";
-import RenderMdx from "../../components/Blog/RenderMdx";
-import BlogContent from "../../components/Blog/BlogContent";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import Category from "@/src/components/Elements/Category";
+import BlogDetails from "@/src/components/Blog/BlogDetails";
+import BlogContent from "@/src/components/Blog/BlogContent";
+import { fetchPostByTitle, fetchPosts } from "@/src/redux/slice/postSlice";
+import { title } from "process";
+import { useAppDispatch } from "@/src/redux/hooks/dispatch";
 
-export async function generateStaticParams() {
+// export async function generateStaticParams() {
 
-     return blogHome.map((blog:any) => {slug: blog.id.toString()})
- }
-export default function BlogPage({ params }: { params: { slug: string } }) {
-    const sortedBlogs = sortBlogs(blogHome)
-    const blog : any= sortedBlogs.find((blog: any) => blog.id.toString() === params.slug)
+//      return blogHome.map((blog:any) => {slug: blog.id.toString()})
+//  }
+export default function BlogPage({ params }: { params: { title: string } }) {
+
+    const dispatch =  useAppDispatch();
+    const { posts, status, error } = useSelector((state: any) => state.posts);
+    const blog = posts;
+    useEffect(() => {
+        if (status === 'idle') { 
+            dispatch(fetchPostByTitle(params.title));
+        }
+    }, [status, dispatch]);
+
+    if (status === 'loading') {
+        return <div>Loading...</div>;
+    }
+
+    if (status === 'failed') {
+        return <div>Error: {error}</div>;
+    }
+
+    if (!blog) {
+        return <div>Blog not found</div>;
+    }
     return (
         <>
     <script/>
@@ -41,7 +64,7 @@ export default function BlogPage({ params }: { params: { slug: string } }) {
           sizes="100vw"
         />
       </div>
-      <BlogDetails blog={blog} slug={params.slug} />
+      <BlogDetails blog={blog} slug={params.title} />
 
       <div className="grid grid-cols-12  gap-y-8 lg:gap-8 sxl:gap-16 mt-8 px-5 md:px-10">
         <div className="col-span-12  lg:col-span-3">

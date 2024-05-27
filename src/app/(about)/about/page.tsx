@@ -1,5 +1,5 @@
+import AboutCoverSection from "@/src/components/About/AboutCoverSection"
 import Link from "next/link"
-import AboutCoverSection from "../../components/About/AboutCoverSection"
 
 const About = () => {
   return (

@@ -4,6 +4,7 @@ import axios from "axios";
 interface Post {
     id: string;
     title: string;
+    category: string;
     content: string;
     author: string;
     createdAt: string;
@@ -11,13 +12,13 @@ interface Post {
 }
 
 interface PostState {
-    posts: Post[];
+    posts: Post[] | Post;
     status: string;
     error: string | null;
 }
 
 const initialState: PostState = {
-    posts: [],
+    posts: [] ,
     status: "idle",
     error: null,
 };
@@ -28,15 +29,25 @@ export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
     return response.data;
 });
 
+export const fetchPost = createAsyncThunk('posts/fetchPost', async (postId: string) => {
+    const response = await axios.get(`/api/post/${postId}`);
+    return response.data;
+}) 
+
+export const fetchPostByTitle = createAsyncThunk('posts/fetchPostByTitle', async (title: string) => {
+    const response = await axios.get(`/api/post/${title}`);
+    return response.data;
+})
+
 // Thunk to create a new post
 export const createPost = createAsyncThunk('posts/createPost', async (newPost: { title: string; content: string; author: string }) => {
-    const response = await axios.post('/api/posts', newPost);
+    const response = await axios.post('/api/post', newPost);
     return response.data;
 });
 
 // Thunk to update an existing post
 export const updatePost = createAsyncThunk('posts/updatePost', async (updatedPost: { id: string; title: string; content: string }) => {
-    const response = await axios.put(`/api/posts/${updatedPost.id}`, updatedPost);
+    const response = await axios.put(`/api/post/${updatedPost.id}`, updatedPost);
     return response.data;
 });
 
@@ -67,7 +78,7 @@ const postSlice = createSlice({
             // Create post
             .addCase(createPost.fulfilled, (state, action) => {
                 state.status = "succeeded";
-                state.posts.push(action.payload);
+                state.posts = action.payload;
             })
             .addCase(createPost.pending, (state) => {
                 state.status = "loading";
@@ -79,10 +90,7 @@ const postSlice = createSlice({
             // Update post
             .addCase(updatePost.fulfilled, (state, action) => {
                 state.status = "succeeded";
-                const index = state.posts.findIndex(post => post.id === action.payload.id);
-                if (index !== -1) {
-                    state.posts[index] = action.payload;
-                }
+                state.posts = action.payload; 
             })
             .addCase(updatePost.pending, (state) => {
                 state.status = "loading";
@@ -94,7 +102,7 @@ const postSlice = createSlice({
             // Delete post
             .addCase(deletePost.fulfilled, (state, action) => {
                 state.status = "succeeded";
-                state.posts = state.posts.filter(post => post.id !== action.payload);
+                state.posts = state.posts;
             })
             .addCase(deletePost.pending, (state) => {
                 state.status = "loading";
@@ -102,7 +110,29 @@ const postSlice = createSlice({
             .addCase(deletePost.rejected, (state, action) => {
                 state.status = "failed";
                 state.error = action.error.message || "Failed to delete post.";
-            });
+            })
+            .addCase(fetchPost.rejected, (state, action) => {
+                state.status = "failed";
+                state.error = action.error.message || "Failed to fetch post.";
+            })
+            .addCase(fetchPost.pending, (state) => {
+                state.status = "loading";
+            })
+            .addCase(fetchPost.fulfilled, (state, action) => {
+                state.status = "succeeded";
+                state.posts = action.payload;
+            })
+            .addCase(fetchPostByTitle.rejected, (state, action) => {
+                state.status = "failed";
+                state.error = action.error.message || "Failed to fetch post.";
+            })
+            .addCase(fetchPostByTitle.pending, (state) => {
+                state.status = "loading";
+            })
+            .addCase(fetchPostByTitle.fulfilled, (state, action) => {
+                state.status = "succeeded";
+                state.posts = action.payload;
+            })
     },
 });
 

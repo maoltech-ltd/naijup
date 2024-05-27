@@ -1,5 +1,5 @@
+import Editor from '@/src/components/Post/Editor'
 import React from 'react'
-import Editor from '../components/Post/Editor'
 
 const createPost
  = () => {

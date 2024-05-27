@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
 import { Inter, Manrope } from "next/font/google";
 import "./globals.css";
-import Navbar from "./components/Navbar";
-import Header from "./components/Header";
 import { cs } from "../utils";
-import Footer from "./components/Footer";
 import siteMetadata from "../utils/sitemetadata";
 import Script from "next/script";
 import { Provider } from "react-redux";
 import store from "../redux/store";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 const inter = Inter({ 
   subsets: ["latin"], 

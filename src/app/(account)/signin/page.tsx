@@ -1,10 +1,18 @@
 "use client";
+import { useAppDispatch } from '@/src/redux/hooks/dispatch';
+import {useSelector} from 'react-redux';
+import { loginUser } from '@/src/redux/slice/userSlice';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 const SignIn = () => {
   
+    const dispatch = useAppDispatch();
+    const router = useRouter();
+    const { isLoggedIn, status } = useSelector((state: any) => state.user);
     // form validation rules 
     const validationSchema = Yup.object().shape({
         // username: Yup.string().required('Username is required'),
@@ -12,16 +20,25 @@ const SignIn = () => {
         password: Yup.string().required('Password is required')
     });
 
-    const { register, handleSubmit, formState } = useForm();
-    const { errors}: any = formState;
-
+    // const { register, handleSubmit, formState } = useForm();
+    // const { errors}: any = formState;
+    // const {error}: any = validationSchema.validate(data)
+    //     if(error){
+    //         console.log(error)
+    //     }
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
+        resolver: yupResolver(validationSchema)
+    });
     async function onSubmit(data: any) {
-        const {error}: any = await validationSchema.validate(data)
-        if(error){
-            console.log(error)
+        
+
+        const resultAction = await dispatch(loginUser(data));
+        if (loginUser.fulfilled.match(resultAction)) {
+            router.push("/")
+        } else {
+            router.push("/signup")
         }
         
-        console.log(data);
     }
 
     return (
@@ -49,8 +66,8 @@ const SignIn = () => {
                             <div className="invalid-feedback">{errors.password?.message}</div>
                         </div>
                         <div className="flex flex-row justify-content">
-                            <button disabled={formState.isSubmitting} className="btn btn-primary p-2 transition duration-300 ease-in-out transform dark:text-white hover:scale-110">
-                                {formState.isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
+                            <button disabled={isSubmitting} className="btn btn-primary p-2 transition duration-300 ease-in-out transform dark:text-white hover:scale-110">
+                                {isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
                                 Login
                             </button>
                             <Link href="/signup" className="btn btn-link p-2 transition duration-300 ease-in-out transform hover:scale-110 dark:text-white">Register</Link>

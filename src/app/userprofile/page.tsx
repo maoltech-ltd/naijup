@@ -1,11 +1,18 @@
-import ProfileDetails from "../components/Profile/ProfileDetails";
+import ProfileDetails from "@/src/components/Profile/ProfileDetails";
+import ProtectedRoute from "@/src/components/ProtectedRoute";
+
 
 
 const UserProfile = () => {
   return (
-    <div>
-        <ProfileDetails user={null} />
-    </div>
+    <ProtectedRoute>
+      {({ user }: any) => (
+        <div>
+          <ProfileDetails user={user} />
+        </div>
+      )}
+    </ProtectedRoute>
+    
   )
 }
 

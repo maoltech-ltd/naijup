@@ -1,8 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { categoryReducer, commentReducer, postReducer, userReducer } from "./slice";
 
 
 const store = configureStore({
-    reducer: {}
+    reducer: {
+        user: userReducer,
+        post: postReducer,
+        comment: commentReducer,
+        category: categoryReducer,
+    }
 })
 
 export default store;
