@@ -1,6 +1,5 @@
+import api from "@/src/api";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import post from "axios";
-import axios from "axios";
 import { headers } from "next/headers";
 
 
@@ -22,32 +21,24 @@ const initialState: UserState = {
     isLoggedIn: false
 }
 
-// export const fetchUser = createAsyncThunk('user/fetchUser', async (token: string) => {
-//     const headers = {
-//         Authorization: "Bearer " + token
-//     }
-//     const response = await post(`/api/users/`, {headers});
-//     return response.data;
-//   });
 
-// Thunk for fetching user details
 export const fetchUser = createAsyncThunk('user/fetchUser', async (token: string) => {
     const headers = {
         Authorization: "Bearer " + token
     };
-    const response = await axios.post(`/api/users/`, {}, { headers });
+    const response = await api.post(`users/`, {}, { headers });
     return response.data;
 });
 
 // Thunk for user login
 export const loginUser = createAsyncThunk('user/loginUser', async (credentials: { email: string, password: string }) => {
-    const response = await axios.post(`/api/auth/login`, credentials);
+    const response = await api.post(`v1/user/auth/signin/`, credentials);
     return response.data;
 });
 
 // Thunk for user registration
 export const registerUser = createAsyncThunk('user/registerUser', async (userInfo: { name: string, email: string, password: string }) => {
-    const response = await axios.post(`/api/auth/register`, userInfo);
+    const response = await api.post(`v1/user/auth/signup/`, userInfo);
     return response.data;
 });
 
@@ -56,13 +47,13 @@ export const updateUserProfile = createAsyncThunk('user/updateUserProfile', asyn
     const headers = {
         Authorization: "Bearer " + userInfo.token
     };
-    const response = await axios.put(`/api/users/${userInfo.userId}`, userInfo, { headers });
+    const response = await api.put(`v1/user/${userInfo.userId}`, userInfo, { headers });
     return response.data;
 });
 
 // Thunk for refreshing token
 export const refreshToken = createAsyncThunk('user/refreshToken', async (refreshToken: string) => {
-    const response = await axios.post(`/api/auth/refresh-token`, { token: refreshToken });
+    const response = await api.post(`v1/user/auth/refresh-token`, { token: refreshToken });
     return response.data;
 });
 

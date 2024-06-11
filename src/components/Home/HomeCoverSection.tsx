@@ -5,10 +5,8 @@ import Category from "../Elements/Category";
 import { Props } from "@/src/utils/props";
 
 
-const HomeCoverSection: React.FC<Props> = ({blogs}) => {
+const HomeCoverSection: React.FC<Props> = ({blog}: any) => {
 
-    const sortedBlogs = sortBlogs(blogs);
-    const blog: any = sortedBlogs[0];
   return (
     <div className="w-full inline-block">
       <article className='flex flex-col items-start justify-end mx-5 sm:mx-10 relative h-[60vh] sm:h-[85vh]'>

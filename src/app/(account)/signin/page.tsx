@@ -3,15 +3,18 @@ import { useAppDispatch } from '@/src/redux/hooks/dispatch';
 import {useSelector} from 'react-redux';
 import { loginUser } from '@/src/redux/slice/userSlice';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { AiOutlineEye, AiOutlineEyeInvisible } from '@/src/components/icon';
 
 const SignIn = () => {
   
     const dispatch = useAppDispatch();
     const router = useRouter();
+    const [showPassword, setShowPassword] = useState(false);
     const { isLoggedIn, status } = useSelector((state: any) => state.user);
     // form validation rules 
     const validationSchema = Yup.object().shape({
@@ -31,7 +34,6 @@ const SignIn = () => {
     });
     async function onSubmit(data: any) {
         
-
         const resultAction = await dispatch(loginUser(data));
         if (loginUser.fulfilled.match(resultAction)) {
             router.push("/")
@@ -63,6 +65,19 @@ const SignIn = () => {
                         <div className="form-group p-2 m-2">
                             <label className='dark:text-white'>Password</label>
                             <input type="password" {...register('password')} className={`form-control ${errors.password ? 'is-invalid' : ''} rounded-lg m-2`} />
+                            <div className="absolute translate-y-[-50%] text-[#899A9A] top-[55%] my-auto right-[3%]">
+                                {showPassword ? (
+                                    <AiOutlineEyeInvisible
+                                    className="block cursor-pointer text-[1.2rem]"
+                                    onClick={() => setShowPassword((prev) => !prev)}
+                                    />
+                                ) : (
+                                    <AiOutlineEye
+                                    className="block cursor-pointer text-[1.2rem]"
+                                    onClick={() => setShowPassword((prev) => !prev)}
+                                    />
+                                )}
+                                </div>
                             <div className="invalid-feedback">{errors.password?.message}</div>
                         </div>
                         <div className="flex flex-row justify-content">

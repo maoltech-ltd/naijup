@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+
 const SignUp = () => {
   
     const dispatch = useAppDispatch();

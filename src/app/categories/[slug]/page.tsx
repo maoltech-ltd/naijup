@@ -1,32 +1,39 @@
+"use client";
 import { blogDetailsProp } from "@/src/utils/props"
 import { blogHome } from "@/src/content"
 import { sortBlogs } from "@/src/utils"
 import Categories from "@/src/components/Blog/Categories";
 import BlogLayoutThree from "@/src/components/Blog/BlogLayoutThree";
+import { useAppDispatch } from "@/src/redux/hooks/dispatch";
+import { useEffect } from "react";
+import { fetchCategories } from "@/src/redux/slice/categorySlice";
+import { useSelector } from "react-redux";
 
 
-export async function generateStaticParams() {
-   const categories: string[] = [];
-   const paths = [{slug: "all"}]
-   blogHome.map(blog =>{
-    if(blog.isPublished){
-        if(!categories.includes(blog.category))
-        categories.push(blog.category)
-        paths.push({slug: blog.category})
-    }
-   })
-    return paths;
-}
+// export async function generateStaticParams() {
+//    const categories: string[] = [];
+//    const paths = [{slug: "all"}]
+//    blogHome.map(blog =>{
+//     if(blog.isPublished){
+//         if(!categories.includes(blog.category))
+//         categories.push(blog.category)
+//         paths.push({slug: blog.category})
+//     }
+//    })
+//     return paths;
+// }
 
 const CategoryPage = ({ params }: { params: { slug: string } }) => {
 
-    const sortedBlogs = sortBlogs(blogHome)
-    let blogs = []
-    if (params.slug === "all") {
-        blogs = sortedBlogs
-    }else{
-        blogs = sortedBlogs.filter((blog: any) => blog.category === params.slug)
-    }
+    const dispatch = useAppDispatch();
+    const { posts, status, error } = useSelector((state: any) => state.posts);
+    const blogs = posts;
+    useEffect(() => {
+          dispatch(fetchCategories(params.slug));
+    }, [status, dispatch]);
+   
+    const sortedBlogs = sortBlogs(blogs)
+  
     const allCategories: string[] = [];
 
     sortedBlogs.forEach((blog: any) => {
@@ -46,7 +53,7 @@ const CategoryPage = ({ params }: { params: { slug: string } }) => {
       <Categories categories={allCategories} currentSlug={params.slug} />
 
       <div className="grid  grid-cols-1 sm:grid-cols-2  lg:grid-cols-3 grid-rows-2 gap-16 mt-5 sm:mt-10 md:mt-24 sxl:mt-32 px-5 sm:px-10 md:px-24 sxl:px-32">
-        {blogs.map((blog, index) => (
+        {blogs.map((blog: any, index: number) => (
           <article key={index} className="col-span-1 row-span-1 relative">
             <BlogLayoutThree blog={blog} />
           </article>

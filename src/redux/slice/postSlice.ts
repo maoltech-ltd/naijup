@@ -1,5 +1,5 @@
+import api from "@/src/api";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 
 interface Post {
     id: string;
@@ -25,35 +25,36 @@ const initialState: PostState = {
 
 // Thunk to fetch all posts
 export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
-    const response = await axios.get('/api/posts');
+    const response = await api.get('v1/blog/latest-posts/');
+    console.log(response.data)
     return response.data;
 });
 
 export const fetchPost = createAsyncThunk('posts/fetchPost', async (postId: string) => {
-    const response = await axios.get(`/api/post/${postId}`);
+    const response = await api.get(`/api/post/${postId}`);
     return response.data;
 }) 
 
 export const fetchPostByTitle = createAsyncThunk('posts/fetchPostByTitle', async (title: string) => {
-    const response = await axios.get(`/api/post/${title}`);
+    const response = await api.get(`/api/post/${title}`);
     return response.data;
 })
 
 // Thunk to create a new post
 export const createPost = createAsyncThunk('posts/createPost', async (newPost: { title: string; content: string; author: string }) => {
-    const response = await axios.post('/api/post', newPost);
+    const response = await api.post('/api/post', newPost);
     return response.data;
 });
 
 // Thunk to update an existing post
 export const updatePost = createAsyncThunk('posts/updatePost', async (updatedPost: { id: string; title: string; content: string }) => {
-    const response = await axios.put(`/api/post/${updatedPost.id}`, updatedPost);
+    const response = await api.put(`/api/post/${updatedPost.id}`, updatedPost);
     return response.data;
 });
 
 // Thunk to delete a post
 export const deletePost = createAsyncThunk('posts/deletePost', async (postId: string) => {
-    await axios.delete(`/api/posts/${postId}`);
+    await api.delete(`/api/posts/${postId}`);
     return postId;
 });
 

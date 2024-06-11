@@ -19,7 +19,7 @@ type TForm = {
   postType: "DRAFT" | "PUBLISHED";
 };
 
-const Editor = ({ post }: { post: TPost | null }) => {
+const Editor = ({ post, user }: { post: TPost | null, user: any }) => {
   const router = useRouter();
   const params = useParams();
 

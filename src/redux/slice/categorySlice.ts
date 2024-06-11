@@ -1,5 +1,5 @@
+import api from "@/src/api";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 
 interface Category {
     id: string;
@@ -20,20 +20,20 @@ const initialState: CategoryState = {
 };
 
 // Thunk to fetch all categories
-export const fetchCategories = createAsyncThunk('categories/fetchCategories', async () => {
-    const response = await axios.get('/api/categories');
+export const fetchCategories = createAsyncThunk('categories/fetchCategories', async (category: string) => {
+    const response = await api.get(`/api/categories/${category}`);
     return response.data;
 });
 
 // Thunk to add a new category
 export const addCategory = createAsyncThunk('categories/addCategory', async (newCategory: { name: string; description: string }) => {
-    const response = await axios.post('/api/categories', newCategory);
+    const response = await api.post('/api/categories', newCategory);
     return response.data;
 });
 
 // Thunk to delete a category
 export const deleteCategory = createAsyncThunk('categories/deleteCategory', async (categoryId: string) => {
-    await axios.delete(`/api/categories/${categoryId}`);
+    await api.delete(`/api/categories/${categoryId}`);
     return categoryId;
 });
 

@@ -164,3 +164,5 @@ export const blogHome = [
       ]
 }
 ]
+
+export const baseurl = process.env.BASE_URL;

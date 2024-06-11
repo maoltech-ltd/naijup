@@ -1,4 +1,4 @@
-"use-client";
+"use client";
 import { sortBlogs } from "@/src/utils";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";

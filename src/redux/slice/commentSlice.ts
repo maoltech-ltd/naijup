@@ -1,6 +1,5 @@
+import api from "@/src/api";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-
 interface Comment {
     id: string;
     postId: string;
@@ -23,19 +22,19 @@ const initialState: CommentState = {
 
 // Thunk to fetch comments for a post
 export const fetchComments = createAsyncThunk('comments/fetchComments', async (postId: string) => {
-    const response = await axios.get(`/api/posts/${postId}/comments`);
+    const response = await api.get(`/api/posts/${postId}/comments`);
     return response.data;
 });
 
 // Thunk to add a new comment
 export const addComment = createAsyncThunk('comments/addComment', async (newComment: { postId: string; author: string; content: string }) => {
-    const response = await axios.post(`/api/posts/${newComment.postId}/comments`, newComment);
+    const response = await api.post(`/api/posts/${newComment.postId}/comments`, newComment);
     return response.data;
 });
 
 // Thunk to delete a comment
 export const deleteComment = createAsyncThunk('comments/deleteComment', async (commentId: string) => {
-    await axios.delete(`/api/comments/${commentId}`);
+    await api.delete(`/api/comments/${commentId}`);
     return commentId;
 });
 

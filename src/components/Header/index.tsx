@@ -5,8 +5,11 @@ import Logo from "./Logo"
 import { DribbbleIcon, FacebookIcon, LinkedinIcon, MoonIcon, SunIcon, TwitterIcon } from "../icon"
 import { useThemeSwitch } from "../Hooks/useThemeSwitch"
 import { cs } from "@/src/utils"
+import {useSelector} from 'react-redux';
 
 const Header = () => {
+
+  const user = useSelector((state: any) => state.user)
   const [mode, setMode]: any = useThemeSwitch();
   const [click, setClick] = useState(false);
   const [showCategories, setShowCategories] = useState(false);
@@ -36,7 +39,7 @@ const Header = () => {
       </Link>
       </div>
     <header className="w-full p-4  px-5 sm:px-10 flex items-center justify-between">
-        <Logo />
+        <Logo user={user} />
 
         <button className="inline-block sm:hidden z-50" onClick={toggle} aria-label="Hamburger Menu">
           <div className="w-6 cursor-pointer transition-all ease duration-300">
@@ -91,13 +94,13 @@ const Header = () => {
         </nav>
       )}
         <div className="hidden sm:flex items-center">
-            <a href="http://twitter.com/" className="inline-block w-6 h-6 mr-4"><TwitterIcon 
+            <a href="http://twitter.com/naijup" className="inline-block w-6 h-6 mr-4"><TwitterIcon 
             className="hover: scale-125 transition-all ease duration-200"/></a>
-            <a href="http://linkedin.com/" className="inline-block w-6 h-6 mr-4"><LinkedinIcon 
+            <a href="http://linkedin.com/in/naijup" className="inline-block w-6 h-6 mr-4"><LinkedinIcon 
             className="hover: scale-125 transition-all ease duration-200"/></a> 
-            <a href="http://facebook.com/" className="inline-block w-6 h-6 mr-4"><FacebookIcon 
+            <a href="http://facebook.com/naijup" className="inline-block w-6 h-6 mr-4"><FacebookIcon 
             className="hover: scale-125 transition-all ease duration-200"/></a>
-            <a href="http://dribbble.com/" className="inline-block w-6 h-6 mr-4"><DribbbleIcon 
+            <a href="http://dribbble.com/naijup" className="inline-block w-6 h-6 mr-4"><DribbbleIcon 
             className="hover: scale-125 transition-all ease duration-200"/></a>
         </div>
     </header>
