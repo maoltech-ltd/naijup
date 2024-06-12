@@ -64,7 +64,7 @@ const SignIn = () => {
                         </div>
                         <div className="form-group p-2 m-2">
                             <label className='dark:text-white'>Password</label>
-                            <input type="password" {...register('password')} className={`form-control ${errors.password ? 'is-invalid' : ''} rounded-lg m-2`} />
+                            <input type={showPassword ? "text" : "password"} {...register('password')} className={`form-control ${errors.password ? 'is-invalid' : ''} rounded-lg m-2`} />
                             <div className="absolute translate-y-[-50%] text-[#899A9A] top-[55%] my-auto right-[3%]">
                                 {showPassword ? (
                                     <AiOutlineEyeInvisible

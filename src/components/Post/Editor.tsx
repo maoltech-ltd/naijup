@@ -1,9 +1,6 @@
 "use client";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-
-import axios from "axios";
 import { useForm, SubmitHandler } from "react-hook-form";
-import toast from "react-hot-toast";
 import { Button } from "@nextui-org/react"
 import TextareaAutosize from "react-textarea-autosize";
 import Image from "next/image";
@@ -11,6 +8,8 @@ import { useParams, useRouter } from "next/navigation";
 import EditorJS from "@editorjs/editorjs";
 import { TPost } from "@/src/utils/props";
 import { BackIcon } from "../icon";
+import { useAppDispatch } from "@/src/redux/hooks/dispatch";
+import { createPost } from "@/src/redux/slice/postSlice";
 // import { convertImageToBase64 } from "@/utils/convertImageTobase64";
 
 type TForm = {
@@ -22,6 +21,7 @@ type TForm = {
 const Editor = ({ post, user }: { post: TPost | null, user: any }) => {
   const router = useRouter();
   const params = useParams();
+  const dispatch = useAppDispatch();
 
   const {
     register,
@@ -41,7 +41,7 @@ const Editor = ({ post, user }: { post: TPost | null, user: any }) => {
 
   useEffect(() => {
     if (errors.title) {
-      toast.error("Title can't be empty!");
+      console.log("Title can't be empty!");
     }
   }, [errors.title]);
 
@@ -49,42 +49,18 @@ const Editor = ({ post, user }: { post: TPost | null, user: any }) => {
     try {
       const blocks = await ref.current?.save();
 
-      if (params.postId) {
-        const res = await axios.patch(`/api/posts/${post?.path}`, {
-          title: data.title,
-          content: blocks,
-          image: imageFile !== null ? imageFile : post?.image,
-          type: data.postType,
-          postId: post?.id,
-          userId: post?.author.id,
-        });
-        toast.success(res.data.message);
-        router.push(`/dashboard`);
-      } else {
-        const res = await axios.post("/api/posts", {
-          title: data.title,
-          content: blocks,
-          image: imageFile,
-          type: data.postType,
-        });
-        toast.success(res.data.message);
-        if (data.postType === "DRAFT") {
-          router.push(`/dashboard`);
-        } else {
-          router.push(
-            `/${res.data.newPost.author.username}/${res.data.newPost.path}`
-          );
-        }
-      }
-      reset();
-      setImageFile(null);
-      ref?.current?.clear();
+      const postData = {
+        title: data.title,
+        content: blocks,
+        image: imageFile !== null ? imageFile : post?.image,
+        type: data.postType,
+        author: user.id,
+      };
+
+      dispatch(createPost(postData))
+
+    reset();
     } catch (error: any) {
-      if (error.response) {
-        toast.error(error.response.data.message);
-      } else {
-        toast.error(error.message);
-      }
       console.log(error);
     }
   };

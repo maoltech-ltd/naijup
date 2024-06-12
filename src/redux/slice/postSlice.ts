@@ -41,7 +41,7 @@ export const fetchPostByTitle = createAsyncThunk('posts/fetchPostByTitle', async
 })
 
 // Thunk to create a new post
-export const createPost = createAsyncThunk('posts/createPost', async (newPost: { title: string; content: string; author: string }) => {
+export const createPost = createAsyncThunk('posts/createPost', async (newPost: any) => {
     const response = await api.post('/api/post', newPost);
     return response.data;
 });
