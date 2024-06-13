@@ -5,7 +5,8 @@ import { cs } from "../utils";
 
 import Script from "next/script";
 import { Provider } from "react-redux";
-import store from "../redux/store";
+import store, {persistor} from "../redux/store";
+import { PersistGate } from 'redux-persist/integration/react';
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { usePathname } from "next/navigation";
@@ -37,6 +38,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}> 
       <body className={cs(
         inter.variable, 
         manrope.variable, 
@@ -54,6 +56,7 @@ export default function RootLayout({
         {children}
         {shouldShowHeaderFooter && <Footer />}
       </body>
+      </PersistGate>
       </Provider>
     </html>
   );

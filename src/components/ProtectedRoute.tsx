@@ -1,6 +1,6 @@
 // components/ProtectedRoute.js
 "use effect";
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
