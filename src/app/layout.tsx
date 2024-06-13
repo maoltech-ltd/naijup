@@ -2,15 +2,14 @@
 import { Inter, Manrope } from "next/font/google";
 import "./globals.css";
 import { cs } from "../utils";
-
 import Script from "next/script";
-import { Provider } from "react-redux";
-import store, {persistor} from "../redux/store";
-import { PersistGate } from 'redux-persist/integration/react';
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { usePathname } from "next/navigation";
+import ReduxProvider from "../redux/ReduxProvider";
+//import dynamic from "next/dynamic";
 
+//const ReduxProvider = dynamic(() => import("../redux/ReduxProvider"))
 const inter = Inter({ 
   subsets: ["latin"], 
   display: "swap", 
@@ -32,13 +31,11 @@ export default function RootLayout({
 
   const parthname = usePathname();
   const excludePaths = ["/signin", "/signup"];
-  console.log({parthname})
   const shouldShowHeaderFooter = !excludePaths.includes(parthname);
-
+  
   return (
     <html lang="en">
-      <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}> 
+      <ReduxProvider>
       <body className={cs(
         inter.variable, 
         manrope.variable, 
@@ -56,8 +53,7 @@ export default function RootLayout({
         {children}
         {shouldShowHeaderFooter && <Footer />}
       </body>
-      </PersistGate>
-      </Provider>
+      </ReduxProvider>
     </html>
   );
 }

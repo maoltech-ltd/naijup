@@ -1,19 +1,36 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { categoryReducer, commentReducer, postReducer, userReducer } from "./slice";
-import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+"use client";
+import { configureStore } from "@reduxjs/toolkit";
+import { persistReducer } from 'redux-persist';
+import { PersistConfig } from 'redux-persist'
+import rootReducer from "./reducers";
+import createWebStorage from "redux-persist/lib/storage/createWebStorage";
+
+interface NoopStorage {
+    getItem(key: string): Promise<string | null>;
+    setItem(key: string, value: string): Promise<void>;
+    removeItem(key: string): Promise<void>;
+}
 
 
-const rootReducer = combineReducers({
-    user: userReducer,
-    post: postReducer,
-    comment: commentReducer,
-    category: categoryReducer
-})
+const createNoopStorage = (): NoopStorage => {
+    return {
+        getItem(_key) {
+            return Promise.resolve(null);
+        },
+        setItem(_key, _value) {
+            return Promise.resolve();
+        },
+        removeItem(_key) {
+            return Promise.resolve();
+        },
+    };
+};
 
-const persistConfig = {
+const storage = typeof window !== "undefined" ? createWebStorage('local') : createNoopStorage();
+
+const persistConfig: PersistConfig<ReturnType<typeof rootReducer>> = {
     key: 'root',
-    storage,
+    storage
   };
   
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -28,7 +45,6 @@ const store = configureStore({
         }),
 })
 
-export const persistor = persistStore(store);
 export default store;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
