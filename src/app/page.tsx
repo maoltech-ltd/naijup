@@ -6,10 +6,18 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../redux/hooks/dispatch";
 import { fetchPosts } from "../redux/slice/postSlice";
+import dynamic from 'next/dynamic';
 export default function Home() {
   
+  const HomeCoverSection = dynamic(() => import("../components/Home/HomeCoverSection"));
+  const FeaturedPost = dynamic(() => import("../components/Home/FeaturedPost"));
+  const RecentPost = dynamic(() => import("../components/Home/RecentPost"));
+  
   const dispatch = useAppDispatch();
-      dispatch(fetchPosts());
+  
+  useEffect(() => {
+    dispatch(fetchPosts());
+  }, []);
 
   const post = useSelector((state: any) => state
   //|| { posts: [], status: 'idle', error: null }

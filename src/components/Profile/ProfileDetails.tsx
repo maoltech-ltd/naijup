@@ -15,7 +15,7 @@ import axios from "axios";
 import Link from "next/link";
 import { BackIcon } from "../icon";
 
-const ProfileDetails = ({ user }: { user: any }) => {
+const ProfileDetails = ({ user }: any) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
 //   const dispatch = useAppDispatch();

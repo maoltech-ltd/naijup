@@ -219,13 +219,14 @@ const Editor = ({ post, user }: { post: TPost | null, user: any }) => {
                   variant="light"
                   className="absolute -top-2 -right-4 text-red-500 "
                   onClick={() => {
-                    setImageFile(null), resetField("image");
+                    setImageFile(null), 
+                    resetField("image");
                   }}
                 >
                   <BackIcon name="x" />
                 </Button>
                 <Image
-                  src={imageFile}
+                  src={URL.createObjectURL(imageFile)}
                   width={100}
                   height={100}
                   alt="post image"
