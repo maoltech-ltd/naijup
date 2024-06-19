@@ -84,8 +84,8 @@ const ProfileDetails = ({ user }: any) => {
             </span>
           </div>
         </div>
-        {/* {
-        moreInfo ? null : ( */}
+        
+        {moreInfo ? null : (
           <Button
             variant="bordered"
             fullWidth
@@ -96,7 +96,7 @@ const ProfileDetails = ({ user }: any) => {
           >
             user.username
           </Button>
-        {/* )} */}
+         )} 
       </div>
 
       <AuthModal isOpen={isOpen} onOpenChange={onOpenChange} />
