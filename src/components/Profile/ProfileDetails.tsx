@@ -85,7 +85,7 @@ const ProfileDetails = ({ user }: any) => {
           </div>
         </div>
         
-        {moreInfo ? null : (
+        {user.moreInfo ? null : (
           <Button
             variant="bordered"
             fullWidth
@@ -94,7 +94,7 @@ const ProfileDetails = ({ user }: any) => {
             className="font-semibold mt-4 md:hidden text-neutral-600"
             // onClick={() => dispatch(setMoreInfo(true))}
           >
-            user.username
+            {user.username}
           </Button>
          )} 
       </div>
