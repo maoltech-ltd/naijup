@@ -7,7 +7,7 @@ import Link from "next/link";
 import { BackIcon } from "../icon";
 import { useAppDispatch } from "@/src/redux/hooks/dispatch";
 import { useSelector } from "react-redux";
-//import mutate from "swr";
+import mutate from "swr";
 
 const ProfileDetails = ({ user }: any) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -16,7 +16,7 @@ const ProfileDetails = ({ user }: any) => {
    const currentUser = useSelector((state: any) => state.user);
 
   const handleFollow = () => {
-    if (currentUser.authStatus) {
+    if (currentUser.isLoggedIn) {
        mutate({ userId: user.id });
      } else {
        onOpen();
@@ -28,9 +28,9 @@ const ProfileDetails = ({ user }: any) => {
       <div className="bg-white p-4  md:rounded-md">
         <div className="flex items-center justify-between md:pl-4">
           <Avatar
-            src="userlink"
+            src={user.profilePicture}
             className="lg:h-28 lg:w-28 md:h-24 md:w-24 outline-[5px] outline-neutral-100 outline-offset-0 h-20 w-20 relative -mt-16"
-            name="username"
+            name={user.username}
           />
           <div className="flex flex-col justify-end gap-4">
              {currentUser.user?.id === user.id
@@ -56,24 +56,22 @@ const ProfileDetails = ({ user }: any) => {
         </div>
         <div className="pt-4">
           <h1 className="lg:text-2xl md:text-xl text-lg md:font-bold font-medium">
-            user.name
+            {user.name}
           </h1>
           <p>
-            user.username
+            {user.username}
           </p>
-          <p className="text-lg py-2">user.bio</p>
+          <p className="text-lg py-2">{user.bio}</p>
           <div className="flex gap-4 py-2">
             <div className="flex gap-1">
               <p className="font-semibold text-default-500 text-small">
-                user.followingIDs.length
-                4
+                {user.followingIDs.length}
               </p>
               <p className=" text-default-500 text-small">Following</p>
             </div>
             <div className="flex gap-1">
               <p className="font-semibold text-default-500 text-small">
-                user.followerIDs.length
-                6
+                {user.followerIDs.length}
               </p>
               <p className="text-default-500 text-small">Followers</p>
             </div>
@@ -82,7 +80,7 @@ const ProfileDetails = ({ user }: any) => {
             
             <BackIcon name="cake" />
             <span>
-               joined on {moment(user.createdAt, moment.ISO_8601).format("l")}
+               joined on {moment(user.createdAt).format("LL")}
             </span>
           </div>
         </div>
