@@ -12,9 +12,9 @@ interface Post {
 }
 
 interface PostState {
-    posts: Post[] | Post;
-    status: string;
-    error: string | null;
+    posts: []
+    status: "idle";
+    error: null;
 }
 
 const initialState: PostState = {
@@ -65,72 +65,72 @@ const postSlice = createSlice({
     extraReducers: (builder) => {
         builder
             // Fetch posts
-            .addCase(fetchPosts.fulfilled, (state, action) => {
+            .addCase(fetchPosts.fulfilled, (state: any, action) => {
                 state.status = "succeeded";
                 state.posts = action.payload;
             })
-            .addCase(fetchPosts.pending, (state) => {
+            .addCase(fetchPosts.pending, (state: any) => {
                 state.status = "loading";
             })
-            .addCase(fetchPosts.rejected, (state, action) => {
+            .addCase(fetchPosts.rejected, (state: any, action) => {
                 state.status = "failed";
                 state.error = action.error.message || "Failed to fetch posts.";
             })
             // Create post
-            .addCase(createPost.fulfilled, (state, action) => {
+            .addCase(createPost.fulfilled, (state: any, action) => {
                 state.status = "succeeded";
                 state.posts = action.payload;
             })
-            .addCase(createPost.pending, (state) => {
+            .addCase(createPost.pending, (state: any) => {
                 state.status = "loading";
             })
-            .addCase(createPost.rejected, (state, action) => {
+            .addCase(createPost.rejected, (state: any, action) => {
                 state.status = "failed";
                 state.error = action.error.message || "Failed to create post.";
             })
             // Update post
-            .addCase(updatePost.fulfilled, (state, action) => {
+            .addCase(updatePost.fulfilled, (state: any, action) => {
                 state.status = "succeeded";
                 state.posts = action.payload; 
             })
-            .addCase(updatePost.pending, (state) => {
+            .addCase(updatePost.pending, (state: any) => {
                 state.status = "loading";
             })
-            .addCase(updatePost.rejected, (state, action) => {
+            .addCase(updatePost.rejected, (state: any, action) => {
                 state.status = "failed";
                 state.error = action.error.message || "Failed to update post.";
             })
             // Delete post
-            .addCase(deletePost.fulfilled, (state, action) => {
+            .addCase(deletePost.fulfilled, (state: any, action) => {
                 state.status = "succeeded";
                 state.posts = state.posts;
             })
-            .addCase(deletePost.pending, (state) => {
+            .addCase(deletePost.pending, (state: any) => {
                 state.status = "loading";
             })
-            .addCase(deletePost.rejected, (state, action) => {
+            .addCase(deletePost.rejected, (state: any, action) => {
                 state.status = "failed";
                 state.error = action.error.message || "Failed to delete post.";
             })
-            .addCase(fetchPost.rejected, (state, action) => {
+            .addCase(fetchPost.rejected, (state: any, action) => {
                 state.status = "failed";
                 state.error = action.error.message || "Failed to fetch post.";
             })
-            .addCase(fetchPost.pending, (state) => {
+            .addCase(fetchPost.pending, (state: any) => {
                 state.status = "loading";
             })
-            .addCase(fetchPost.fulfilled, (state, action) => {
+            .addCase(fetchPost.fulfilled, (state: any, action) => {
                 state.status = "succeeded";
                 state.posts = action.payload;
             })
-            .addCase(fetchPostByTitle.rejected, (state, action) => {
+            .addCase(fetchPostByTitle.rejected, (state: any, action) => {
                 state.status = "failed";
                 state.error = action.error.message || "Failed to fetch post.";
             })
-            .addCase(fetchPostByTitle.pending, (state) => {
+            .addCase(fetchPostByTitle.pending, (state: any) => {
                 state.status = "loading";
             })
-            .addCase(fetchPostByTitle.fulfilled, (state, action) => {
+            .addCase(fetchPostByTitle.fulfilled, (state: any, action) => {
                 state.status = "succeeded";
                 state.posts = action.payload;
             })
