@@ -13,7 +13,7 @@ const Header = () => {
   const [mode, setMode]: any = useThemeSwitch();
   const [click, setClick] = useState(false);
   const [showCategories, setShowCategories] = useState(false);
-
+  console.log({user})
   const toggle = () =>{
     setClick(!click)
   }

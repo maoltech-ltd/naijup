@@ -19,11 +19,9 @@ export default function Home() {
     dispatch(fetchPosts());
   }, []);
 
-  const post = useSelector((state: any) => state
-  //|| { posts: [], status: 'idle', error: null }
+  const post = useSelector((state: any) => state.post
   ); 
 
-  console.log({post})
   const {posts, status, error} = post
 
   if (status === 'loading') {
@@ -33,14 +31,13 @@ export default function Home() {
   if (status === 'failed') {
     return <div>Error: {error}</div>;
   }
-
+  console.log(post.posts)
   if(status === 'succeeded'){
-    console.log({post})
   console.log({post: posts.result})
   console.log({count: posts.count})
   return (
     <main className="flex flex-col items-center justify-center">
-      <HomeCoverSection blogs={posts.result[0]} />
+      <HomeCoverSection blogs={posts.posts[0] || [] } />
       <FeaturedPost blogs={posts.result} />
       <RecentPost blogs={posts} />
     </main>

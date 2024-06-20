@@ -12,7 +12,7 @@ const Logo = ({user} : any) => {
             <Image src={user.img} alt={user.username} className="w-full h-auto rounded-full" />
           }
         </div>
-        <span className="font-bold dark:font-semibold text-lg md:text-xl">NaijUp</span>
+        <span className="font-bold dark:font-semibold text-lg md:text-xl">{user.username || "NaijUp"}</span>
     </Link>
   )
 }

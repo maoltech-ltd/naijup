@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { AiOutlineEye, AiOutlineEyeInvisible } from '@/src/components/icon';
 
@@ -15,7 +15,7 @@ const SignIn = () => {
     const dispatch = useAppDispatch();
     const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
-    const { isLoggedIn, status } = useSelector((state: any) => state.user);
+    const user = useSelector((state: any) => state.user);
     // form validation rules 
     const validationSchema = Yup.object().shape({
         // username: Yup.string().required('Username is required'),
@@ -23,12 +23,6 @@ const SignIn = () => {
         password: Yup.string().required('Password is required')
     });
 
-    // const { register, handleSubmit, formState } = useForm();
-    // const { errors}: any = formState;
-    // const {error}: any = validationSchema.validate(data)
-    //     if(error){
-    //         console.log(error)
-    //     }
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
         resolver: yupResolver(validationSchema)
     });
@@ -36,12 +30,21 @@ const SignIn = () => {
         
         const resultAction = await dispatch(loginUser(data));
         if (loginUser.fulfilled.match(resultAction)) {
+            console.log({user})
             router.push("/")
         } else {
             router.push("/signup")
         }
         
     }
+    console.log({user})
+    useEffect(() => {
+        if (user.isLoggedIn) {
+            console.log({user})
+            router.push("/");
+        }
+    }, [user.isLoggedIn, router]);
+
 
     return (
         <div>

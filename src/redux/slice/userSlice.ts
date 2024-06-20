@@ -48,6 +48,7 @@ export const updateUserProfile = createAsyncThunk('user/updateUserProfile', asyn
         Authorization: "Bearer " + userInfo.token
     };
     const response = await api.put(`v1/user/${userInfo.userId}`, userInfo, { headers });
+    console.log({response: response.data})
     return response.data;
 });
 
@@ -98,9 +99,9 @@ const userSlice = createSlice({
                 state.status = "rejected";
             })
             .addCase(loginUser.fulfilled, (state, action) => {
-                state.userId = action.payload.userId;
-                state.userName = action.payload.userName;
-                state.userEmail = action.payload.userEmail;
+                state.userId = action.payload.id;
+                state.userName = action.payload.username;
+                state.userEmail = action.payload.email;
                 state.token = action.payload.token;
                 state.isLoggedIn = true;
                 state.status = "fulfilled";
