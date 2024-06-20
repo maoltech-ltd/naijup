@@ -10,15 +10,17 @@ import { TPost } from "@/src/utils/props";
 import { BackIcon } from "../icon";
 import { useAppDispatch } from "@/src/redux/hooks/dispatch";
 import { createPost } from "@/src/redux/slice/postSlice";
+import { useSelector } from "react-redux";
+import { createImage } from "@/src/redux/slice/ImageSlice";
 // import { convertImageToBase64 } from "@/utils/convertImageTobase64";
 
-type TForm = {
-  title: string;
-  image: Blob | MediaSource;
-  postType: "DRAFT" | "PUBLISHED";
-};
+// type TForm = {
+//   title: string;
+//   image: Blob | MediaSource;
+//   postType: "DRAFT" | "PUBLISHED";
+// };
 
-const Editor = ({ post, user }: { post: TPost | null, user: any }) => {
+const Editor = ({ post, user }: { post: any | null, user: any }) => {
   const router = useRouter();
   const params = useParams();
   const dispatch = useAppDispatch();
@@ -31,7 +33,7 @@ const Editor = ({ post, user }: { post: TPost | null, user: any }) => {
     setValue,
     watch,
     formState: { isSubmitting, errors },
-  } = useForm<TForm>({ defaultValues: { title: post?.title } });
+  } = useForm<any>({ defaultValues: { title: post?.title } });
   const postType = watch("postType");
 
   const [imageFile, setImageFile] = useState<any>(null);
@@ -39,25 +41,32 @@ const Editor = ({ post, user }: { post: TPost | null, user: any }) => {
 
   const ref = useRef<EditorJS | undefined>(undefined);
 
+  const { status: imageStatus, image: uploadedImage } = useSelector((state: any) => state.image);
+
   useEffect(() => {
     if (errors.title) {
       console.log("Title can't be empty!");
     }
   }, [errors.title]);
 
-  const onSubmitHandler: SubmitHandler<TForm> = async (data) => {
+  const onSubmitHandler: SubmitHandler<any> = async (data) => {
     try {
       const blocks = await ref.current?.save();
+      let imageUrl = post?.image;
+      if(imageFile){
+        const imageUrl = await dispatch(createImage(imageFile)).unwrap()
+        console.log({imageUrl});
+      }
 
       const postData = {
         title: data.title,
         content: blocks,
-        image: imageFile !== null ? imageFile : post?.image,
+        image: imageUrl,
         type: data.postType,
         author: user.id,
       };
 
-      dispatch(createPost(postData))
+      await dispatch(createPost(postData))
 
     reset();
     } catch (error: any) {
