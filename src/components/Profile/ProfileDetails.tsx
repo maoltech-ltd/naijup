@@ -47,7 +47,8 @@ const ProfileDetails = ({ user }: any) => {
                     : "Follow"
                 </Button>
                 <Button isIconOnly variant="light">
-                    //more icon
+                    {//more icon
+                    }
                   <BackIcon name="more-horizontal" />
                 </Button>
               </div>
