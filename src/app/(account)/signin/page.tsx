@@ -15,7 +15,7 @@ const SignIn = () => {
     const dispatch = useAppDispatch();
     const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
-    const user = useSelector((state: any) => state.user);
+   
     // form validation rules 
     const validationSchema = Yup.object().shape({
         // username: Yup.string().required('Username is required'),
@@ -26,24 +26,30 @@ const SignIn = () => {
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
         resolver: yupResolver(validationSchema)
     });
+
     async function onSubmit(data: any) {
-        
-        const resultAction = await dispatch(loginUser(data));
-        if (loginUser.fulfilled.match(resultAction)) {
-            console.log({user})
+        //data.preventDefault();
+        dispatch(loginUser(data))
+        .unwrap()
+        .then((action) => {
+            console.log({action});
             router.push("/")
-        } else {
+        })
+        .catch((error) => {
+            console.log({error})
             router.push("/signup")
-        }
+        });
         
     }
-    console.log({user})
-    useEffect(() => {
-        if (user.isLoggedIn) {
-            console.log({user})
-            router.push("/");
-        }
-    }, [user.isLoggedIn, router]);
+
+    // useEffect(() => {
+        
+    //     if (user.isLoggedIn == true) {
+    //         console.log({user})
+    //         router.push("/");
+    //     }
+
+    // }, [user.isLoggedIn, router]);
 
 
     return (

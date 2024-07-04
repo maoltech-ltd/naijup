@@ -30,7 +30,6 @@ export const fetchUser = createAsyncThunk('user/fetchUser', async (token: string
     return response.data;
 });
 
-// Thunk for user login
 export const loginUser = createAsyncThunk('user/loginUser', async (credentials: { email: string, password: string }) => {
     const response = await api.post(`v1/user/auth/signin/`, credentials);
     return response.data;
@@ -99,9 +98,9 @@ const userSlice = createSlice({
                 state.status = "rejected";
             })
             .addCase(loginUser.fulfilled, (state, action) => {
-                state.userId = action.payload.id;
-                state.userName = action.payload.username;
-                state.userEmail = action.payload.email;
+                state.userId = action.payload.data.id;
+                state.userName = action.payload.data.username;
+                state.userEmail = action.payload.data.email;
                 state.token = action.payload.token;
                 state.isLoggedIn = true;
                 state.status = "fulfilled";
@@ -113,9 +112,9 @@ const userSlice = createSlice({
                 state.status = "rejected";
             })
             .addCase(registerUser.fulfilled, (state, action) => {
-                state.userId = action.payload.userId;
-                state.userName = action.payload.userName;
-                state.userEmail = action.payload.userEmail;
+                state.userId = action.payload.data.id;
+                state.userName = action.payload.data.username;
+                state.userEmail = action.payload.data.email;
                 state.token = action.payload.token;
                 state.isLoggedIn = true;
                 state.status = "fulfilled";

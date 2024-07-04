@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useState } from "react";
 import Link from "next/link"
 import Logo from "./Logo"
@@ -13,7 +13,6 @@ const Header = () => {
   const [mode, setMode]: any = useThemeSwitch();
   const [click, setClick] = useState(false);
   const [showCategories, setShowCategories] = useState(false);
-  console.log({user})
   const toggle = () =>{
     setClick(!click)
   }

@@ -4,9 +4,8 @@ import BlogLayoutOne from "../Blog/BlogLayoutOne"
 import BlogLayoutTwo from "../Blog/BlogLayoutTwo"
 import BlogLayoutThree from "../Blog/BlogLayoutThree"
 
-
-
-const FeaturedPost: React.FC<Props> = ({blogs}) => {
+const FeaturedPost: React.FC<Props> = (blogs) => {
+  
   const sortedBlogs = sortBlogs(blogs)
   return (
      <section className="w-full mt-16 sm:mt-24  md:mt-32 px-5 sm:px-10 md:px-24  sxl:px-32 flex flex-col items-center justify-center">

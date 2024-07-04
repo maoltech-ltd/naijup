@@ -3,16 +3,16 @@ import Image from "next/image"
 import Link from "next/link"
 
 
-const BlogLayoutThree: React.FC<BlogProp> = ({blog}) => {
+const BlogLayoutThree: React.FC<BlogProp> = (blog: any) => {
     
   return (
     <div className="group flex flex-col items-center text-dark dark:text-light">
-      <Link href={blog.url} className="h-full rounded-xl overflow-hidden">
+      <Link href={`http://localhost:300/blog/${blog.blog.title}`} className="h-full rounded-xl overflow-hidden">
         <Image
-          src={blog.image.link}
-          alt={blog.title}
-          width={blog.image.width}
-          height={blog.image.height}
+          src={blog.blog.image_links[0]}
+          alt={blog.blog.title}
+          width={50}
+          height={50}
           className=" aspect-[4/3] w-full h-full object-cover object-center  group-hover:scale-105 transition-all ease duration-300 "
           sizes="(max-width: 640px) 100vw,(max-width: 1024px) 50vw, 33vw"
         />
@@ -22,7 +22,7 @@ const BlogLayoutThree: React.FC<BlogProp> = ({blog}) => {
         <span className="uppercase text-accent dark:text-accentDark font-semibold text-xs sm:text-sm">
           {blog.category}
         </span>
-        <Link href={blog.url} className="inline-block my-1">
+        <Link href={`http://localhost:300/blog/${blog.blog.title}`} className="inline-block my-1">
           <h2 className="font-semibold capitalize  text-base sm:text-lg">
             <span
               className="bg-gradient-to-r from-accent/50 to-accent/50  dark:from-accentDark/50
@@ -30,13 +30,13 @@ const BlogLayoutThree: React.FC<BlogProp> = ({blog}) => {
               bg-[length:0px_6px]
               group-hover:bg-[length:100%_6px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500 "
             >
-              {blog.title}
+              {blog.blog.title}
             </span>
           </h2>
         </Link>
 
         <span className="capitalize text-gray dark:text-light/50 font-semibold text-sm  sm:text-base">
-          {blog.createdAt}
+          {blog.blog.publication_date}
         </span>
       </div>
     </div>

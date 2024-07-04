@@ -66,6 +66,7 @@ const postSlice = createSlice({
         builder
             // Fetch posts
             .addCase(fetchPosts.fulfilled, (state: any, action) => {
+                console.log({action});
                 state.status = "succeeded";
                 state.posts = action.payload;
             })
