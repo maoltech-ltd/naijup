@@ -26,7 +26,6 @@ const initialState: PostState = {
 // Thunk to fetch all posts
 export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
     const response = await api.get('v1/blog/latest-posts/');
-    console.log(response.data)
     return response.data;
 });
 
@@ -66,7 +65,6 @@ const postSlice = createSlice({
         builder
             // Fetch posts
             .addCase(fetchPosts.fulfilled, (state: any, action) => {
-                console.log({action});
                 state.status = "succeeded";
                 state.posts = action.payload;
             })

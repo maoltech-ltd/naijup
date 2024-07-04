@@ -4,7 +4,7 @@ import Category from "../Elements/Category"
 import Image from "next/image"
 
 const BlogLayoutOne: React.FC<BlogProp> = (blog: any) => {
-  console.log(blog.blog)
+ 
   return (
     <div className="group inline-block overflow-hidden rounded-xl">
       <div

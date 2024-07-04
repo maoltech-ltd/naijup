@@ -47,7 +47,6 @@ export const updateUserProfile = createAsyncThunk('user/updateUserProfile', asyn
         Authorization: "Bearer " + userInfo.token
     };
     const response = await api.put(`v1/user/${userInfo.userId}`, userInfo, { headers });
-    console.log({response: response.data})
     return response.data;
 });
 

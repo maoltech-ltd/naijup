@@ -4,7 +4,7 @@ import Link from "next/link"
 import React from "react"
 
 const BlogLayoutTwo: React.FC<BlogProp> = (blog: any) => {
-  console.log(blog)
+  
   return (
     <div className="group grid grid-cols-12 gap-4 items-center text-dark dark:text-light">
       <Link

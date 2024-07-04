@@ -32,7 +32,6 @@ const SignIn = () => {
         dispatch(loginUser(data))
         .unwrap()
         .then((action) => {
-            console.log({action});
             router.push("/")
         })
         .catch((error) => {
