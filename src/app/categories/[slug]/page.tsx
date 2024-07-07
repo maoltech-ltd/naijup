@@ -23,45 +23,56 @@ import { useSelector } from "react-redux";
 //     return paths;
 // }
 
-const CategoryPage = ({ params }: { params: { slug: string } }) => {
+const CategoryPage = async({ params }: { params: { slug: string } }) => {
 
-    const dispatch = useAppDispatch();
-    const { posts, status, error } = useSelector((state: any) => state.posts);
-    const blogs = posts;
-    useEffect(() => {
-          console.log({slug: params.slug})
-          dispatch(fetchCategories(params.slug));
-    }, [status, dispatch]);
-   
-    const sortedBlogs = sortBlogs(blogs)
+  const dispatch = useAppDispatch();
+  await dispatch(fetchCategories(params.slug));
+  const data = useSelector((state: any) => state.categories);
+  console.log({data})
+  const { categories, status, error } = data;
+
+  if (status === 'loading') {
+    return <div>Loading...</div>;
+  }
+
+  if (status === 'failed') {
+    return <div>Error: {error}</div>;
+  }
+  if(status === 'succeeded'){
   
-    const allCategories: string[] = [];
+  const blogs = categories;
+  
+  
+  const sortedBlogs = sortBlogs(blogs)
 
-    sortedBlogs.forEach((blog: any) => {
-        if (!allCategories.includes(blog.category)) {
-            allCategories.push(blog.category);
-        }
-    });
+  const allCategories: string[] = [];
 
-  return (
-    <article className="mt-12 flex flex-col text-dark dark:text-light">
-      <div className=" px-5 sm:px-10  md:px-24  sxl:px-32 flex flex-col">
-        <h1 className="mt-6 font-semibold text-2xl md:text-4xl lg:text-5xl">#{params.slug}</h1>
-        <span className="mt-2 inline-block">
-          Discover more categories and expand your knowledge!
-        </span>
-      </div>
-      <Categories categories={allCategories} currentSlug={params.slug} />
+  sortedBlogs.forEach((blog: any) => {
+      if (!allCategories.includes(blog.category)) {
+          allCategories.push(blog.category);
+      }
+  });
 
-      <div className="grid  grid-cols-1 sm:grid-cols-2  lg:grid-cols-3 grid-rows-2 gap-16 mt-5 sm:mt-10 md:mt-24 sxl:mt-32 px-5 sm:px-10 md:px-24 sxl:px-32">
-        {blogs.map((blog: any, index: number) => (
-          <article key={index} className="col-span-1 row-span-1 relative">
-            <BlogLayoutThree blog={blog} />
-          </article>
-        ))}
-      </div>
-    </article>
-  )
+    return (
+      <article className="mt-12 flex flex-col text-dark dark:text-light">
+        <div className=" px-5 sm:px-10  md:px-24  sxl:px-32 flex flex-col">
+          <h1 className="mt-6 font-semibold text-2xl md:text-4xl lg:text-5xl">#{params.slug}</h1>
+          <span className="mt-2 inline-block">
+            Discover more categories and expand your knowledge!
+          </span>
+        </div>
+        <Categories categories={allCategories} currentSlug={params.slug} />
+
+        <div className="grid  grid-cols-1 sm:grid-cols-2  lg:grid-cols-3 grid-rows-2 gap-16 mt-5 sm:mt-10 md:mt-24 sxl:mt-32 px-5 sm:px-10 md:px-24 sxl:px-32">
+          {blogs.map((blog: any, index: number) => (
+            <article key={index} className="col-span-1 row-span-1 relative">
+              <BlogLayoutThree blog={blog} />
+            </article>
+          ))}
+        </div>
+      </article>
+    )
+  }
 }
 
 export default CategoryPage
