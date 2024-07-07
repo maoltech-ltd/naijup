@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react';
 
 interface ModalProps {
@@ -9,7 +9,16 @@ interface ModalProps {
 }
 
 const StatusModal: React.FC<ModalProps> = ({ isOpen, onClose, title, message }) => {
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (title === "Success") {
+      timer = setTimeout(onClose, 1000);
+    }
+    return () => clearTimeout(timer);
+  }, [title, onClose]);
+
   return (
+
     <Transition show={isOpen} as={Fragment}>
       <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto" onClose={onClose}>
         <div className="flex items-end justify-center min-h-screen px-4 pb-20 text-center sm:block sm:p-0">
@@ -37,7 +46,7 @@ const StatusModal: React.FC<ModalProps> = ({ isOpen, onClose, title, message }) 
             <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
               <div>
                 <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
-                  {/* Replace the icon with success or error icon */}
+                  
                   <svg className="h-6 w-6 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                   </svg>

@@ -76,7 +76,6 @@
 // }
 
 // export default CategoryPage
-
 "use client";
 import React, { useEffect, useState } from "react";
 import { sortBlogs } from "@/src/utils";
@@ -88,7 +87,7 @@ import { useSelector } from "react-redux";
 import SuccessModal from "@/src/components/Modal/SuccessModal";
 import ErrorModal from "@/src/components/Modal/ErrorModal";
 
-const CategoryPage = async({ params }: { params: { slug: string } }) => {
+const CategoryPage: React.FC<{ params: { slug: string } }> = ({ params }) => {
   const dispatch = useAppDispatch();
 
   const [isErrorOpen, setIsErrorOpen] = useState(false);
@@ -96,18 +95,18 @@ const CategoryPage = async({ params }: { params: { slug: string } }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
-  useEffect(() => {
+   useEffect(() => {
     dispatch(fetchCategories(params.slug));
-  }, [dispatch, params.slug]);
+   }, [dispatch, params.slug]);
 
-  const data = useSelector((state: any) => state.categories);
-  const { categories, status, error } = data;
+   const { categories, status, error } = useSelector((state: any) => state.category);
 
   useEffect(() => {
     if (status === 'failed') {
       setErrorMessage(error);
       setIsErrorOpen(true);
     } else if (status === 'succeeded') {
+      console.log({categories})
       setSuccessMessage("Categories fetched successfully!");
       setIsSuccessOpen(true);
     }
@@ -122,8 +121,8 @@ const CategoryPage = async({ params }: { params: { slug: string } }) => {
   }
 
   if (status === 'succeeded') {
-    const blogs = categories;
-    const sortedBlogs = sortBlogs(blogs);
+    console.log({blogs: categories.results})
+    const sortedBlogs = sortBlogs({blogs: categories.results});
 
     const allCategories: string[] = [];
     sortedBlogs.forEach((blog: any) => {
@@ -142,7 +141,7 @@ const CategoryPage = async({ params }: { params: { slug: string } }) => {
         </div>
         <Categories categories={allCategories} currentSlug={params.slug} />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 grid-rows-2 gap-16 mt-5 sm:mt-10 md:mt-24 sxl:mt-32 px-5 sm:px-10 md:px-24 sxl:px-32">
-          {blogs.map((blog: any, index: number) => (
+          {sortedBlogs.map((blog: any, index: number) => (
             <article key={index} className="col-span-1 row-span-1 relative">
               <BlogLayoutThree blog={blog} />
             </article>

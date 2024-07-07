@@ -21,7 +21,7 @@ const initialState: CategoryState = {
 
 // Thunk to fetch all categories
 export const fetchCategories = createAsyncThunk('categories/fetchCategories', async (category: string) => {
-    const response = await api.get(`v1/blog/latest-posts/category/${category}`);
+    const response = await api.get(`v1/blog/latest-posts/category/${category}/`);
     return response.data;
 });
 
@@ -46,6 +46,7 @@ const categorySlice = createSlice({
             .addCase(fetchCategories.fulfilled, (state, action) => {
                 state.status = "succeeded";
                 state.categories = action.payload;
+                console.log({state})
             })
             .addCase(fetchCategories.pending, (state) => {
                 state.status = "loading";
