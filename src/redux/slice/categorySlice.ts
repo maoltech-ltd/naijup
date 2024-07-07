@@ -21,7 +21,7 @@ const initialState: CategoryState = {
 
 // Thunk to fetch all categories
 export const fetchCategories = createAsyncThunk('categories/fetchCategories', async (category: string) => {
-    const response = await api.get(`/api/categories/${category}`);
+    const response = await api.get(`v1/blog/latest-posts/category/${category}`);
     return response.data;
 });
 

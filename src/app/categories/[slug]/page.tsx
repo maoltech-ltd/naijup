@@ -29,6 +29,7 @@ const CategoryPage = ({ params }: { params: { slug: string } }) => {
     const { posts, status, error } = useSelector((state: any) => state.posts);
     const blogs = posts;
     useEffect(() => {
+          console.log({slug: params.slug})
           dispatch(fetchCategories(params.slug));
     }, [status, dispatch]);
    
