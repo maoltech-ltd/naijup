@@ -47,7 +47,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../redux/hooks/dispatch";
-import { fetchPosts } from "../redux/slice/postSlice";
+import { fetchPosts } from "../redux/slice/postsSlice";
 import HomeCoverSection from "../components/Home/HomeCoverSection";
 import FeaturedPost from "../components/Home/FeaturedPost";
 import RecentPost from "../components/Home/RecentPost";
@@ -66,7 +66,7 @@ const Home: React.FC = () => {
     dispatch(fetchPosts());
   }, [dispatch]);
 
-  const post = useSelector((state: any) => state.post); 
+  const post = useSelector((state: any) => state.posts); 
   const { posts, status, error } = post;
 
   useEffect(() => {

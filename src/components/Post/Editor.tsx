@@ -9,7 +9,7 @@ import EditorJS from "@editorjs/editorjs";
 import { TPost } from "@/src/utils/props";
 import { BackIcon } from "../icon";
 import { useAppDispatch } from "@/src/redux/hooks/dispatch";
-import { createPost } from "@/src/redux/slice/postSlice";
+import { createPost } from "@/src/redux/slice/postsSlice";
 import { useSelector } from "react-redux";
 import { createImage } from "@/src/redux/slice/ImageSlice";
 // import { convertImageToBase64 } from "@/utils/convertImageTobase64";

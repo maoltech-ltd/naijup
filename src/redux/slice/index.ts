@@ -1,14 +1,17 @@
 import commentReducer from "./commentSlice";
-import postReducer from "./postSlice";
+import postsReducer from "./postsSlice";
 import categoryReducer from "./categorySlice";
 import userReducer from "./userSlice";
 import imageReducer from "./ImageSlice";
 import secondUserReducer from "./secondUserSlice";
+import postReducer from "./postSlice";
+
 export {
     commentReducer,
-    postReducer,
+    postsReducer,
     categoryReducer,
     userReducer,
     imageReducer,
-    secondUserReducer
+    secondUserReducer,
+    postReducer
 }
