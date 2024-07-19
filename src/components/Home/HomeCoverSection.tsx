@@ -21,7 +21,7 @@ const HomeCoverSection: React.FC<Props> = (blog: any) => {
         />
         <div className="w-3/4 p-16 sm:p-8 md:p-12 flex flex-col items-start justify-center z-0 text-light">
           <Category link={`/categories/${blog.blogs.category}`} name={blog.blogs.category} />
-          <Link href={`http://localhost:300/blog/${blog.blogs.title}`} className="mt-6">
+          <Link href={`/blog/${blog.blogs.title}`} className="mt-6">
           <h1 className="font-bold capitalize text-light text-4xl sm:text-xl md:text-3xl lg:text-4xl">
             <span className='bg-gradient-to-r from-accent to-accent dark:from-accentDark/50 
                 dark:to-accentDark/50 bg-[length:0px_6px]

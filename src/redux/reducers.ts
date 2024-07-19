@@ -1,5 +1,5 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { categoryReducer, commentReducer, imageReducer, postReducer, userReducer } from "./slice";
+import { categoryReducer, commentReducer, imageReducer, postReducer, secondUserReducer, userReducer } from "./slice";
 
 
 const rootReducer = combineReducers({
@@ -7,7 +7,8 @@ const rootReducer = combineReducers({
     post: postReducer,
     comment: commentReducer,
     category: categoryReducer,
-    image: imageReducer
+    image: imageReducer,
+    secondUser: secondUserReducer
 })
 
 

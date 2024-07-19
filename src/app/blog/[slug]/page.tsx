@@ -9,6 +9,7 @@ import BlogContent from "@/src/components/Blog/BlogContent";
 import { fetchPostByTitle, fetchPosts } from "@/src/redux/slice/postSlice";
 import { title } from "process";
 import { useAppDispatch } from "@/src/redux/hooks/dispatch";
+import { Console } from "console";
 
 // export async function generateStaticParams() {
 
@@ -17,13 +18,12 @@ import { useAppDispatch } from "@/src/redux/hooks/dispatch";
 export default function BlogPage({ params }: { params: { title: string } }) {
 
     const dispatch =  useAppDispatch();
+        
+    dispatch(fetchPostByTitle(params.title));
     const { posts, status, error } = useSelector((state: any) => state.posts);
     const blog = posts;
-    useEffect(() => {
-        if (status === 'idle') { 
-            dispatch(fetchPostByTitle(params.title));
-        }
-    }, [status, dispatch]);
+    console.log({params: params.title})
+    console.log({blog})
 
     if (status === 'loading') {
         return <div>Loading...</div>;

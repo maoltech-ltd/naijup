@@ -7,7 +7,7 @@ const BlogLayoutThree: React.FC<BlogProp> = (blog: any) => {
     
   return (
     <div className="group flex flex-col items-center text-dark dark:text-light">
-      <Link href={`http://localhost:300/blog/${blog.blog.title}`} className="h-full rounded-xl overflow-hidden">
+      <Link href={`/blog/${blog.blog.title}`} className="h-full rounded-xl overflow-hidden">
         <Image
           src={blog.blog.image_links[0]}
           alt={blog.blog.title}
@@ -22,7 +22,7 @@ const BlogLayoutThree: React.FC<BlogProp> = (blog: any) => {
         <span className="uppercase text-accent dark:text-accentDark font-semibold text-xs sm:text-sm">
           {blog.category}
         </span>
-        <Link href={`http://localhost:300/blog/${blog.blog.title}`} className="inline-block my-1">
+        <Link href={`/blog/${blog.blog.title}`} className="inline-block my-1">
           <h2 className="font-semibold capitalize  text-base sm:text-lg">
             <span
               className="bg-gradient-to-r from-accent/50 to-accent/50  dark:from-accentDark/50

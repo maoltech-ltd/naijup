@@ -8,15 +8,18 @@ import { BackIcon } from "../icon";
 import { useAppDispatch } from "@/src/redux/hooks/dispatch";
 import { useSelector } from "react-redux";
 import mutate from "swr";
+import { getUserDetails } from "@/src/redux/slice/secondUserSlice";
 
-const ProfileDetails = ({ user }: any) => {
+const ProfileDetails = async ({ user, username }: any) => {
+  console.log({user})
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
    const dispatch = useAppDispatch();
-   const currentUser = useSelector((state: any) => state.user);
+   await dispatch(getUserDetails({username, token:user.token}));
+   const secondUser = useSelector((state: any) => state.secondUser);
 
   const handleFollow = () => {
-    if (currentUser.isLoggedIn) {
+    if (user.isLoggedIn) {
        mutate({ userId: user.id });
      } else {
        onOpen();
@@ -33,7 +36,7 @@ const ProfileDetails = ({ user }: any) => {
             name={user.username}
           />
           <div className="flex flex-col justify-end gap-4">
-             {currentUser.user?.id === user.id
+             {user?.id === user.id
              ? (
               <Button color="primary" radius="sm" as={Link} href="/setting">
                 Edit Profile
@@ -41,7 +44,7 @@ const ProfileDetails = ({ user }: any) => {
             ) : (
               <div className="flex items-center gap-4">
                 <Button color="primary" radius="sm" onClick={handleFollow}>
-                   currentUser.user?.followingIDs.includes(user.id)
+                   {/* currentUser.user?.followingIDs.includes(user.id) */}
                     true
                     ? "unFollow"
                     : "Follow"
@@ -72,7 +75,7 @@ const ProfileDetails = ({ user }: any) => {
             </div>
             <div className="flex gap-1">
               <p className="font-semibold text-default-500 text-small">
-                {user.followerIDs.length}
+               3 {/* {user.followerIDs.length} */}
               </p>
               <p className="text-default-500 text-small">Followers</p>
             </div>
