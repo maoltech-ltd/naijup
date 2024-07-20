@@ -9,12 +9,18 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { AiOutlineEye, AiOutlineEyeInvisible } from '@/src/components/icon';
+import ErrorModal from '@/src/components/Modal/ErrorModal';
+import SuccessModal from '@/src/components/Modal/SuccessModal';
 
 const SignIn = () => {
   
     const dispatch = useAppDispatch();
     const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
+    const [successModalOpen, setSuccessModalOpen] = useState(false);
+    const [errorModalOpen, setErrorModalOpen] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
    
     // form validation rules 
     const validationSchema = Yup.object().shape({
@@ -32,11 +38,19 @@ const SignIn = () => {
         dispatch(loginUser(data))
         .unwrap()
         .then((action) => {
-            router.push("/")
+            setSuccessMessage("Login successful!");
+                setSuccessModalOpen(true);
+                setTimeout(() => {
+                    setSuccessModalOpen(false);
+                    router.push("/");
+                }, 2000);
         })
-        .catch((error) => {
-            console.log({error})
-            router.push("/signup")
+        .catch((error:any) => {
+            setErrorMessage(error.message);
+                setErrorModalOpen(true);
+                setTimeout(() => {
+                    setErrorModalOpen(false);
+                }, 2000);
         });
         
     }
@@ -98,6 +112,8 @@ const SignIn = () => {
                     </form>
                 </div>
             </div>
+            <ErrorModal isOpen={errorModalOpen} onClose={() => setErrorModalOpen(false)} message={errorMessage} />
+            <SuccessModal isOpen={successModalOpen} onClose={() => setSuccessModalOpen(false)} message={successMessage} />
         </div>
     );
 }

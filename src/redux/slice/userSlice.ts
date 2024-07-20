@@ -42,11 +42,11 @@ export const registerUser = createAsyncThunk('user/registerUser', async (userInf
 });
 
 // Thunk for updating user profile
-export const updateUserProfile = createAsyncThunk('user/updateUserProfile', async (userInfo: { userId: string, name: string, email: string, token: string }) => {
+export const updateUserProfile = createAsyncThunk('user/updateUserProfile', async (userInfo: { data: any, token: string }) => {
     const headers = {
         Authorization: "Bearer " + userInfo.token
     };
-    const response = await api.put(`v1/user/${userInfo.userId}`, userInfo, { headers });
+    const response = await api.put(`v1/user/`, userInfo.data, { headers });
     return response.data;
 });
 

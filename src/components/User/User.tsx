@@ -10,9 +10,21 @@ import { useSelector } from "react-redux";
 import mutate from "swr";
 import { getUserDetails } from "@/src/redux/slice/secondUserSlice";
 
-const ProfileDetails = async ({ user }: any) => {
-
+const User = async ({ user, username }: any) => {
+  console.log({user})
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+   const dispatch = useAppDispatch();
+   await dispatch(getUserDetails({username, token:user.token}));
+   const secondUser = useSelector((state: any) => state.secondUser);
+
+  const handleFollow = () => {
+    if (user.isLoggedIn) {
+       mutate({ userId: user.id });
+     } else {
+       onOpen();
+     }
+  };
 
   return (
     <section className="md:w-[80%] m-auto md:pt-16 pt-12">
@@ -24,11 +36,26 @@ const ProfileDetails = async ({ user }: any) => {
             name={user.username}
           />
           <div className="flex flex-col justify-end gap-4">
-             
-          <Button color="primary" radius="sm" as={Link} href="/EditProfile">
-            Edit Profile
-          </Button>
-            
+             {user?.id === user.id
+             ? (
+              <Button color="primary" radius="sm" as={Link} href="/setting">
+                Edit Profile
+              </Button>
+            ) : (
+              <div className="flex items-center gap-4">
+                <Button color="primary" radius="sm" onClick={handleFollow}>
+                   {/* currentUser.user?.followingIDs.includes(user.id) */}
+                    true
+                    ? "unFollow"
+                    : "Follow"
+                </Button>
+                <Button isIconOnly variant="light">
+                    {//more icon
+                    }
+                  <BackIcon name="more-horizontal" />
+                </Button>
+              </div>
+            )}
           </div>
         </div>
         <div className="pt-4">
@@ -42,8 +69,7 @@ const ProfileDetails = async ({ user }: any) => {
           <div className="flex gap-4 py-2">
             <div className="flex gap-1">
               <p className="font-semibold text-default-500 text-small">
-                {/* {user.followingIDs.length} */}
-                2
+                {user.followingIDs.length}
               </p>
               <p className=" text-default-500 text-small">Following</p>
             </div>
@@ -82,4 +108,4 @@ const ProfileDetails = async ({ user }: any) => {
   );
 };
 
-export default ProfileDetails;
+export default User;
