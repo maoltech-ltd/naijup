@@ -6,8 +6,6 @@ import { RootState } from '../redux/store';
 
 const ProtectedRoute = ({ children }: any) => {
   const router = useRouter();
-  const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
 
   const user = useSelector((state: RootState) => state.user);
 

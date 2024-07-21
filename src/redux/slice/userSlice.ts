@@ -6,10 +6,16 @@ import { headers } from "next/headers";
 interface UserState {
     userId: string;
     userName: string;
+    firstName: string;
+    lastName: string;
     userEmail: string;
     token: string;
     isLoggedIn: boolean;
+    bio: string[];
     status: string;
+    profilePicture: String;
+    createdAt: Date | null;
+    isAuthor: Boolean;
 }
 
 const initialState: UserState = {
@@ -18,7 +24,13 @@ const initialState: UserState = {
     userEmail: "",
     token: "",
     status: "",
-    isLoggedIn: false
+    profilePicture: "",
+    firstName: "",
+    lastName: "",
+    bio: [],
+    isLoggedIn: false,
+    createdAt: null,
+    isAuthor: false
 }
 
 
@@ -67,8 +79,14 @@ const userSlice = createSlice({
             state.userName = "";
             state.userEmail = "";
             state.token = "";
+            state.profilePicture = "";
             state.isLoggedIn = false;
+            state.bio = [];
             state.status = "";
+            state.createdAt = null;
+            state.isAuthor = false;
+            state.firstName = "";
+            state.lastName = "";
         },
         // Reducer for clearing the state
         clearState(state) {
@@ -77,7 +95,13 @@ const userSlice = createSlice({
             state.userEmail = "";
             state.token = "";
             state.isLoggedIn = false;
+            state.bio = [];
+            state.profilePicture = "";
             state.status = "";
+            state.createdAt = null;
+            state.isAuthor = false;
+            state.firstName = "";
+            state.lastName = "";
         }
     },
     extraReducers: (builder) => {
@@ -89,6 +113,13 @@ const userSlice = createSlice({
                 state.token = action.payload.token;
                 state.status = action.payload.status;
                 state.isLoggedIn = action.payload.isLoggedIn;
+                state.profilePicture = action.payload.profile_picture;
+                state.bio = action.payload.bio;
+                state.createdAt = action.payload.createdAt;
+                state.isAuthor = action.payload.is_author;
+                state.firstName = action.payload.first_name;
+                state.lastName = action.payload.last_name;
+
             })
             .addCase(fetchUser.pending, (state) => {
                 state.status = "pending";
@@ -101,8 +132,14 @@ const userSlice = createSlice({
                 state.userName = action.payload.data.username;
                 state.userEmail = action.payload.data.email;
                 state.token = action.payload.token;
+                state.profilePicture = action.payload.data.profile_picture;
+                state.bio = action.payload.data.bio;
+                state.createdAt = action.payload.data.createdAt;
                 state.isLoggedIn = true;
                 state.status = "fulfilled";
+                state.isAuthor = action.payload.data.is_author;
+                state.firstName = action.payload.data.first_name;
+                state.lastName = action.payload.data.last_name;
             })
             .addCase(loginUser.pending, (state) => {
                 state.status = "pending";

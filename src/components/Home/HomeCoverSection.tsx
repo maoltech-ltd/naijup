@@ -6,7 +6,7 @@ import { Props } from "@/src/utils/props";
 
 
 const HomeCoverSection: React.FC<Props> = (blog: any) => {
-  
+  console.log(blog.blogs)
   return (
     <div className="w-full inline-block">
       <article className='flex flex-col items-start justify-end mx-5 sm:mx-10 relative h-[60vh] sm:h-[85vh]'>
