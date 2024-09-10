@@ -7,6 +7,7 @@ const Logo = ({user} : any) => {
   var link = "/userprofile"
   if(user.userId == '' || user == null){
     link = "/signin"
+    
   }
   return ( 
     <Link href={link} className="flex items-center text-dark dark:text-light">
