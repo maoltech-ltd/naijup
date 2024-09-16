@@ -5,12 +5,12 @@ import { loginUser } from '@/src/redux/slice/userSlice';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { AiOutlineEye, AiOutlineEyeInvisible } from '@/src/components/icon';
 import ErrorModal from '@/src/components/Modal/ErrorModal';
 import SuccessModal from '@/src/components/Modal/SuccessModal';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 const SignIn = () => {
   

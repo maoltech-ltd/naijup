@@ -43,6 +43,7 @@ export const fetchUser = createAsyncThunk('user/fetchUser', async (token: string
 });
 
 export const loginUser = createAsyncThunk('user/loginUser', async (credentials: { email: string, password: string }) => {
+    console.log(process.env.NEXT_PUBLIC_BASE_URL as string)
     const response = await api.post(`v1/user/auth/signin/`, credentials);
     return response.data;
 });

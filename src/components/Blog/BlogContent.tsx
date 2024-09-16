@@ -25,7 +25,7 @@ const BlogContent = ({ content }: any) => {
   return (
     <div>
       {content.map((item: any, index: any) => {
-        if (item.type === "paragraph") {
+        if (item.type === "text") {
           return (
             <p key={index} className="mb-4 text-lg">
               {item.content}
