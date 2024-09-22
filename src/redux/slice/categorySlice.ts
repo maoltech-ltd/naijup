@@ -46,7 +46,6 @@ const categorySlice = createSlice({
             .addCase(fetchCategories.fulfilled, (state, action) => {
                 state.status = "succeeded";
                 state.categories = action.payload;
-                console.log({state})
             })
             .addCase(fetchCategories.pending, (state) => {
                 state.status = "loading";

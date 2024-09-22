@@ -43,7 +43,6 @@ export const fetchUser = createAsyncThunk('user/fetchUser', async (token: string
 });
 
 export const loginUser = createAsyncThunk('user/loginUser', async (credentials: { email: string, password: string }) => {
-    console.log(process.env.NEXT_PUBLIC_BASE_URL as string)
     const response = await api.post(`v1/user/auth/signin/`, credentials);
     return response.data;
 });
@@ -56,10 +55,22 @@ export const registerUser = createAsyncThunk('user/registerUser', async (userInf
 
 // Thunk for updating user profile
 export const updateUserProfile = createAsyncThunk('user/updateUserProfile', async (userInfo: { data: any, token: string }) => {
+    
+    console.log({userToken:userInfo.token})
     const headers = {
         Authorization: "Bearer " + userInfo.token
     };
-    const response = await api.put(`v1/user/`, userInfo.data, { headers });
+    const payload = {
+        ...userInfo.data, 
+        first_name: userInfo.data.firstName,
+        last_name: userInfo.data.lastName,
+        profile_picture: userInfo.data.profilePicture
+    }
+    delete payload.firstName
+    delete payload.lastName
+    delete payload.profilePicture
+    console.log({payload})
+    const response = await api.put(`v1/user/`, payload, { headers });
     return response.data;
 });
 
@@ -165,6 +176,10 @@ const userSlice = createSlice({
             .addCase(updateUserProfile.fulfilled, (state, action) => {
                 state.userName = action.payload.userName;
                 state.userEmail = action.payload.userEmail;
+                state.profilePicture = action.payload.profile_picture;
+                state.bio = action.payload.bio;
+                state.firstName = action.payload.first_name;
+                state.lastName = action.payload.last_name;
                 state.status = "fulfilled";
             })
             .addCase(updateUserProfile.pending, (state) => {

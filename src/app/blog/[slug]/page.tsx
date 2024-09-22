@@ -8,13 +8,13 @@ import BlogContent from "@/src/components/Blog/BlogContent";
 import { useAppDispatch } from "@/src/redux/hooks/dispatch";
 import { fetchPostByTitle } from "@/src/redux/slice/postSlice";
 import { RootState } from "@/src/redux/store";
+import LoadingSpinner from "@/src/components/loading/loadingSpinner";
 
 export default function BlogPage({ params }: { params: { slug: string } }) {
 
     const dispatch =  useAppDispatch();
 
     const { posts, status, error }  = useSelector((state: any) => state.post);
-    console.log({status})
     const blog = posts;
     useEffect(() => {
       if (params.slug) {
@@ -23,7 +23,7 @@ export default function BlogPage({ params }: { params: { slug: string } }) {
     }, [dispatch, params.slug]);
 
     if (status === 'loading') {
-        return <div>Loading...</div>;
+      return <LoadingSpinner />;
     }
 
     if (status === 'failed') {
@@ -34,7 +34,6 @@ export default function BlogPage({ params }: { params: { slug: string } }) {
       if (!blog) {
           return <div>Blog not found</div>;
       }
-      console.log(blog)
       return (
           <>
       <script/>
@@ -54,7 +53,7 @@ export default function BlogPage({ params }: { params: { slug: string } }) {
           </div>
           <div className="absolute top-0 left-0 right-0 bottom-0 h-full bg-dark/60 dark:bg-dark/40" />
           <Image
-            src={blog.content[1].src}
+            src={blog.image_links[1]}
             alt={blog.title}
             // width={blog.image.width}
             // height={blog.image.height}

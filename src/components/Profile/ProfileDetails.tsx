@@ -10,7 +10,6 @@ import Image from "next/image"
 const ProfileDetails = ({ user }: any) => {
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
   return (
     <section className="md:w-[80%] m-auto md:pt-16 pt-12">
       <div className="bg-white p-4  md:rounded-md">
@@ -37,7 +36,7 @@ const ProfileDetails = ({ user }: any) => {
           
           <div className="flex flex-col justify-end gap-4">
              
-          <Button color="primary" radius="sm" as={Link} href="/EditProfile">
+          <Button color="primary" radius="sm" as={Link} href="/edituserprofile">
             Edit Profile
           </Button>
             

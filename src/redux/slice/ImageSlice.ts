@@ -19,7 +19,7 @@ export const createImage = createAsyncThunk('posts/createImage', async (newImage
     const headers = {
         'Content-Type': 'multipart/form-data'
     }
-    const response = await api.post('/image', formData, {headers});
+    const response = await api.post('v1/file/', formData, {headers});
     return response.data;
     }
 });

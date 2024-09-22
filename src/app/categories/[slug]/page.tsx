@@ -106,7 +106,6 @@ const CategoryPage: React.FC<{ params: { slug: string } }> = ({ params }) => {
       setErrorMessage(error);
       setIsErrorOpen(true);
     } else if (status === 'succeeded') {
-      console.log({categories})
       setSuccessMessage("Categories fetched successfully!");
       setIsSuccessOpen(true);
     }
@@ -121,7 +120,6 @@ const CategoryPage: React.FC<{ params: { slug: string } }> = ({ params }) => {
   }
 
   if (status === 'succeeded') {
-    console.log({blogs: categories.results})
     const sortedBlogs = sortBlogs({blogs: categories.results});
 
     const allCategories: string[] = [];

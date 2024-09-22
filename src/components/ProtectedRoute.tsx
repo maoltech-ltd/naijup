@@ -9,7 +9,6 @@ const ProtectedRoute = ({ children }: any) => {
 
   const user = useSelector((state: RootState) => state.user);
 
-  console.log({user})
   useEffect(() => {
     if (user.userId == '') {
       router.push('/signin');

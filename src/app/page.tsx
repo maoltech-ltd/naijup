@@ -53,6 +53,7 @@ import FeaturedPost from "../components/Home/FeaturedPost";
 import RecentPost from "../components/Home/RecentPost";
 import ErrorModal from "../components/Modal/ErrorModal";
 import SuccessModal from "../components/Modal/SuccessModal";
+import LoadingSpinner from "../components/loading/loadingSpinner";
 
 const Home: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -80,7 +81,7 @@ const Home: React.FC = () => {
   }, [status, error]);
 
   if (status === 'loading') {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
   }
 
   return (

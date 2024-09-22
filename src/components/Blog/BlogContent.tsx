@@ -24,7 +24,7 @@ import Image from "next/image";
 const BlogContent = ({ content }: any) => {
   return (
     <div>
-      {content.map((item: any, index: any) => {
+      {content.sections.map((item: any, index: any) => {
         if (item.type === "text") {
           return (
             <p key={index} className="mb-4 text-lg">
@@ -39,8 +39,8 @@ const BlogContent = ({ content }: any) => {
               <Image
                 src={item.src}
                 alt={item.alt}
-                width={800}
-                height={400}
+                width={100}
+                height={50}
                 className="object-cover w-full"
               />
             </div>

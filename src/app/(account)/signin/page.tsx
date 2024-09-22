@@ -1,11 +1,10 @@
 "use client";
 import { useAppDispatch } from '@/src/redux/hooks/dispatch';
-import {useSelector} from 'react-redux';
 import { loginUser } from '@/src/redux/slice/userSlice';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { AiOutlineEye, AiOutlineEyeInvisible } from '@/src/components/icon';
 import ErrorModal from '@/src/components/Modal/ErrorModal';
