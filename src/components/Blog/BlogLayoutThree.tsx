@@ -3,18 +3,18 @@ import Image from "next/image"
 import Link from "next/link"
 
 
-const BlogLayoutThree: React.FC<BlogProp> = (blog: any) => {
-    
+const BlogLayoutThree: React.FC<any> = (blog: any) => {
   return (
     <div className="group flex flex-col items-center text-dark dark:text-light">
       <Link href={`/blog/${blog.blog.title}`} className="h-full rounded-xl overflow-hidden">
         <Image
-          src={blog.blog.image_links[0]}
+          src={blog.blog.image_links}
           alt={blog.blog.title}
           width={50}
           height={50}
           className=" aspect-[4/3] w-full h-full object-cover object-center  group-hover:scale-105 transition-all ease duration-300 "
           sizes="(max-width: 640px) 100vw,(max-width: 1024px) 50vw, 33vw"
+          unoptimized
         />
       </Link>
 

@@ -27,13 +27,16 @@ export const fetchPost = createAsyncThunk('posts/fetchPost', async (postId: stri
 }) 
 
 // Thunk to create a new post
-export const createPost = createAsyncThunk('posts/createPost', async (newPost: any) => {
-    const response = await api.post('/api/post', newPost);
+export const createPost = createAsyncThunk('posts/createPost', async (payload: {post: any, token: string} ) => {
+    const headers = {
+        Authorization: "Bearer " + payload.token
+    };
+    const response = await api.post('v1/blog/', payload.post, {headers});
     return response.data;
 });
 
 // Thunk to update an existing post
-export const updatePost = createAsyncThunk('posts/updatePost', async (updatedPost: { id: string; title: string; content: string }) => {
+export const updatePost = createAsyncThunk('posts/updatePost', async (updatedPost: { id: string; content: any }) => {
     const response = await api.put(`/api/post/${updatedPost.id}`, updatedPost);
     return response.data;
 });

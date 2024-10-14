@@ -55,8 +55,6 @@ export const registerUser = createAsyncThunk('user/registerUser', async (userInf
 
 // Thunk for updating user profile
 export const updateUserProfile = createAsyncThunk('user/updateUserProfile', async (userInfo: { data: any, token: string }) => {
-    
-    console.log({userToken:userInfo.token})
     const headers = {
         Authorization: "Bearer " + userInfo.token
     };
@@ -69,7 +67,6 @@ export const updateUserProfile = createAsyncThunk('user/updateUserProfile', asyn
     delete payload.firstName
     delete payload.lastName
     delete payload.profilePicture
-    console.log({payload})
     const response = await api.put(`v1/user/`, payload, { headers });
     return response.data;
 });

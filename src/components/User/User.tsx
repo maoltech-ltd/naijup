@@ -11,7 +11,6 @@ import mutate from "swr";
 import { getUserDetails } from "@/src/redux/slice/secondUserSlice";
 
 const User = async ({ user, username }: any) => {
-  console.log({user})
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
    const dispatch = useAppDispatch();

@@ -3,9 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 import Category from "../Elements/Category";
 import { Props } from "@/src/utils/props";
+import { Blog } from "@/src/app/blog/[slug]/page";
 
 
-const HomeCoverSection: React.FC<Props> = (blog: any) => {
+const HomeCoverSection: React.FC<any> = (blog: Blog) => {
+  console.log(blog)
   return (
     <div className="w-full inline-block">
       <article className='flex flex-col items-start justify-end mx-5 sm:mx-10 relative h-[60vh] sm:h-[85vh]'>
@@ -13,25 +15,27 @@ const HomeCoverSection: React.FC<Props> = (blog: any) => {
             bg-gradient-to-b from-transparent from-0% to-dark/90 rounded-3xl z-0
             ' />
 
-        <Image src={blog.blogs.image_links[0]}
-        alt={blog.blogs.title}
-        fill
-        className="w-full h-full object-center object-cover rounded-3xl"
+        <Image 
+          src={blog.image_links}
+          alt={blog.title}
+          fill
+          className="w-full h-full object-center object-cover rounded-3xl"
+          unoptimized
         />
         <div className="w-3/4 p-16 sm:p-8 md:p-12 flex flex-col items-start justify-center z-0 text-light">
-          <Category link={`/categories/${blog.blogs.category}`} name={blog.blogs.category} />
-          <Link href={`/blog/${blog.blogs.title}`} className="mt-6">
+          <Category link={`/categories/${blog.category}`} name={blog.category} />
+          <Link href={`/blog/${blog.title}`} className="mt-6">
           <h1 className="font-bold capitalize text-light text-4xl sm:text-xl md:text-3xl lg:text-4xl">
             <span className='bg-gradient-to-r from-accent to-accent dark:from-accentDark/50 
                 dark:to-accentDark/50 bg-[length:0px_6px]
                 hover:bg-[length:100%_6px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500 '>
-              {blog.blogs.title}
+              {blog.title}
             </span>
           </h1>
           </Link>
-          <p className='hidden  sm:inline-block mt-4 md:text-lg lg:text-xl font-in'>
+          {/* <p className='hidden  sm:inline-block mt-4 md:text-lg lg:text-xl font-in'>
             {blog.blogs.description}
-          </p>
+          </p> */}
         </div>
       </article>
     </div>

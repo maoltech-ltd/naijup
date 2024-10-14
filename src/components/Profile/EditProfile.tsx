@@ -23,10 +23,8 @@ const EditProfile = ({ user }: any) => {
   // Handle form field changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     if (e.target.name === "bio") {
-      console.log({bio:e.target.value})
       setFormData({ ...formData, bio: e.target.value });
     } else {
-      console.log({targetname: e.target.value})
       setFormData({ ...formData, [e.target.name]: e.target.value });
     }
   };

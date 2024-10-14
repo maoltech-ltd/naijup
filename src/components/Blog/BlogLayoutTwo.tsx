@@ -4,7 +4,6 @@ import Link from "next/link"
 import React from "react"
 
 const BlogLayoutTwo: React.FC<BlogProp> = (blog: any) => {
-  
   return (
     <div className="group grid grid-cols-12 gap-4 items-center text-dark dark:text-light">
       <Link
@@ -12,12 +11,13 @@ const BlogLayoutTwo: React.FC<BlogProp> = (blog: any) => {
         className=" col-span-12  lg:col-span-4 h-full rounded-xl overflow-hidden"
       >
         <Image
-          src={blog.blog.image_links[0]}
+          src={blog.blog.image_links}
           alt={blog.blog.title}
           width={50}
           height={50}
           className="aspect-square w-full h-full object-cover object-center group-hover:scale-105 transition-all ease duration-300"
           sizes="(max-width: 640px) 100vw,(max-width: 1024px) 50vw, 33vw"
+          unoptimized
         />
       </Link>
 

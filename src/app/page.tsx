@@ -52,49 +52,71 @@ import HomeCoverSection from "../components/Home/HomeCoverSection";
 import FeaturedPost from "../components/Home/FeaturedPost";
 import RecentPost from "../components/Home/RecentPost";
 import ErrorModal from "../components/Modal/ErrorModal";
-import SuccessModal from "../components/Modal/SuccessModal";
+// import SuccessModal from "../components/Modal/SuccessModal";
 import LoadingSpinner from "../components/loading/loadingSpinner";
+import { Blog } from "./blog/[slug]/page";
 
 const Home: React.FC = () => {
   const dispatch = useAppDispatch();
   
   const [isErrorOpen, setIsErrorOpen] = useState(false);
-  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  // const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<any | null>(null);
+  const [blogs, setBlogs] = useState<any | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    dispatch(fetchPosts());
+    dispatch(fetchPosts())
+    .unwrap()
+    .then((result: any) =>{
+      // setIsSuccessOpen(true);
+      setBlogs(result);
+    })
+    .catch((error: any)=>{
+      setIsErrorOpen(true);
+      setErrorMessage(error.message);
+    }).finally(()=>{
+      setLoading(false);
+    });
   }, [dispatch]);
 
-  const post = useSelector((state: any) => state.posts); 
-  const { posts, status, error } = post;
+  // const post = useSelector((state: any) => state.posts); 
+  // const { posts, status, error } = post;
 
-  useEffect(() => {
-    if (status === 'failed') {
-      setErrorMessage(error);
-      setIsErrorOpen(true);
-    } else if (status === 'succeeded') {
-      setSuccessMessage("Posts fetched successfully!");
-      setIsSuccessOpen(true);
-    }
-  }, [status, error]);
+  // useEffect(() => {
+  //   if (status === 'failed') {
+  //     setErrorMessage(error);
+  //     setIsErrorOpen(true);
+  //   } else if (status === 'succeeded') {
+  //     setSuccessMessage("Posts fetched successfully!");
+  //     setIsSuccessOpen(true);
+  //   }
+  // }, [status, error]);
 
-  if (status === 'loading') {
+  // if (status === 'loading') {
+  //   return <LoadingSpinner />;
+  // }
+
+  if (loading) {
     return <LoadingSpinner />;
   }
 
+  if (errorMessage) {
+    return <div>Error loading blog: {errorMessage.message}</div>;
+  }
+
+  if (!blogs) {
+    return <div>No blog found</div>;
+  }
   return (
     <main className="flex flex-col items-center justify-center">
-      {status === 'succeeded' && (
-        <>
-          <HomeCoverSection blogs={posts.results[0]} />
-          <FeaturedPost blogs={posts.results} />
-          <RecentPost blogs={posts} />
-        </>
-      )}
+      <>
+        <HomeCoverSection blogs={blogs.results[0]} />
+        <FeaturedPost blogs={blogs.results} />
+        <RecentPost blogs={blogs.results} />
+      </>
       <ErrorModal isOpen={isErrorOpen} onClose={() => setIsErrorOpen(false)} message={errorMessage} />
-      <SuccessModal isOpen={isSuccessOpen} onClose={() => setIsSuccessOpen(false)} message={successMessage} />
+      {/* <SuccessModal isOpen={isSuccessOpen} onClose={() => setIsSuccessOpen(false)} message={successMessage} /> */}
     </main>
   );
 };

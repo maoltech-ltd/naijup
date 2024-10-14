@@ -1,5 +1,7 @@
+import { Blog } from "../app/blog/[slug]/page";
+
 export type Props = {
-  blogs: object[];
+  blogs: Blog[];
 };
 
 export interface CategoryProps  {
@@ -49,3 +51,13 @@ export type TPost = {
     comments: number;
   };
 };
+
+export const categories = [
+  { name: "startup", link: "/categories/startup" },
+  { name: "crypto", link: "/categories/crypto" },
+  { name: "opportunity", link: "/categories/opportunity" },
+  { name: "business", link: "/categories/business" },
+  { name: "economy", link: "/categories/economy" },
+  { name: "others", link: "/categories/others" }
+  
+];

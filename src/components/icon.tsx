@@ -479,8 +479,8 @@ export const FacebookIcon = ({ className, ...rest }: IconProps) => (
 export const AiOutlineEye = ({className, ...rest}: IconProps) =>{
   return(
     <img
-      width={50}
-      height={50}
+      width={25}
+      height={25}
       alt="invisible"
       src="https://img.icons8.com/ios/50/invisible.png"
     />
@@ -490,8 +490,8 @@ export const AiOutlineEye = ({className, ...rest}: IconProps) =>{
 export const AiOutlineEyeInvisible = ({className, ...rest}: IconProps) =>{
   return(
     <img
-    width={30}
-    height={30}
+    width={25}
+    height={25}
     alt="invisible"
     src="https://img.icons8.com/ios-glyphs/30/invisible.png"
   />

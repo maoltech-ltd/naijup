@@ -6,6 +6,7 @@ import { DribbbleIcon, FacebookIcon, LinkedinIcon, MoonIcon, SunIcon, TwitterIco
 import { useThemeSwitch } from "../Hooks/useThemeSwitch"
 import { cs } from "@/src/utils"
 import {useSelector} from 'react-redux';
+import { categories } from "@/src/utils/props";
 
 const Header = () => {
 
@@ -21,15 +22,6 @@ const Header = () => {
     setShowCategories(!showCategories);
   };
   
-  const categories = [
-    { name: "startup", link: "/categories/startup" },
-    { name: "crypto", link: "/categories/crypto" },
-    { name: "opportunity", link: "/categories/opportunity" },
-    { name: "business", link: "/categories/business" },
-    { name: "economy", link: "/categories/economy" },
-    { name: "others", link: "/categories/others" }
-    
-  ];
   return (
     <div>
       <div className="w-full items-center justify-around bg-black dark:bg-white py-2 py-2">
