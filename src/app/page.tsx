@@ -45,14 +45,12 @@
 
 "use client";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { useAppDispatch } from "../redux/hooks/dispatch";
 import { fetchPosts } from "../redux/slice/postsSlice";
 import HomeCoverSection from "../components/Home/HomeCoverSection";
 import FeaturedPost from "../components/Home/FeaturedPost";
 import RecentPost from "../components/Home/RecentPost";
 import ErrorModal from "../components/Modal/ErrorModal";
-// import SuccessModal from "../components/Modal/SuccessModal";
 import LoadingSpinner from "../components/loading/loadingSpinner";
 import { Blog } from "./blog/[slug]/page";
 
@@ -80,23 +78,7 @@ const Home: React.FC = () => {
     });
   }, [dispatch]);
 
-  // const post = useSelector((state: any) => state.posts); 
-  // const { posts, status, error } = post;
-
-  // useEffect(() => {
-  //   if (status === 'failed') {
-  //     setErrorMessage(error);
-  //     setIsErrorOpen(true);
-  //   } else if (status === 'succeeded') {
-  //     setSuccessMessage("Posts fetched successfully!");
-  //     setIsSuccessOpen(true);
-  //   }
-  // }, [status, error]);
-
-  // if (status === 'loading') {
-  //   return <LoadingSpinner />;
-  // }
-
+  
   if (loading) {
     return <LoadingSpinner />;
   }

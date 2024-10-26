@@ -328,8 +328,9 @@ export const MoonIcon = ({ className, ...rest }: IconProps) => (
       r="6"
       fill="currentColor"
       mask="url(#lineMdSunnyFilledLoopToMoonFilledLoopTransition1)"
+      opacity="0"
     >
-      <set attributeName="opacity" begin="0.5s" to="0" />
+      <set attributeName="opacity" begin="0.5s" to="1" />
       <animate
         fill="freeze"
         attributeName="r"

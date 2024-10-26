@@ -8,8 +8,6 @@ import Footer from "../components/Footer";
 import { usePathname } from "next/navigation";
 import ReduxProvider from "../redux/ReduxProvider";
 //import dynamic from "next/dynamic";
-
-//const ReduxProvider = dynamic(() => import("../redux/ReduxProvider"))
 const inter = Inter({ 
   subsets: ["latin"], 
   display: "swap", 
@@ -29,9 +27,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
 
-  const parthname = usePathname();
+  const pathname = usePathname();
   const excludePaths = ["/signin", "/signup"];
-  const shouldShowHeaderFooter = !excludePaths.includes(parthname);
+  const shouldShowHeaderFooter = !excludePaths.includes(pathname);
   
   return (
     <html lang="en">
@@ -39,7 +37,8 @@ export default function RootLayout({
       <body className={cs(
         inter.variable, 
         manrope.variable, 
-        "font-mr bg-light dark:bg-dark"
+        "font-mr",
+        "bg-light dark:bg-dark"
         )}
       >
         <Script id="theme-switcher" strategy="beforeInteractive">
