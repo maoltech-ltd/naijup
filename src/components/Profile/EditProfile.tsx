@@ -82,6 +82,8 @@ const EditProfile = ({ user }: any) => {
               src={previewImage}
               alt="Profile Picture Preview"
               className="w-24 h-24 rounded-full mx-auto mb-4"
+              width = {100}
+              height= {100}
             />
           )}
         </div>

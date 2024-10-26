@@ -44,9 +44,9 @@ const User = async ({ user, username }: any) => {
               <div className="flex items-center gap-4">
                 <Button color="primary" radius="sm" onClick={handleFollow}>
                    {/* currentUser.user?.followingIDs.includes(user.id) */}
-                    true
+                    {true
                     ? "unFollow"
-                    : "Follow"
+                    : "Follow"}
                 </Button>
                 <Button isIconOnly variant="light">
                     {//more icon

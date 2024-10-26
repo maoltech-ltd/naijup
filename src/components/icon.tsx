@@ -1,5 +1,6 @@
 import { cs } from "@/src/utils"
 import { Icon } from "next/dist/lib/metadata/types/metadata-types";
+import Image from "next/image";
 import { SVGProps } from "react"
 
 interface IconProps extends SVGProps<SVGSVGElement> {
@@ -478,7 +479,7 @@ export const FacebookIcon = ({ className, ...rest }: IconProps) => (
 
 export const AiOutlineEye = ({className, ...rest}: IconProps) =>{
   return(
-    <img
+    <Image
       width={25}
       height={25}
       alt="invisible"
@@ -489,7 +490,7 @@ export const AiOutlineEye = ({className, ...rest}: IconProps) =>{
 }
 export const AiOutlineEyeInvisible = ({className, ...rest}: IconProps) =>{
   return(
-    <img
+    <Image
     width={25}
     height={25}
     alt="invisible"

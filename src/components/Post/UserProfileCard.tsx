@@ -92,7 +92,7 @@ const UserProfileCard = ({ post }: { post: TPost | null }) => {
           )} */}
         </CardHeader>
         <CardBody className="px-3 py-0 text-small text-default-500 overflow-hidden">
-          <p>"lorem ipsume</p>
+          <p>lorem ipsume</p>
           <Link
             href="/authorsite"
             target="_blank"

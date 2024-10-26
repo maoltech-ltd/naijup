@@ -202,7 +202,7 @@ const SignIn = () => {
                     </div>
                     <div className="flex justify-center mt-4">
                         <Link href="/signup" className="text-blue-500 hover:underline dark:text-blue-400">
-                            Don't have an account? Sign up
+                            Don&apos;t have an account? Sign up
                         </Link>
                     </div>
                 </form>
