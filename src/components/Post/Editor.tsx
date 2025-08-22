@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 import { createImage } from "@/src/redux/slice/ImageSlice";
 import { categories } from "@/src/utils/props";
 
-const Editor = ({ post, user }: { post: any | null, user: any }) => {
+const Editor = ({ post, user }: { post: any | null; user: any }) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
@@ -50,10 +50,12 @@ const Editor = ({ post, user }: { post: any | null, user: any }) => {
       let imageUrl = post?.image;
 
       if (imageFile) {
-        const uploadedImageUrl = await dispatch(createImage(imageFile)).unwrap();
+        const uploadedImageUrl = await dispatch(
+          createImage(imageFile)
+        ).unwrap();
         imageUrl = uploadedImageUrl.url;
       }
-    
+
       const postData = {
         title: data.title,
         content: blocks?.blocks,
@@ -61,7 +63,7 @@ const Editor = ({ post, user }: { post: any | null, user: any }) => {
         type: data.postType,
         category: data.category,
         author: user.userId,
-        tags: tags
+        tags: tags,
       };
 
       if (post != null) {
@@ -170,7 +172,7 @@ const Editor = ({ post, user }: { post: any | null, user: any }) => {
         },
       });
     }
-  }, [post]);
+  }, [post, dispatch]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -198,7 +200,8 @@ const Editor = ({ post, user }: { post: any | null, user: any }) => {
           aria-label="Back button"
           onPress={() => router.back()}
         >
-          <BackIcon name="chevron-left" /> Back
+          <BackIcon name="chevron-left dark:text-light" />{" "}
+          <div className="dark:text-light">Back</div>
         </Button>
 
         <div className="flex items-center gap-4">
@@ -211,21 +214,26 @@ const Editor = ({ post, user }: { post: any | null, user: any }) => {
             isLoading={postType === "DRAFT" && isSubmitting ? true : false}
             onClick={() => setValue("postType", "DRAFT")}
           >
-            {postType === "DRAFT" && isSubmitting ? "Saving..." : "Save Draft"}
+            <div className="dark:text-light">
+              {" "}
+              {postType === "DRAFT" && isSubmitting
+                ? "Saving..."
+                : "Save Draft"}
+            </div>
           </Button>
           <Button
             color="primary"
             radius="sm"
             type="submit"
             isDisabled={postType === "PUBLISHED" && isSubmitting ? true : false}
-            isLoading={
-              postType === "PUBLISHED" && isSubmitting ? true : false
-            }
+            isLoading={postType === "PUBLISHED" && isSubmitting ? true : false}
             onClick={() => setValue("postType", "PUBLISHED")}
           >
-            {postType === "PUBLISHED" && isSubmitting
-              ? "Publishing..."
-              : "Publish"}
+            <div className="dark:text-light">
+              {postType === "PUBLISHED" && isSubmitting
+                ? "Publishing..."
+                : "Publish"}
+            </div>
           </Button>
         </div>
       </nav>
@@ -272,16 +280,18 @@ const Editor = ({ post, user }: { post: any | null, user: any }) => {
 
           {/* Category Section */}
           <div>
-            <label htmlFor="category" className="font-semibold">
+            <label htmlFor="category" className="font-semibold dark:text-white">
               Select Category
             </label>
           </div>
           <select
             id="category"
             {...register("category")}
-            className="w-full md:w-1/2 mt-2 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full md:w-1/2 mt-2 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-[#1e1e1e] dark:text-white dark:border-gray-700"
           >
-            <option key="General" value="General">General</option>
+            <option key="General" value="General">
+              General
+            </option>
             {categories.map((category) => (
               <option key={category.name} value={category.name}>
                 {category.name}
@@ -293,13 +303,41 @@ const Editor = ({ post, user }: { post: any | null, user: any }) => {
           <TextareaAutosize
             id="title"
             {...register("title", { required: true })}
-            className="w-full border-none focus:outline-none mt-6 text-[32px] md:text-[40px] font-extrabold leading-snug resize-none"
+            className="w-full border-0 border-b-2 border-gray-200 focus:outline-none focus:border-blue-600 mt-6 text-[32px] md:text-[40px] font-extrabold leading-snug resize-none pb-3 dark:bg-[#1e1e1e] dark:text-white"
             placeholder="Title"
             maxRows={3}
           />
 
           {/* Content Editor */}
-          <div id="editor" className="min-h-[300px]"></div>
+          {/* <div id="editor" className="min-h-[300px] dark:text-light"></div> */}
+          <div
+            id="editor"
+            className="
+              min-h-[300px]
+              w-full
+              p-4
+              mt-6
+              rounded-lg
+              border
+              border-gray-300
+              bg-white
+              text-black
+              shadow-sm
+              focus-within:ring-2
+              focus-within:ring-blue-500
+              dark:bg-[#1e1e1e]
+              dark:border-gray-700
+              dark:text-white
+              dark:focus-within:ring-blue-400
+              prose
+              prose-lg
+              max-w-none
+            "
+          ></div>
+          {/* <div
+            id="editor"
+            className="min-h-[300px] mt-6 p-4 border border-gray-200 rounded-lg shadow-sm bg-white focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent transition-all duration-200"
+          ></div> */}
 
           {/* Tags Section */}
           <div className="mt-4">
@@ -307,7 +345,7 @@ const Editor = ({ post, user }: { post: any | null, user: any }) => {
               type="text"
               value={tagInput}
               onChange={handleTagInput}
-              className="w-full p-2 border rounded-md"
+              className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-[#1e1e1e] dark:text-white dark:border-gray-700"
               placeholder="Enter tags and press Enter"
             />
             <Button

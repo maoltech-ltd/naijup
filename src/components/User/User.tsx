@@ -1,6 +1,6 @@
 "use client";
 import { Avatar, Button, useDisclosure } from "@nextui-org/react";
-import React from "react";
+import React, { useEffect } from "react";
 import AuthModal from "../Auth/AuthModal";
 import moment from "moment";
 import Link from "next/link";
@@ -10,12 +10,18 @@ import { useSelector } from "react-redux";
 import mutate from "swr";
 import { getUserDetails } from "@/src/redux/slice/secondUserSlice";
 
-const User = async ({ user, username }: any) => {
+const User =  ({ user, username }: any) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
    const dispatch = useAppDispatch();
-   await dispatch(getUserDetails({username, token:user.token}));
+  //  await dispatch(getUserDetails({username, token:user.token}));
    const secondUser = useSelector((state: any) => state.secondUser);
+
+   useEffect(() => {
+    if (username && user?.token) {
+      dispatch(getUserDetails({ username, token: user.token }));
+    }
+  }, [username, user?.token, dispatch]);
 
   const handleFollow = () => {
     if (user.isLoggedIn) {

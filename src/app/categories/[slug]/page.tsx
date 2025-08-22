@@ -84,7 +84,7 @@ import BlogLayoutThree from "@/src/components/Blog/BlogLayoutThree";
 import { useAppDispatch } from "@/src/redux/hooks/dispatch";
 import { fetchCategories } from "@/src/redux/slice/categorySlice";
 import { useSelector } from "react-redux";
-import SuccessModal from "@/src/components/Modal/SuccessModal";
+// import SuccessModal from "@/src/components/Modal/SuccessModal";
 import ErrorModal from "@/src/components/Modal/ErrorModal";
 
 const CategoryPage: React.FC<{ params: { slug: string } }> = ({ params }) => {
@@ -147,7 +147,7 @@ const CategoryPage: React.FC<{ params: { slug: string } }> = ({ params }) => {
         </div>
 
         <ErrorModal isOpen={isErrorOpen} onClose={() => setIsErrorOpen(false)} message={errorMessage} />
-        <SuccessModal isOpen={isSuccessOpen} onClose={() => setIsSuccessOpen(false)} message={successMessage} />
+        {/* <SuccessModal isOpen={isSuccessOpen} onClose={() => setIsSuccessOpen(false)} message={successMessage} /> */}
       </main>
     );
   }

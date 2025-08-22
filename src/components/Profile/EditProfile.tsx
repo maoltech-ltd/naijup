@@ -5,6 +5,7 @@ import { updateUserProfile } from "@/src/redux/slice/userSlice";
 import { Button } from "@headlessui/react";
 import { createImage } from "@/src/redux/slice/ImageSlice";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const EditProfile = ({ user }: any) => {
   const dispatch = useAppDispatch();
@@ -78,7 +79,7 @@ const EditProfile = ({ user }: any) => {
         {/* Display current or newly selected profile picture */}
         <div className="mb-4">
           {previewImage && (
-            <img
+            <Image
               src={previewImage}
               alt="Profile Picture Preview"
               className="w-24 h-24 rounded-full mx-auto mb-4"

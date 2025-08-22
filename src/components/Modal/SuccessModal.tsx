@@ -1,5 +1,5 @@
-import React from 'react';
-import StatusModal from './StatusModal';
+import React from "react";
+import StatusModal from "./StatusModal";
 
 interface SuccessModalProps {
   isOpen: boolean;
@@ -7,7 +7,11 @@ interface SuccessModalProps {
   message: string;
 }
 
-const SuccessModal: React.FC<SuccessModalProps> = ({ isOpen, onClose, message }) => {
+const SuccessModal: React.FC<SuccessModalProps> = ({
+  isOpen,
+  onClose,
+  message,
+}) => {
   return (
     <StatusModal
       isOpen={isOpen}

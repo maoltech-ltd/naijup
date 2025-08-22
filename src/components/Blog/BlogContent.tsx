@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const BlogContent = ({ content }: any) => {
   return (
-    <div>
+    <div className="prose max-w-none text-black dark:text-white">
       {content.map((item: any, index: any) => {
         // Handle paragraphs
         if (item.type === "paragraph") {
@@ -37,7 +37,10 @@ const BlogContent = ({ content }: any) => {
         // Handle tables
         if (item.type === "table") {
           return (
-            <table key={index} className="mb-4 table-auto w-full border-collapse border border-gray-300">
+            <table
+              key={index}
+              className="mb-4 table-auto w-full border-collapse border border-gray-300"
+            >
               <tbody>
                 {item.data.content.map((row: string[], rowIndex: number) => (
                   <tr key={rowIndex}>
@@ -59,11 +62,13 @@ const BlogContent = ({ content }: any) => {
         if (item.type === "list" && item.data.style === "ordered") {
           return (
             <ol key={index} className="mb-4 list-decimal pl-5">
-              {item.data.items.map((listItem: string, listItemIndex: number) => (
-                <li key={listItemIndex} className="mb-1">
-                  {listItem}
-                </li>
-              ))}
+              {item.data.items.map(
+                (listItem: string, listItemIndex: number) => (
+                  <li key={listItemIndex} className="mb-1">
+                    {listItem}
+                  </li>
+                )
+              )}
             </ol>
           );
         }
@@ -72,11 +77,13 @@ const BlogContent = ({ content }: any) => {
         if (item.type === "list" && item.data.style === "unordered") {
           return (
             <ul key={index} className="mb-4 list-disc pl-5">
-              {item.data.items.map((listItem: string, listItemIndex: number) => (
-                <li key={listItemIndex} className="mb-1">
-                  {listItem}
-                </li>
-              ))}
+              {item.data.items.map(
+                (listItem: string, listItemIndex: number) => (
+                  <li key={listItemIndex} className="mb-1">
+                    {listItem}
+                  </li>
+                )
+              )}
             </ul>
           );
         }

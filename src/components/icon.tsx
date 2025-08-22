@@ -478,6 +478,38 @@ export const FacebookIcon = ({ className, ...rest }: IconProps) => (
   </svg>
 )
 
+export const WhatsappIcon = ({ className, ...rest }: IconProps) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    className={cs("w-6 h-6", className)}
+    {...rest}
+  >
+    <path
+      fill="#25D366"
+      d="M20.5 3.5a10 10 0 10-17.29 8.72L2 21l9-2.5A10 10 0 0020.5 3.5zm-9 14.5a8.5 8.5 0 01-4.42-1.2l-.3-.18-5.34 1.48 1.43-5.22-.19-.3a8.5 8.5 0 0113.82-9.6 8.5 8.5 0 01-4 15.82z"
+    />
+    <path
+      fill="#fff"
+      d="M16.01 14.74l-1.35.36a3.42 3.42 0 01-1.4.15 3.6 3.6 0 01-2.68-1.28l-.2-.25a3.44 3.44 0 01-.59-2.43l.1-1.2a.5.5 0 00-.46-.57h-1a.5.5 0 00-.44.26l-.4.78a5.08 5.08 0 01-.89 1.27l-.1.1a.5.5 0 00-.13.52l.4 1a.5.5 0 00.56.3A7.5 7.5 0 0016.5 11a.5.5 0 00-.49-.26l-1.2-.1a.5.5 0 00-.46.57l.1 1.2a3.6 3.6 0 01-1.28 2.68l-.25.2a3.42 3.42 0 01-1.4.59z"
+    />
+  </svg>
+);
+
+export const ShareIcon = ({ className, ...rest }: IconProps) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    className={cs("w-6 h-6", className)}
+    {...rest}
+  >
+    <path
+      fill="currentColor"
+      d="M18 16a1 1 0 00-.707.293L10 23.586V18a1 1 0 10-2 0v6a1 1 0 001 1h6a1 1 0 100-2h-5.586l7.293-7.293A1 1 0 0018 16zM15 2H5a2 2 0 00-2 2v12a2 2 0 002 2h2a1 1 0 000-2H5V4h10v6a1 1 0 002 0V4a2 2 0 00-2-2z"
+    />
+  </svg>
+);
+
 export const AiOutlineEye = ({className, ...rest}: IconProps) =>{
   return(
     <Image
