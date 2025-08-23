@@ -370,13 +370,13 @@ const Header = () => {
             {showCategories && (
               <div
                 // className="absolute top-full left-0 mt-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-2 min-w-[150px] z-50 border border-gray-200 dark:border-gray-700"
-                className="absolute top-full left-0 mt-1 bg-white dark:bg-gray-800 rounded-md shadow-md p-1 min-w-[120px] z-50 border border-gray-200 dark:border-gray-700"
+                className="absolute top-full left-0 mt-1 bg-dark text-light dark:bg-light dark:text-dark rounded-md shadow-md p-1 min-w-[120px] z-50"
               >
                 {categories.map((category, index) => (
                   <Link href={category.link} key={index}>
                     <span
                       onClick={() => setShowCategories(false)}
-                      className="block py-2 px-4 rounded-lg text-dark dark:text-light hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                      className="block py-2 px-4 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                     >
                       {category.name}
                     </span>
@@ -403,7 +403,7 @@ const Header = () => {
             onClick={handleThemeChange}
             className={cs(
               "w-6 h-6 ease ml-2 flex items-center justify-center rounded-full p-1 cursor-pointer",
-              mode === "light" ? "bg-dark text-light" : "bg-light text-dark"
+              mode === "light" ? "bg-dark text-dark" : "bg-light text-dark"
             )}
             aria-label="theme-switcher"
           >
@@ -530,7 +530,7 @@ const Header = () => {
                         "w-full flex items-center justify-between py-3 px-4 rounded-lg border",
                         mode === "light"
                           ? "bg-gray-100 text-dark border-gray-200"
-                          : "bg-gray-800 text-light border-gray-700"
+                          : "bg-gray-100 text-dark border-gray-200"
                       )}
                       aria-label="theme-switcher"
                     >
