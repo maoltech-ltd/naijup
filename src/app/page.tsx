@@ -8,19 +8,19 @@
 // import { fetchPosts } from "../redux/slice/postSlice";
 // //import dynamic from 'next/dynamic';
 // export default function Home() {
-  
+
 //   // const HomeCoverSection = dynamic(() => import("../components/Home/HomeCoverSection"));
 //   // const FeaturedPost = dynamic(() => import("../components/Home/FeaturedPost"));
 //   // const RecentPost = dynamic(() => import("../components/Home/RecentPost"));
-  
+
 //   const dispatch = useAppDispatch();
-  
+
 //   useEffect(() => {
 //     dispatch(fetchPosts());
 //   }, []);
 
 //   const post = useSelector((state: any) => state.post
-//   ); 
+//   );
 //   const {posts, status, error} = post
 
 //   if (status === 'loading') {
@@ -31,7 +31,7 @@
 //     return <div>Error: {error}</div>;
 //   }
 //   if(status === 'succeeded'){
-  
+
 //   return (
 //     <main className="flex flex-col items-center justify-center">
 //       <HomeCoverSection blogs={posts.results[0]} />
@@ -56,7 +56,7 @@ import { Blog } from "./blog/[slug]/page";
 
 const Home: React.FC = () => {
   const dispatch = useAppDispatch();
-  
+
   const [isErrorOpen, setIsErrorOpen] = useState(false);
   // const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState<any | null>(null);
@@ -65,20 +65,20 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     dispatch(fetchPosts())
-    .unwrap()
-    .then((result: any) =>{
-      // setIsSuccessOpen(true);
-      setBlogs(result);
-    })
-    .catch((error: any)=>{
-      setIsErrorOpen(true);
-      setErrorMessage(error.message);
-    }).finally(()=>{
-      setLoading(false);
-    });
+      .unwrap()
+      .then((result: any) => {
+        // setIsSuccessOpen(true);
+        setBlogs(result);
+      })
+      .catch((error: any) => {
+        setIsErrorOpen(true);
+        setErrorMessage(error.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [dispatch]);
 
-  
   if (loading) {
     return <LoadingSpinner />;
   }
@@ -90,6 +90,7 @@ const Home: React.FC = () => {
   if (!blogs) {
     return <div>No blog found</div>;
   }
+  
   return (
     <main className="flex flex-col items-center justify-center">
       <>
@@ -97,11 +98,14 @@ const Home: React.FC = () => {
         <FeaturedPost blogs={blogs.results} />
         <RecentPost blogs={blogs.results} />
       </>
-      <ErrorModal isOpen={isErrorOpen} onClose={() => setIsErrorOpen(false)} message={errorMessage} />
+      <ErrorModal
+        isOpen={isErrorOpen}
+        onClose={() => setIsErrorOpen(false)}
+        message={errorMessage}
+      />
       {/* <SuccessModal isOpen={isSuccessOpen} onClose={() => setIsSuccessOpen(false)} message={successMessage} /> */}
     </main>
   );
 };
 
 export default Home;
-
