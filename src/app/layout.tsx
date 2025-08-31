@@ -8,20 +8,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { usePathname } from "next/navigation";
 import ReduxProvider from "../redux/ReduxProvider";
-//import dynamic from "next/dynamic";
-// const inter = Inter({
-//   subsets: ["latin"],
-//   display: "swap",
-//   variable: "--font-in"
-// });
 
-// const manrope = Manrope({
-//   subsets: ["latin"],
-//   display: "swap",
-//   variable: "--font-mr"
-// });
-
-// Inter local font (using .ttf)
 const inter = localFont({
   src: [
     {
@@ -55,8 +42,55 @@ export default function RootLayout({
   const excludePaths = ["/signin", "/signup"];
   const shouldShowHeaderFooter = !excludePaths.includes(pathname);
 
+  const jsonLdOrganization = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Naijup",
+    "url": "https://naijup.ng",
+    "logo": "https://naijup.ng/image/naijup-logo.png",
+    "sameAs": [
+      "https://twitter.com/naijup",
+      "https://facebook.com/naijup"
+    ]
+  };
+
+  const jsonLdBreadcrumb = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://naijup.ng"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog",
+        "item": "https://naijup.ng/blog"
+      }
+    ]
+  };
   return (
     <html lang="en">
+      <head>
+        {/* JSON-LD Organization */}
+        <Script
+          id="ld-org"
+          type="application/ld+json"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrganization) }}
+        />
+
+        {/* JSON-LD Breadcrumb */}
+        <Script
+          id="ld-breadcrumb"
+          type="application/ld+json"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
+        />
+      </head>
       <ReduxProvider>
         <body
           className={cs(

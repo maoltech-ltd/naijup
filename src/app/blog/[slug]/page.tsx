@@ -8,6 +8,7 @@ import { useAppDispatch } from "@/src/redux/hooks/dispatch";
 import { fetchPostByTitle } from "@/src/redux/slice/postSlice";
 import LoadingSpinner from "@/src/components/loading/loadingSpinner";
 import ShareButtons from "@/src/components/Elements/ShareButtons";
+import Script from "next/script";
 
 export interface Blog {
   title: string;
@@ -49,9 +50,40 @@ export default function BlogPage({ params }: { params: { slug: string } }) {
     return <div>No blog found</div>;
   }
 
+  const jsonLdArticle = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": blog.title,
+    "image": [blog.image_links],
+    "author": {
+      "@type": "Person",
+      "name": "MaolTech"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Naijup",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://naijup.ng/image/naijup-logo.png"
+      }
+    },
+    "datePublished": new Date().toISOString(), // replace with real publish date from backend if available
+    "dateModified": new Date().toISOString(),
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://naijup.ng/blog/${params.slug}`
+    },
+    "description": blog.content?.substring(0, 160) // meta description
+  };
+
   return (
     <>
-      <script />
+      <Script
+        id="ld-article"
+        type="application/ld+json"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdArticle) }}
+      />
       <article>
         <div className="mb-8 text-center relative w-full h-[70vh] bg-dark">
           <div className="w-full z-10 flex flex-col items-center justify-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
