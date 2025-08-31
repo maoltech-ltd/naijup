@@ -79,7 +79,7 @@ export default function BlogPage({ params }: { params: { slug: string } }) {
         <BlogDetails blog={blog} slug={blog.title} />
         <div className="px-5 md:px-10">
           <ShareButtons
-            url={`https://naijup.com/blog/${params.slug}`} 
+            url={`https://naijup.ng/blog/${params.slug}`} 
             title={blog.title}
           />
         </div>
