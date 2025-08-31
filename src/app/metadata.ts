@@ -1,6 +1,7 @@
 import siteMetadata from "../utils/sitemetadata";
 import type { Metadata } from "next";
-const metadata: Metadata = {
+
+export const metadata: Metadata = {
     metadataBase: new URL(siteMetadata.siteUrl),
     title: {
       template: `%s | ${siteMetadata.title}`,
@@ -50,4 +51,3 @@ const metadata: Metadata = {
     category: "Finance Blog",
   };
   
-  export default metadata;

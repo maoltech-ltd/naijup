@@ -1,6 +1,5 @@
 "use client";
 import localFont from "next/font/local";
-// import { Inter, Manrope } from "next/font/google";
 import "./globals.css";
 import { cs } from "../utils";
 import Script from "next/script";
