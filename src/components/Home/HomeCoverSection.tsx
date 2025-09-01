@@ -15,16 +15,17 @@ const HomeCoverSection: React.FC<Props> = (blog: any) => {
             bg-gradient-to-b from-transparent from-0% to-dark/90 rounded-3xl z-0
             "
         />
-
-        {/* <Image
-          src={blogs.image_links}
-          alt={blogs.title}
-          fill
-          priority
-          className="w-full h-full object-center object-cover rounded-3xl"
-          unoptimized
-        /> */}
-        <div className="relative w-full h-[60vh] sm:h-[85vh] rounded-3xl overflow-hidden">
+        {/* <div className="relative w-full h-[60vh] sm:h-[85vh] rounded-3xl overflow-hidden">
+          <Image
+            src={blogs.image_links}
+            alt={blogs.title}
+            fill
+            priority
+            className="object-cover object-center"
+            unoptimized
+          />
+        </div> */}
+        <div className="relative w-full aspect-[4/3] sm:aspect-[16/9] rounded-3xl overflow-hidden">
           <Image
             src={blogs.image_links}
             alt={blogs.title}

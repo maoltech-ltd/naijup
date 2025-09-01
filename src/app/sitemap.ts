@@ -51,7 +51,10 @@
 //   return [...staticRoutes, ...blogRoutes, ...categoryRoutes];
 // }
 // app/sitemap.ts
+
 import { MetadataRoute } from "next";
+
+export const revalidate = 60;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://naijup.ng";
@@ -61,15 +64,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   try {
     const blogRes = await fetch(`${baseUrl}/api/blogs`, {
-      cache: "no-store", // 👈 don’t cache at build time
-      next: { revalidate: 60 }, // 👈 regenerate every 60s
+      cache: "no-store"
     });
-
+    
     const categoryRes = await fetch(`${baseUrl}/api/categories`, {
-      cache: "no-store",
-      next: { revalidate: 60 },
+      cache: "no-store"
     });
-
+    console.log({blogRes, categoryRes});
     if (blogRes.ok) blogs = (await blogRes.json()).results || [];
     if (categoryRes.ok) categories = (await categoryRes.json()).results || [];
   } catch (err) {
