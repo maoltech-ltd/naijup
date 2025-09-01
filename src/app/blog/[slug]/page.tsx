@@ -73,7 +73,7 @@ export default function BlogPage({ params }: { params: { slug: string } }) {
       "@type": "WebPage",
       "@id": `https://naijup.ng/blog/${params.slug}`
     },
-    "description": blog.content?.substring(0, 160) // meta description
+    "description": blog.title?.substring(0, 160) // meta description
   };
 
   return (

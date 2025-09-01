@@ -82,6 +82,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/contact`, lastModified: new Date() },
     { url: `${baseUrl}/signin`, lastModified: new Date() },
     { url: `${baseUrl}/signup`, lastModified: new Date() },
+    { url: `${baseUrl}/not-found`, lastModified: new Date() },
+    { url: `${baseUrl}/edituserprofile`, lastModified: new Date() },
+    { url: `${baseUrl}/createpost`, lastModified: new Date() },
   ];
 
   const blogRoutes: MetadataRoute.Sitemap = blogs.map((blog) => ({
