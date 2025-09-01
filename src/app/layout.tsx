@@ -172,6 +172,9 @@ export const metadata: Metadata = {
     template: `%s | ${siteMetadata.title}`,
     default: siteMetadata.title,
   },
+  icons: {
+    icon: "/favicon.ico",   // Path to your custom logo
+  },
   description: siteMetadata.description,
   openGraph: {
     title: siteMetadata.title,
