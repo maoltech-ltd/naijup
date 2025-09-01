@@ -64,7 +64,7 @@ export default function BlogPage({ params }: { params: { slug: string } }) {
       "name": "Naijup",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://naijup.ng/image/naijup-logo.png"
+        "url": "https://res.cloudinary.com/drfvlkzpy/image/upload/v1756673161/naijup_vqwjcx.png"
       }
     },
     "datePublished": new Date().toISOString(), // replace with real publish date from backend if available

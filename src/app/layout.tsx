@@ -153,7 +153,7 @@ const jsonLdOrganization = {
   "@type": "Organization",
   name: "Naijup",
   url: "https://naijup.ng",
-  logo: "https://naijup.ng/image/naijup-logo.png",
+  logo: "https://res.cloudinary.com/drfvlkzpy/image/upload/v1756673161/naijup_vqwjcx.png",
   sameAs: ["https://twitter.com/naijup", "https://facebook.com/naijup"],
 };
 
