@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import Category from "../Elements/Category";
 import { Props } from "@/src/utils/props";
-import { Blog } from "@/src/app/blog/[slug]/page";
 
 const HomeCoverSection: React.FC<Props> = (blog: any) => {
   const { blogs } = blog;
@@ -25,7 +24,7 @@ const HomeCoverSection: React.FC<Props> = (blog: any) => {
             unoptimized
           />
         </div> */}
-        <div className="relative w-full aspect-[4/3] sm:aspect-[16/9] rounded-3xl overflow-hidden">
+        <div className="relative w-full h-full rounded-3xl overflow-hidden">
           <Image
             src={blogs.image_links}
             alt={blogs.title}

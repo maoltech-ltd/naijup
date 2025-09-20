@@ -173,7 +173,7 @@ export const metadata: Metadata = {
     default: siteMetadata.title,
   },
   icons: {
-    icon: "/favicon.ico",   // Path to your custom logo
+    icon: "/favicon.ico",  
   },
   description: siteMetadata.description,
   openGraph: {
