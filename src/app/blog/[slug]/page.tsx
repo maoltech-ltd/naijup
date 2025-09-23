@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense, lazy  } from "react";
 import Category from "@/src/components/Elements/Category";
 import BlogDetails from "@/src/components/Blog/BlogDetails";
 import BlogContent from "@/src/components/Blog/BlogContent";
@@ -10,11 +10,14 @@ import LoadingSpinner from "@/src/components/loading/loadingSpinner";
 import ShareButtons from "@/src/components/Elements/ShareButtons";
 import Script from "next/script";
 
+const AuthorSection = lazy(() => import("@/src/components/User/AuthorSection"));
+
 export interface Blog {
   title: string;
   category: string;
   content: any;
   image_links: string;
+  author: string;
 }
 export default function BlogPage({ params }: { params: { slug: string } }) {
   const dispatch = useAppDispatch();
@@ -125,6 +128,11 @@ export default function BlogPage({ params }: { params: { slug: string } }) {
           </div>
           <div className="col-span-12 lg:col-span-9">
             <BlogContent content={blog.content} />
+          </div>
+          <div className="px-5 md:px-10 mt-10">
+            <Suspense fallback={<div>Loading author...</div>}>
+              <AuthorSection authorId={blog.author} />
+            </Suspense>
           </div>
           {/* <RenderMdx blog={blog} /> */}
         </div>

@@ -5,7 +5,11 @@ interface SecondUserState {
     userId: string;
     userName: string;
     userEmail: string;
-    status: string;
+    firstName?: string;
+    lastName?: string;
+    profilePicture?: string;
+    bio?: string;
+    status: 'idle' | 'pending' | 'fulfilled' | 'rejected';
 }
 
 
@@ -13,7 +17,11 @@ const  secondUserInitialState: SecondUserState = {
     userId: "",
     userName: "", 
     userEmail: "",
-    status: ""
+    firstName: "",
+    lastName: "",
+    profilePicture: "",
+    bio: "",
+    status: "idle"
 };
 
 
@@ -25,6 +33,11 @@ export const getUserDetails = createAsyncThunk('user/updateUserProfile', async (
     return response.data;
 });
 
+export const getUserById = createAsyncThunk('user/updateUserProfile', async (userId: string ) => {
+    const response = await api.get(`v1/user/id/${userId}`);
+    return response.data;
+});
+
 const secondUserSlice = createSlice({
     name: "secondUser",
     initialState: secondUserInitialState,
@@ -33,15 +46,23 @@ const secondUserSlice = createSlice({
             state.userId = "";
             state.userName = "";
             state.userEmail = "";
-            state.status = "";
+            state.firstName = "";
+            state.lastName = "";
+            state.profilePicture = "";
+            state.bio = "";
+            state.status = "idle";
         }
     },
     extraReducers: (builder) => {
         builder
             .addCase(getUserDetails.fulfilled, (state, action) => {
-                state.userId = action.payload.userId;
-                state.userName = action.payload.userName;
-                state.userEmail = action.payload.userEmail;
+                state.userId = action.payload.id;
+                state.userName = action.payload.username;
+                state.userEmail = action.payload.email;
+                state.firstName = action.payload.first_name;
+                state.lastName = action.payload.last_name;
+                state.profilePicture = action.payload.profile_picture;
+                state.bio = action.payload.bio;
                 state.status = "fulfilled";
             })
             .addCase(getUserDetails.pending, (state) => {
