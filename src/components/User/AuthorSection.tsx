@@ -48,9 +48,17 @@ const AuthorSection = ({ authorId }: AuthorSectionProps) => {
         />
         <div>
           <h3 className="text-lg font-semibold">{user.userName}</h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            {user.bio || "No bio available"}
-          </p>
+          {Array.isArray(user.bio) && user.bio.length > 0 ? (
+            <div className="mt-2 space-y-2 text-sm text-gray-600 dark:text-gray-400">
+              {user.bio.map((paragraph: string, index: number) => (
+                <p key={index}>{paragraph}</p>
+              ))}
+            </div>
+          ) : (
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              No bio available
+            </p>
+          )}
         </div>
       </div>
     </section>
