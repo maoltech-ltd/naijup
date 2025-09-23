@@ -10,8 +10,7 @@ interface AuthorSectionProps {
 
 const AuthorSection = ({ authorId }: AuthorSectionProps) => {
   const dispatch = useAppDispatch();
-    const { userId, userName, profilePicture, bio, status } = useSelector((state: any) => state.secondUser);
-    console.log("AuthorSection user:", { userId, userName, profilePicture, bio, status });
+    const { userId, userName, profilePicture, bio, status, firstName, lastName } = useSelector((state: any) => state.secondUser);
   useEffect(() => {
     if (authorId) {
       dispatch(getUserById(authorId));
