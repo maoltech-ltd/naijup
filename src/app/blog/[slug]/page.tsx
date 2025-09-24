@@ -129,12 +129,12 @@ export default function BlogPage({ params }: { params: { slug: string } }) {
           <div className="col-span-12 lg:col-span-9">
             <BlogContent content={blog.content} />
           </div>
-          <div className="px-5 md:px-10 mt-10">
+          {/* <RenderMdx blog={blog} /> */}
+        </div>
+        <div className="px-5 md:px-10 mt-10">
             <Suspense fallback={<div>Loading author...</div>}>
               <AuthorSection authorId={blog.author} />
             </Suspense>
-          </div>
-          {/* <RenderMdx blog={blog} /> */}
         </div>
       </article>
     </>
