@@ -96,13 +96,13 @@ const Header = () => {
         </nav>
 
         <div className="hidden sm:flex items-center">
-          <a href="http://twitter.com/naijup" className="inline-block w-6 h-6 mr-4"><TwitterIcon 
+          <a href="https://twitter.com/naijup" className="inline-block w-6 h-6 mr-4"><TwitterIcon 
           className="hover:scale-125 transition-all ease duration-200" /></a>
-          <a href="http://linkedin.com/in/naijup" className="inline-block w-6 h-6 mr-4"><LinkedinIcon 
+          <a href="https://linkedin.com/in/naijup" className="inline-block w-6 h-6 mr-4"><LinkedinIcon 
           className="hover:scale-125 transition-all ease duration-200" /></a>
-          <a href="http://facebook.com/naijup" className="inline-block w-6 h-6 mr-4"><FacebookIcon 
+          <a href="https://facebook.com/naijup" className="inline-block w-6 h-6 mr-4"><FacebookIcon 
           className="hover:scale-125 transition-all ease duration-200" /></a>
-          <a href="http://dribbble.com/naijup" className="inline-block w-6 h-6 mr-4"><DribbbleIcon 
+          <a href="https://dribbble.com/naijup" className="inline-block w-6 h-6 mr-4"><DribbbleIcon 
           className="hover:scale-125 transition-all ease duration-200" /></a>
         </div>
       </header>

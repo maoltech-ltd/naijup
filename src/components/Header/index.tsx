@@ -325,25 +325,25 @@ const Header = () => {
                   {/* Social Links in Mobile Menu */}
                   <div className="flex justify-center space-x-1 pt-4 border-t border-gray-200 dark:border-gray-700">
                     <a
-                      href="http://twitter.com/naijup"
+                      href="https://twitter.com/naijup"
                       className="p-2 hover:scale-125 transition-transform"
                     >
                       <TwitterIcon className="w-6 h-6" />
                     </a>
                     <a
-                      href="http://linkedin.com/in/naijup"
+                      href="https://linkedin.com/in/naijup"
                       className="p-2 hover:scale-125 transition-transform"
                     >
                       <LinkedinIcon className="w-6 h-6" />
                     </a>
                     <a
-                      href="http://facebook.com/naijup"
+                      href="https://facebook.com/naijup"
                       className="p-2 hover:scale-125 transition-transform"
                     >
                       <FacebookIcon className="w-6 h-6" />
                     </a>
                     <a
-                      href="http://dribbble.com/naijup"
+                      href="https://dribbble.com/naijup"
                       className="p-2 hover:scale-125 transition-transform"
                     >
                       <DribbbleIcon className="w-6 h-6" />
@@ -358,26 +358,30 @@ const Header = () => {
         {/* Desktop Social Links */}
         <div className="hidden sm:flex items-center">
           <a
-            href="http://twitter.com/naijup"
+            href="https://twitter.com/naijup"
             className="inline-block w-6 h-6 mr-4 hover:scale-125 transition-transform"
+            aria-label="Follow us on Twitter"
           >
             <TwitterIcon />
           </a>
           <a
-            href="http://linkedin.com/in/naijup"
+            href="https://linkedin.com/in/naijup"
             className="inline-block w-6 h-6 mr-4 hover:scale-125 transition-transform"
+            aria-label="Connect with us on LinkedIn"
           >
             <LinkedinIcon />
           </a>
           <a
-            href="http://facebook.com/naijup"
+            href="https://facebook.com/naijup"
             className="inline-block w-6 h-6 mr-4 hover:scale-125 transition-transform"
+            aria-label="Like us on Facebook"
           >
             <FacebookIcon />
           </a>
           <a
-            href="http://dribbble.com/naijup"
+            href="https://dribbble.com/naijup"
             className="inline-block w-6 h-6 mr-4 hover:scale-125 transition-transform"
+            aria-label="Follow us on Dribbble"
           >
             <DribbbleIcon />
           </a>
