@@ -205,7 +205,7 @@ const Editor = ({ post, user }: { post: any | null; user: any }) => {
         </Button>
 
         <div className="flex items-center gap-4">
-          <Button
+        {/* <Button
             variant="light"
             color="primary"
             radius="sm"
@@ -220,7 +220,7 @@ const Editor = ({ post, user }: { post: any | null; user: any }) => {
                 ? "Saving..."
                 : "Save Draft"}
             </div>
-          </Button>
+          </Button> */}
           <Button
             color="primary"
             radius="sm"
