@@ -12,8 +12,10 @@ import { createPost, updatePost } from "@/src/redux/slice/postsSlice";
 import { useSelector } from "react-redux";
 import { createImage } from "@/src/redux/slice/ImageSlice";
 import { categories } from "@/src/utils/props";
+import { UserState } from "@/src/redux/slice/userSlice";
+import { Post } from "@/src/redux/slice/postSlice";
 
-const Editor = ({ post, user }: { post: any | null; user: any }) => {
+const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
@@ -25,7 +27,7 @@ const Editor = ({ post, user }: { post: any | null; user: any }) => {
     setValue,
     watch,
     formState: { isSubmitting, errors },
-  } = useForm<any>({ defaultValues: { title: post?.title } });
+  } = useForm<any>({ defaultValues: { title: post?.title, category: post?.category } });
 
   const postType = watch("postType");
   const [imageFile, setImageFile] = useState<any>(null);
@@ -39,15 +41,48 @@ const Editor = ({ post, user }: { post: any | null; user: any }) => {
   );
 
   useEffect(() => {
+    if (post) {
+      reset({
+        title: post.title,
+        category: post.category
+      });
+      setTags(post.tags || []);
+    }
+  }, [post, reset]);
+
+  useEffect(() => {
     if (errors.title) {
       console.log("Title can't be empty!");
     }
   }, [errors.title]);
 
+  function getPostDiff(original: Post, updated: any) {
+    const changes: Record<string, { old: any; new: any }> = {};
+
+    for (const key of [
+      "title",
+      "category",
+      "tags",
+      "content",
+      "image_links",
+    ]) {
+      const oldVal = JSON.stringify((original as any)[key]);
+      const newVal = JSON.stringify(updated[key]);
+
+      if (oldVal !== newVal) {
+        changes[key] = {
+          old: (original as any)[key],
+          new: updated[key],
+        };
+      }
+    }
+    return changes;
+  }
+
   const onSubmitHandler: SubmitHandler<any> = async (data) => {
     try {
       const blocks = await ref.current?.save();
-      let imageUrl = post?.image;
+      let imageUrl = post?.image_links;
 
       if (imageFile) {
         const uploadedImageUrl = await dispatch(
@@ -66,7 +101,9 @@ const Editor = ({ post, user }: { post: any | null; user: any }) => {
         tags: tags,
       };
 
-      if (post != null) {
+      if (post) {
+        const changes = getPostDiff(post, postData);
+        console.log("Changes detected:", changes);
         await dispatch(updatePost({ ...postData, id: post.id }));
       } else {
         await dispatch(createPost({ post: postData, token: user.token }));
@@ -240,6 +277,32 @@ const Editor = ({ post, user }: { post: any | null; user: any }) => {
 
       <div className="max-md:px-4 h-full overflow-y-auto">
         <div className="max-w-[650px] m-auto">
+          {/* 🔥 NEW: diff preview for edit mode */}
+          {post && (
+            <div className="my-4 p-4 border rounded-md bg-gray-50 dark:bg-gray-800">
+              <h4 className="font-bold mb-2 text-lg">Changes Preview</h4>
+              {Object.entries(
+                getPostDiff(post, {
+                  title: watch("title"),
+                  category: watch("category"),
+                  postType: watch("postType"),
+                  tags,
+                  content: post.content, // you can also live-diff with editor.save()
+                  image_links: imageFile || post.image_links,
+                })
+              ).map(([key, diff]) => (
+                <div key={key} className="mb-2">
+                  <strong>{key}:</strong>
+                  <div className="text-red-500 line-through">
+                    {String((diff as any).old)}
+                  </div>
+                  <div className="text-green-500">
+                    {String((diff as any).new)}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
           {/* Image Upload Section */}
           <div className="flex flex-col gap-4 items-center mb-4">
             {!imageFile && (

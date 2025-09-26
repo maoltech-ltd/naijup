@@ -9,6 +9,8 @@ export interface Post {
     author: string;
     createdAt: string;
     updatedAt: string;
+    image_links: string;
+    tags?: string[];
 }
 
 interface PostState {
