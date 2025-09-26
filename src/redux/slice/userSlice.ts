@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { headers } from "next/headers";
 
 
-interface UserState {
+export interface UserState {
     userId: string;
     userName: string;
     firstName: string;
