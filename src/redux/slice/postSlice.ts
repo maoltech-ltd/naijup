@@ -1,5 +1,5 @@
 import api from "@/src/api";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface Post {
     id: string;
@@ -33,7 +33,11 @@ export const fetchPostByTitle = createAsyncThunk('posts/fetchPostByTitle', async
 const postSlice = createSlice({
     name: "post",
     initialState,
-    reducers: {},
+    reducers: {
+        setPost: (state, action: PayloadAction<Post>) => {
+          state.post = action.payload;
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(fetchPostByTitle.rejected, (state: any, action) => {
@@ -50,4 +54,5 @@ const postSlice = createSlice({
     },
 });
 
+export const { setPost } = postSlice.actions;
 export default postSlice.reducer;

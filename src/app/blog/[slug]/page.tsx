@@ -14,11 +14,15 @@ import EditPostButton from "@/src/components/Post/EditPostButton";
 const AuthorSection = lazy(() => import("@/src/components/User/AuthorSection"));
 
 export interface Blog {
+  id: string;
   title: string;
   category: string;
   content: any;
   image_links: string;
   author: string;
+  publication_date: string;
+  updatedAt?: string;
+  tags: string[];
 }
 export default function BlogPage({ params }: { params: { slug: string } }) {
   const dispatch = useAppDispatch();
@@ -133,7 +137,7 @@ export default function BlogPage({ params }: { params: { slug: string } }) {
           {/* <RenderMdx blog={blog} /> */}
         </div>
         {/* Edit button is client-only, doesn’t delay render */}
-        <EditPostButton slug={params.slug} authorId={blog.author} />
+        <EditPostButton slug={params.slug} blog={blog} />
         <div className="px-5 md:px-10 mt-10">
             <Suspense fallback={<div>Loading author...</div>}>
               <AuthorSection authorId={blog.author} />
