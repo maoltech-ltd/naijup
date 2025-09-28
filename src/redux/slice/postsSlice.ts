@@ -35,11 +35,19 @@ export const createPost = createAsyncThunk('posts/createPost', async (payload: {
     return response.data;
 });
 
-// Thunk to update an existing post
-export const updatePost = createAsyncThunk('posts/updatePost', async (updatedPost: { id: string; content: any }) => {
-    const response = await api.put(`/api/post/${updatedPost.id}`, updatedPost);
-    return response.data;
-});
+
+export const updatePost = createAsyncThunk(
+    "posts/updatePost",
+    async (payload: { id: string; changes: any; token: string }) => {
+      const headers = {
+        Authorization: "Bearer " + payload.token,
+      };
+      const response = await api.patch(`v1/blog/${payload.id}/`, payload.changes, {
+        headers,
+      });
+      return response.data;
+    }
+  );
 
 // Thunk to delete a post
 export const deletePost = createAsyncThunk('posts/deletePost', async (postId: string) => {
@@ -62,7 +70,7 @@ const postsSlice = createSlice({
             })
             .addCase(fetchPosts.rejected, (state: any, action) => {
                 state.status = "failed";
-                state.error = action.error.message || "Failed to fetch posts.";
+                state.error = action.error.message || action.error.message || "Failed to fetch posts.";
             })
             // Create post
             .addCase(createPost.fulfilled, (state: any, action) => {
@@ -74,7 +82,7 @@ const postsSlice = createSlice({
             })
             .addCase(createPost.rejected, (state: any, action) => {
                 state.status = "failed";
-                state.error = action.error.message || "Failed to create post.";
+                state.error = action.error.message || action.error.message || "Failed to create post.";
             })
             // Update post
             .addCase(updatePost.fulfilled, (state: any, action) => {
@@ -86,7 +94,7 @@ const postsSlice = createSlice({
             })
             .addCase(updatePost.rejected, (state: any, action) => {
                 state.status = "failed";
-                state.error = action.error.message || "Failed to update post.";
+                state.error = action.error.message || action.error.message || "Failed to update post.";
             })
             // Delete post
             .addCase(deletePost.fulfilled, (state: any, action) => {
@@ -98,11 +106,11 @@ const postsSlice = createSlice({
             })
             .addCase(deletePost.rejected, (state: any, action) => {
                 state.status = "failed";
-                state.error = action.error.message || "Failed to delete post.";
+                state.error = action.error.message || action.error.message || "Failed to delete post.";
             })
             .addCase(fetchPost.rejected, (state: any, action) => {
                 state.status = "failed";
-                state.error = action.error.message || "Failed to fetch post.";
+                state.error = action.error.message || action.error.message || "Failed to fetch post.";
             })
             .addCase(fetchPost.pending, (state: any) => {
                 state.status = "loading";

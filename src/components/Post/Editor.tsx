@@ -14,6 +14,8 @@ import { createImage } from "@/src/redux/slice/ImageSlice";
 import { categories } from "@/src/utils/props";
 import { UserState } from "@/src/redux/slice/userSlice";
 import { Post } from "@/src/redux/slice/postSlice";
+import ErrorModal from "../Modal/ErrorModal";
+import SuccessModal from "../Modal/SuccessModal";
 
 const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
   const router = useRouter();
@@ -34,6 +36,10 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
   const [isMounted, setIsMounted] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState("");
+  const [errorModalOpen, setErrorModalOpen] = useState(false);
+  const [successModalOpen, setSuccessModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const ref = useRef<EditorJS | undefined>(undefined);
 
   const { status: imageStatus, image: uploadedImage } = useSelector(
@@ -102,17 +108,21 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
       };
 
       if (post) {
-        const changes = getPostDiff(post, postData);
-        console.log("Changes detected:", changes);
-        await dispatch(updatePost({ ...postData, id: post.id }));
+        await dispatch(updatePost({ id: post.id, changes: postData, token: user.token }));
+        setSuccessMessage("Post updated successfully ✅");
+        setSuccessModalOpen(true);
       } else {
         await dispatch(createPost({ post: postData, token: user.token }));
+        setSuccessMessage("Post created successfully 🎉");
+        setSuccessModalOpen(true);
       }
 
       reset();
       router.push(`/blog/${data.title}`);
     } catch (error: any) {
       console.log(error);
+      setErrorMessage(error?.message || "Something went wrong ❌");
+      setErrorModalOpen(true);
     }
   };
 
@@ -155,7 +165,7 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
         holder: "editor",
         placeholder: "Write your post content here...",
         inlineToolbar: true,
-        data: post?.content,
+        data: post ? { blocks: post.content } : { blocks: [] },
         tools: {
           header: {
             class: Header,
@@ -190,8 +200,10 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
                         url: uploadedImageUrl.url,
                       },
                     };
-                  } catch (error) {
+                  } catch (error: any) {
                     console.log("Image upload error:", error);
+                    setErrorMessage(error.message || error.error || "Image upload failed ❌");
+                    setErrorModalOpen(true);
                     return {
                       success: 0,
                       file: {
@@ -437,6 +449,8 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
           </div>
         </div>
       </div>
+      <ErrorModal isOpen={errorModalOpen} onClose={() => setErrorModalOpen(false)} message={errorMessage} />
+      <SuccessModal isOpen={successModalOpen} onClose={() => setSuccessModalOpen(false)} message={successMessage} />
     </form>
   );
 };
