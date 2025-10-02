@@ -84,7 +84,9 @@ const Header = () => {
           </h1>
         </Link>
       </div>
+      <div>
       <FxSlider />
+      </div>
       <header className="w-full p-4 px-5 sm:px-10 flex items-center justify-between relative">
         <Logo user={user} />
 
