@@ -79,3 +79,22 @@ code {
     font-size: 1rem;
     color: #747474;
   }
+
+  @layer utilities {
+    @keyframes marquee {
+      0%   { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
+    }
+  
+    .animate-marquee {
+      display: inline-flex;
+      min-width: 200%;
+      animation: marquee 25s linear infinite;
+      animation-play-state: running;
+    }
+  
+    .animate-marquee-paused {
+      animation-play-state: paused;
+    }
+  }
+  
