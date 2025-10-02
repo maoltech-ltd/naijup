@@ -8,7 +8,6 @@ const Category: React.FC<CategoryProp> = ({
   active,
   ...props
 }) => {
-  console.log({ link, name, active, props });
   return (
     <Link
       href={link}

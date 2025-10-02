@@ -10,6 +10,7 @@ import LoadingSpinner from "@/src/components/loading/loadingSpinner";
 import ShareButtons from "@/src/components/Elements/ShareButtons";
 import Script from "next/script";
 import EditPostButton from "@/src/components/Post/EditPostButton";
+import CommentSection from "@/src/components/Blog/CommentSection";
 
 const AuthorSection = lazy(() => import("@/src/components/User/AuthorSection"));
 
@@ -136,6 +137,7 @@ export default function BlogPage({ params }: { params: { slug: string } }) {
           </div>
           {/* <RenderMdx blog={blog} /> */}
         </div>
+        <CommentSection postId={Number(blog.id)} />
         {/* Edit button is client-only, doesn’t delay render */}
         <EditPostButton slug={params.slug} blog={blog} />
         <div className="px-5 md:px-10 mt-10">

@@ -7,7 +7,7 @@ const BlogLayoutTwo: React.FC<BlogProp> = (blog: any) => {
   return (
     <div className="group grid grid-cols-12 gap-4 items-center text-dark dark:text-light">
       <Link
-        href={`http://localhost:300/blog/${blog.blog.title}`}
+        href={`/blog/${blog.blog.title}`}
         className=" col-span-12  lg:col-span-4 h-full rounded-xl overflow-hidden"
       >
         <Image
