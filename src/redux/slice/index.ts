@@ -5,6 +5,7 @@ import userReducer from "./userSlice";
 import imageReducer from "./ImageSlice";
 import secondUserReducer from "./secondUserSlice";
 import postReducer from "./postSlice";
+import marketReducer from "./marketSlice";
 
 export {
     commentReducer,
@@ -13,5 +14,6 @@ export {
     userReducer,
     imageReducer,
     secondUserReducer,
-    postReducer
+    postReducer,
+    marketReducer
 }

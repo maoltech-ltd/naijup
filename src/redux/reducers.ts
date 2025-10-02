@@ -1,5 +1,5 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { categoryReducer, commentReducer, imageReducer, postsReducer, secondUserReducer, userReducer, postReducer } from "./slice";
+import { categoryReducer, commentReducer, imageReducer, postsReducer, secondUserReducer, userReducer, postReducer, marketReducer } from "./slice";
 
 
 const rootReducer = combineReducers({
@@ -9,7 +9,8 @@ const rootReducer = combineReducers({
     category: categoryReducer,
     image: imageReducer,
     secondUser: secondUserReducer,
-    post: postReducer
+    post: postReducer,
+    market: marketReducer
 })
 
 export default rootReducer

@@ -15,6 +15,7 @@ import { useThemeSwitch } from "../Hooks/useThemeSwitch";
 import { cs } from "@/src/utils";
 import { useSelector } from "react-redux";
 import { categories } from "@/src/utils/props";
+import FxSlider from "../markets/FxSlider";
 
 const Header = () => {
   const user = useSelector((state: any) => state.user);
@@ -83,7 +84,7 @@ const Header = () => {
           </h1>
         </Link>
       </div>
-
+      <FxSlider />
       <header className="w-full p-4 px-5 sm:px-10 flex items-center justify-between relative">
         <Logo user={user} />
 
