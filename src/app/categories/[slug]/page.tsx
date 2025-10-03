@@ -68,7 +68,7 @@ const CategoryPage: React.FC<{ params: { slug: string } }> = ({ params }) => {
           ))}
         </div>
 
-        <ErrorModal isOpen={isErrorOpen} onClose={() => setIsErrorOpen(false)} message={errorMessage} />
+        
         {/* <SuccessModal isOpen={isSuccessOpen} onClose={() => setIsSuccessOpen(false)} message={successMessage} /> */}
       </main>
     );
