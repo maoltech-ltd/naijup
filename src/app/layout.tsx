@@ -223,6 +223,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           strategy="afterInteractive"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
         />
+
+
+        <Script async src="https://www.googletagmanager.com/gtag/js?id=AW-933643807" strategy="afterInteractive"></Script>
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'AW-933643807');
+          `}
+        </Script>
       </head>
       <body
         className={`${inter.variable} ${manrope.variable} font-mr bg-light dark:bg-dark`}
