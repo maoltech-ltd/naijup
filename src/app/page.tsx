@@ -49,7 +49,7 @@ const Home: React.FC = () => {
   return (
     <main className="flex flex-col items-center justify-center">
       <>
-        <HomeCoverSection blogs={blogs.results[0]} />
+        <HomeCoverSection blogs={blogs.results} />
         <FeaturedPost blogs={blogs.results} />
         <RecentPost blogs={blogs.results} />
       </>

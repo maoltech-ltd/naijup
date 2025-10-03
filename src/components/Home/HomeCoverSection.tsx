@@ -6,35 +6,25 @@
 
 // const HomeCoverSection: React.FC<Props> = (blog: any) => {
 //   const { blogs } = blog;
+
 //   return (
 //     <div className="w-full inline-block">
-//       <article className="flex flex-col items-start justify-end mx-5 sm:mx-10 relative h-[60vh] sm:h-[85vh]">
-//         <div
-//           className="absolute top-0 left-0 bottom-0 right-0 h-full
-//             bg-gradient-to-b from-transparent from-0% to-dark/90 rounded-3xl z-0
-//             "
+//       <article className="relative flex flex-col items-start justify-end mx-5 sm:mx-10 h-[60vh] sm:h-[85vh] rounded-3xl overflow-hidden">
+//         {/* Background Image */}
+//         <Image
+//           src={blogs.image_links}
+//           alt={blogs.title}
+//           fill
+//           priority
+//           className="object-cover object-center absolute inset-0 z-0"
+//           unoptimized
 //         />
-//         {/* <div className="relative w-full h-[60vh] sm:h-[85vh] rounded-3xl overflow-hidden">
-//           <Image
-//             src={blogs.image_links}
-//             alt={blogs.title}
-//             fill
-//             priority
-//             className="object-cover object-center"
-//             unoptimized
-//           />
-//         </div> */}
-//         <div className="relative w-full h-full rounded-3xl overflow-hidden">
-//           <Image
-//             src={blogs.image_links}
-//             alt={blogs.title}
-//             fill
-//             priority
-//             className="object-cover object-center"
-//             unoptimized
-//           />
-//         </div>
-//         <div className="w-3/4 p-16 sm:p-8 md:p-12 flex flex-col items-start justify-center z-0 text-light">
+
+//         {/* Gradient Overlay */}
+//         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-dark/90 z-10" />
+
+//         {/* Content */}
+//         <div className="relative w-3/4 p-6 sm:p-8 md:p-12 flex flex-col items-start justify-center z-20 text-light">
 //           <Category
 //             link={`/categories/${blogs.category}`}
 //             name={blogs.category}
@@ -44,15 +34,12 @@
 //               <span
 //                 className="bg-gradient-to-r from-accent to-accent dark:from-accentDark/50 
 //                 dark:to-accentDark/50 bg-[length:0px_6px]
-//                 hover:bg-[length:100%_6px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500 "
+//                 hover:bg-[length:100%_6px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500"
 //               >
 //                 {blogs.title}
 //               </span>
 //             </h1>
 //           </Link>
-//           {/* <p className='hidden  sm:inline-block mt-4 md:text-lg lg:text-xl font-in'>
-//             {blog.blogs.description}
-//           </p> */}
 //         </div>
 //       </article>
 //     </div>
@@ -61,49 +48,72 @@
 
 // export default HomeCoverSection;
 "use client";
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Category from "../Elements/Category";
-import { Props } from "@/src/utils/props";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
 
-const HomeCoverSection: React.FC<Props> = (blog: any) => {
-  const { blogs } = blog;
+type Props = {
+  blogs: any[];
+};
+
+const HomeCoverSection: React.FC<Props> = ({ blogs }) => {
+  if (!blogs || blogs.length === 0) {
+    return null;
+  }
 
   return (
     <div className="w-full inline-block">
-      <article className="relative flex flex-col items-start justify-end mx-5 sm:mx-10 h-[60vh] sm:h-[85vh] rounded-3xl overflow-hidden">
-        {/* Background Image */}
-        <Image
-          src={blogs.image_links}
-          alt={blogs.title}
-          fill
-          priority
-          className="object-cover object-center absolute inset-0 z-0"
-          unoptimized
-        />
+      <Swiper
+        modules={[Navigation, Autoplay]}
+        navigation
+        autoplay={{ delay: 5000, disableOnInteraction: false }}
+        loop
+        slidesPerView={1}
+        className="rounded-3xl overflow-hidden"
+      >
+        {blogs.slice(0, 4).map((blog, index) => (
+          <SwiperSlide key={index}>
+            <article className="relative flex flex-col items-start justify-end mx-5 sm:mx-10 h-[60vh] sm:h-[85vh] rounded-3xl overflow-hidden">
+              {/* Background Image */}
+              <Image
+                src={blog.image_links}
+                alt={blog.title}
+                fill
+                priority
+                className="object-cover object-center absolute inset-0 z-0"
+                unoptimized
+              />
 
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-dark/90 z-10" />
+              {/* Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-dark/90 z-10" />
 
-        {/* Content */}
-        <div className="relative w-3/4 p-6 sm:p-8 md:p-12 flex flex-col items-start justify-center z-20 text-light">
-          <Category
-            link={`/categories/${blogs.category}`}
-            name={blogs.category}
-          />
-          <Link href={`/blog/${blogs.title}`} className="mt-6">
-            <h1 className="font-bold capitalize text-light text-4xl sm:text-xl md:text-3xl lg:text-4xl">
-              <span
-                className="bg-gradient-to-r from-accent to-accent dark:from-accentDark/50 
-                dark:to-accentDark/50 bg-[length:0px_6px]
-                hover:bg-[length:100%_6px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500"
-              >
-                {blogs.title}
-              </span>
-            </h1>
-          </Link>
-        </div>
-      </article>
+              {/* Content */}
+              <div className="relative w-3/4 p-6 sm:p-8 md:p-12 flex flex-col items-start justify-center z-20 text-light">
+                <Category
+                  link={`/categories/${blog.category}`}
+                  name={blog.category}
+                />
+                <Link href={`/blog/${blog.title}`} className="mt-6">
+                  <h1 className="font-bold capitalize text-light text-4xl sm:text-xl md:text-3xl lg:text-4xl">
+                    <span
+                      className="bg-gradient-to-r from-accent to-accent dark:from-accentDark/50 
+                      dark:to-accentDark/50 bg-[length:0px_6px]
+                      hover:bg-[length:100%_6px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500"
+                    >
+                      {blog.title}
+                    </span>
+                  </h1>
+                </Link>
+              </div>
+            </article>
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </div>
   );
 };
