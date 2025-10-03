@@ -14,6 +14,20 @@ const BlogContent = ({ content }: any) => {
           );
         }
 
+        // Handle headers
+        if (item.type === "header") {
+          const Tag = `h${item.data.level}` as keyof JSX.IntrinsicElements;
+          return (
+            <Tag
+              key={index}
+              className={`mt-6 mb-3 font-bold ${
+                item.data.level === 2 ? "text-2xl" : item.data.level === 3 ? "text-xl" : "text-lg"
+              }`}
+              dangerouslySetInnerHTML={{ __html: item.data.text }}
+            />
+          );
+        }
+
         // Handle images
         // Handle images
         if (item.type === "image") {
