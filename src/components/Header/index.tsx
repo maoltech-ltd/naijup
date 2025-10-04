@@ -132,7 +132,7 @@ const Header = () => {
 
         {/* Desktop Navigation */}
         <nav className="hidden sm:flex w-max py-3 px-8 border border-solid border-dark rounded-full font-medium capitalize items-center fixed top-24 right-1/2 translate-x-1/2 bg-light/80 backdrop-blur-sm z-40">
-          <Link href="/" className="mx-2 hover:text-blue-600 transition-colors">
+          <Link href="/market" className="mx-2 hover:text-blue-600 transition-colors">
             Market
           </Link>
 
