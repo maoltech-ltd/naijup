@@ -70,7 +70,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const categoryRes = await fetch(`${baseUrl}/api/categories`, {
       cache: "no-store"
     });
-    console.log({blogRes, categoryRes});
     if (blogRes.ok) blogs = (await blogRes.json()).results || [];
     if (categoryRes.ok) categories = (await categoryRes.json()).results || [];
   } catch (err) {

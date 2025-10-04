@@ -12,20 +12,19 @@ const MarketSwiper = () => {
 
   const fx = useSelector((state: RootState) => state.fx);
   const snapshot = useSelector((state: RootState) => state.snapshot);
-  const equity = useSelector((state: RootState) => state.equity);
+  // const equity = useSelector((state: RootState) => state.equity);
 
   useEffect(() => {
     if (fx.status === "idle") dispatch(fetchFxRates());
     if (snapshot.status === "idle") dispatch(fetchMarketSnapshot());
-    if (equity.status === "idle") dispatch(fetchMarketEquity());
-  }, [dispatch, fx.status, snapshot.status, equity.status]);
+    // if (equity.status === "idle") dispatch(fetchMarketEquity());
+  }, [dispatch, fx.status, snapshot.status]);
 
-  if(fx.status == "loading" || snapshot.status == "loading" || equity.status == "loading"){
+  if(fx.status == "loading" || snapshot.status == "loading" ){
     return (<p>Loading stats...</p>)
   }
 
-  if(fx.status == "succeeded" && snapshot.status == "succeeded" && equity.status == "succeeded"){
-    console.log(fx.data, snapshot.data, equity.data)
+  if(fx.status == "succeeded" && snapshot.status == "succeeded" ){
   return (
     <div className="col-span-2 sm:col-span-1 row-span-1 relative">
       <Swiper spaceBetween={16} slidesPerView={1} autoplay={{ delay: 4000 }}>
@@ -64,7 +63,7 @@ const MarketSwiper = () => {
         </SwiperSlide>
 
         {/* --- Top Gainers --- */}
-        <SwiperSlide>
+        {/* <SwiperSlide>
           <div className="p-4 rounded-xl shadow bg-white dark:bg-gray-800">
             <h3 className="font-bold text-lg mb-2">Top Gainers</h3>
             <ul className="text-sm space-y-1">
@@ -76,10 +75,10 @@ const MarketSwiper = () => {
               ))}
             </ul>
           </div>
-        </SwiperSlide>
+        </SwiperSlide> */}
 
         {/* --- Top Losers --- */}
-        <SwiperSlide>
+        {/* <SwiperSlide>
           <div className="p-4 rounded-xl shadow bg-white dark:bg-gray-800">
             <h3 className="font-bold text-lg mb-2">Top Losers</h3>
             <ul className="text-sm space-y-1">
@@ -91,10 +90,10 @@ const MarketSwiper = () => {
               ))}
             </ul>
           </div>
-        </SwiperSlide>
+        </SwiperSlide> */}
 
         {/* --- Top Trades --- */}
-        <SwiperSlide>
+        {/* <SwiperSlide>
           <div className="p-4 rounded-xl shadow bg-white dark:bg-gray-800">
             <h3 className="font-bold text-lg mb-2">Top Trades</h3>
             <ul className="text-sm space-y-1">
@@ -106,7 +105,7 @@ const MarketSwiper = () => {
               ))}
             </ul>
           </div>
-        </SwiperSlide>
+        </SwiperSlide> */}
       </Swiper>
     </div>
   );

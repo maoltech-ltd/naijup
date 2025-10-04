@@ -120,7 +120,6 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
       reset();
       router.push(`/blog/${data.title}`);
     } catch (error: any) {
-      console.log(error);
       setErrorMessage(error?.message || "Something went wrong ❌");
       setErrorModalOpen(true);
     }
@@ -201,7 +200,6 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
                       },
                     };
                   } catch (error: any) {
-                    console.log("Image upload error:", error);
                     setErrorMessage(error.message || error.error || "Image upload failed ❌");
                     setErrorModalOpen(true);
                     return {
