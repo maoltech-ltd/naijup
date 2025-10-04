@@ -39,7 +39,27 @@ const CurrencyFX = () => {
             >
               <p className="text-sm text-gray-500 dark:text-gray-400">{currency}</p>
               <p className="text-xl font-bold text-dark dark:text-light">
-                {data.toLocaleString()}
+                {rate.toLocaleString()}
+              </p>
+            </div>
+          ))}
+      </div>
+
+      {/* --- Crypto Section --- */}
+      <h2 className="text-2xl font-semibold text-dark dark:text-light my-6">
+        Crypto (₦)
+      </h2>
+
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {data?.crypto_rates_ngn &&
+          Object.entries(data.crypto_rates_ngn).map(([symbol, rate]) => (
+            <div
+              key={symbol}
+              className="p-4 rounded-xl shadow-md bg-white dark:bg-gray-800 text-center"
+            >
+              <p className="text-sm text-gray-500 dark:text-gray-400">{symbol}</p>
+              <p className="text-xl font-bold text-dark dark:text-light">
+                ₦{Number(rate).toLocaleString()}
               </p>
             </div>
           ))}
