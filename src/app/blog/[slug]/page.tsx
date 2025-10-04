@@ -14,6 +14,12 @@ async function getBlog(slug: string) {
   }
 }
 
+const firstParagraph = (content: any) =>{
+  return content.find(
+    (block: any) => block.type === "paragraph" && block.data?.text
+  )?.data?.text;
+}
+
 // Generate SEO metadata
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const blog = await getBlog(params.slug);
@@ -26,7 +32,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 
   const blogUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/blog/${params.slug}`;
   const blogImage = blog.image_links || '/default-social-banner.png';
-  const description = blog.content?.substring(0, 160) || `Read ${blog.title} on Naijup`;
+  const description = (firstParagraph(blog.content)?.substring(0, 160)) || `Read ${blog.title} on Naijup`;
 
   return {
     title: blog.title,
@@ -89,7 +95,7 @@ function BlogStructuredData({ blog, slug }: { blog: any; slug: string }) {
       "@type": "WebPage",
       "@id": `${process.env.NEXT_PUBLIC_SITE_URL}/blog/${slug}`
     },
-    "description": blog.content?.substring(0, 160)
+    "description": firstParagraph(blog.content)?.substring(0, 160) || `Read ${blog.title} on Naijup`,
   };
 
   return (
