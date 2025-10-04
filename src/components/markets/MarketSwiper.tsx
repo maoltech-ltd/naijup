@@ -1,33 +1,37 @@
 "use client";
 import React, { useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import { useAppDispatch } from "@/src/redux/hooks/dispatch";
 import { useSelector } from "react-redux";
 import { RootState } from "@/src/redux/store";
-import { fetchFxRates, fetchMarketEquity } from "@/src/redux/slice/marketSlice";
+import { fetchFxRates, fetchMarketEquity, fetchMarketSnapshot } from "@/src/redux/slice/marketSlice";
 
 const MarketSwiper = () => {
   const dispatch = useAppDispatch();
 
   const fx = useSelector((state: RootState) => state.fx);
-  // const snapshot = useSelector((state: RootState) => state.snapshot);
+  const snapshot = useSelector((state: RootState) => state.snapshot);
   const equity = useSelector((state: RootState) => state.equity);
 
   useEffect(() => {
     if (fx.status === "idle") dispatch(fetchFxRates());
-    // if (snapshot.status === "idle") dispatch(fetchMarketSnapshot());
+    if (snapshot.status === "idle") dispatch(fetchMarketSnapshot());
     if (equity.status === "idle") dispatch(fetchMarketEquity());
-  }, [dispatch, fx.status, equity.status]);
+  }, [dispatch, fx.status, snapshot.status, equity.status]);
 
-  if(fx.status == "loading" || equity.status == "loading"){
+  if(fx.status == "loading" || snapshot.status == "loading" || equity.status == "loading"){
     return (<p>Loading stats...</p>)
   }
 
-  if(fx.status == "succeeded" && equity.status == "succeeded"){
+  if(fx.status == "failed" || snapshot.status === "failed" || equity.status == "failed"){
+    return (<p>Failed: {`fx: ${fx.error}` || `snapshot: ${snapshot.error}` || `equity: ${equity.error}`}</p>)
+  }
+
   return (
     <div className="col-span-2 sm:col-span-1 row-span-1 relative">
-      <Swiper spaceBetween={16} slidesPerView={1} autoplay={{ delay: 4000 }}>
+      <Swiper spaceBetween={16} slidesPerView={1} modules={[Autoplay]} autoplay={{ delay: 4000 }}>
         {/* --- FX Rates --- */}
         <SwiperSlide>
           <div className="p-4 rounded-xl shadow bg-white dark:bg-gray-800">
@@ -47,7 +51,7 @@ const MarketSwiper = () => {
         </SwiperSlide>
 
         {/* --- NGX Snapshot --- */}
-        {/* <SwiperSlide>
+        <SwiperSlide>
           <div className="p-4 rounded-xl shadow bg-white dark:bg-gray-800">
             <h3 className="font-bold text-lg mb-2">NGX Snapshot</h3>
             {snapshot.data && (
@@ -60,7 +64,7 @@ const MarketSwiper = () => {
               </ul>
             )}
           </div>
-        </SwiperSlide> */}
+        </SwiperSlide>
 
         {/* --- Top Gainers --- */}
         <SwiperSlide>
@@ -109,7 +113,6 @@ const MarketSwiper = () => {
       </Swiper>
     </div>
   );
-}
 };
 
 export default MarketSwiper;
