@@ -25,7 +25,7 @@ const siteMetadata = {
     author: "MaolTech",
     headerTitle: "NaijUp",
     description:
-      "NaijUp is your go-to blog for finance, investment, crypto, startup, business, and economic insights in Nigeria and Africa. Stay updated with investment tips, money management, fintech trends, and economic news.",
+      "NaijUp is your go-to blog for finance, investment, crypto, startup, business, and economic insights in Nigeria and Africa.",
     language: "en-US",
     theme: "light", // system / dark also works
     siteUrl: "https://naijup.ng", // use your live domain
