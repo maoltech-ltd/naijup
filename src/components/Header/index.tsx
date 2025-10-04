@@ -234,7 +234,7 @@ const Header = () => {
 
                 <div className="flex flex-col space-y-6">
                   <Link
-                    href="/"
+                    href="/market"
                     className="text-lg font-medium py-2 border-b border-gray-200 dark:border-gray-700"
                     onClick={toggleMenu}
                   >

@@ -24,10 +24,10 @@ const MarketBond = dynamic(() => import("@/src/components/markets/MarketBond"), 
   loading: () => <p className="text-center text-gray-500">Loading Bonds...</p>,
 });
 
-// const MarketETF = dynamic(() => import("@/src/components/markets/MarketETF"), {
-//   ssr: false,
-//   loading: () => <p className="text-center text-gray-500">Loading ETFs...</p>,
-// });
+const MarketETF = dynamic(() => import("@/src/components/markets/MarketETF"), {
+  ssr: false,
+  loading: () => <p className="text-center text-gray-500">Loading ETFs...</p>,
+});
 
 const Market = () => {
   return (
@@ -47,7 +47,7 @@ const Market = () => {
         <MarketBond />
 
         {/* ETF Section */}
-        {/* <MarketETF /> */}
+        <MarketETF />
       </div>
     </>
   );

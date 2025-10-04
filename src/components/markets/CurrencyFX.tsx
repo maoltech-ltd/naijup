@@ -35,10 +35,10 @@ const CurrencyFX = () => {
           Object.entries(data.fx_rates).map(([currency, rate]) => (
             <div
               key={currency}
-              className="p-4 rounded-xl shadow-md bg-white dark:bg-gray-800 text-center"
+              className="p-4 rounded-xl shadow-md bg-white dark:bg-gray-200 text-center"
             >
               <p className="text-sm text-gray-500 dark:text-gray-400">{currency}</p>
-              <p className="text-xl font-bold text-dark dark:text-light">
+              <p className="text-xl font-bold text-dark">
                 {rate.toLocaleString()}
               </p>
             </div>
@@ -55,10 +55,10 @@ const CurrencyFX = () => {
           Object.entries(data.crypto_rates_ngn).map(([symbol, rate]) => (
             <div
               key={symbol}
-              className="p-4 rounded-xl shadow-md bg-white dark:bg-gray-800 text-center"
+              className="p-4 rounded-xl shadow-md bg-white dark:bg-gray-200 text-center"
             >
               <p className="text-sm text-gray-500 dark:text-gray-400">{symbol}</p>
-              <p className="text-xl font-bold text-dark dark:text-light">
+              <p className="text-xl font-bold text-dark">
                 ₦{Number(rate).toLocaleString()}
               </p>
             </div>
