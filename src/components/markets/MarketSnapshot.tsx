@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 const MarketSnapshot = () => {
   const dispatch = useAppDispatch();
 
-  const { data: snapshot, status, error } = useSelector(
+  const { data, status, error } = useSelector(
     (state: RootState) => state.snapshot
   );
 
@@ -38,11 +38,11 @@ const MarketSnapshot = () => {
       )}
 
       {/* Data Table */}
-      {status === "succeeded" && snapshot && (
+      {status === "succeeded" && data && (
         <div className="overflow-x-auto rounded-lg shadow-md bg-white dark:bg-gray-800">
           <table className="min-w-full text-sm text-left">
             <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-              {Object.entries(snapshot).map(([key, value]) => (
+              {Object.entries(data).map(([key, value]) => (
                 <tr
                   key={key}
                   className="hover:bg-gray-50 dark:hover:bg-gray-700"
