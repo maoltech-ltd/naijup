@@ -71,7 +71,7 @@ const HomeCoverSection: React.FC<Props> = ({ blogs }) => {
       <Swiper
         modules={[Navigation, Autoplay]}
         navigation
-        autoplay={{ delay: 5000, disableOnInteraction: false }}
+        autoplay={{ delay: 4000, disableOnInteraction: false }}
         loop
         slidesPerView={1}
         className="rounded-3xl overflow-hidden"

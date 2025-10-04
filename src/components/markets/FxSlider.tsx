@@ -70,7 +70,7 @@ import { useSelector } from "react-redux";
 
 export default function FxTicker() {
   const dispatch = useAppDispatch();
-  const { rates, status } = useSelector((state: RootState) => state.market);
+  const { data, status } = useSelector((state: RootState) => state.fx);
 
   useEffect(() => {
     if (status === "idle") {
@@ -78,15 +78,15 @@ export default function FxTicker() {
     }
   }, [dispatch, status]);
 
-  if (!rates) return null;
+  if (!data) return null;
 
   // merge FX and crypto
   const items = [
-    ...Object.entries(rates.fx_rates).map(([pair, val]) => ({
+    ...Object.entries(data.fx_rates).map(([pair, val]) => ({
       label: pair,
       value: val.toFixed(2),
     })),
-    ...Object.entries(rates.crypto_rates_usd).map(([coin, val]) => ({
+    ...Object.entries(data.crypto_rates_usd).map(([coin, val]) => ({
       label: `${coin}/USD`,
       value: val.toLocaleString(),
     })),

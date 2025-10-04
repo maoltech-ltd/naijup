@@ -3,6 +3,7 @@ import { sortBlogs } from "@/src/utils"
 import BlogLayoutOne from "../Blog/BlogLayoutOne"
 import BlogLayoutTwo from "../Blog/BlogLayoutTwo"
 import BlogLayoutThree from "../Blog/BlogLayoutThree"
+import MarketSwiper from "../markets/MarketSwiper"
 
 const FeaturedPost: React.FC<Props> = (blogs) => {
   const sortedBlogs = sortBlogs(blogs)
@@ -16,6 +17,9 @@ const FeaturedPost: React.FC<Props> = (blogs) => {
       </article>
       <article className=" col-span-2 sm:col-span-1 row-span-1 relative">
           <BlogLayoutTwo blog={sortedBlogs[1]} />
+      </article>
+      <article className=" col-span-2 sm:col-span-1 row-span-1 relative">
+        <MarketSwiper />
       </article>
       <article className="col-span-2 sm:col-span-1 row-span-1 relative">
           <BlogLayoutThree blog={sortedBlogs[2]} />

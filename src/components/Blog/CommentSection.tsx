@@ -76,7 +76,7 @@ export default function CommentSection({ postId }: Props) {
       )}
 
       <div className="space-y-6">
-        {comments.map((comment) => (
+        {comments.map((comment: any) => (
           <div key={comment.id} className="border-b pb-4">
             <div className="flex items-center justify-between">
               <span className="font-semibold">{comment.author_username ?? "Anonymous"}</span>
