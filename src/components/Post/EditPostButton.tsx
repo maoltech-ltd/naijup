@@ -4,7 +4,7 @@
 import { useSelector } from "react-redux";
 import { RootState } from "@/src/redux/store";
 import Link from "next/link";
-import { Blog } from "@/src/app/blog/[slug]/page";
+import { Blog } from "@/src/app/blog/[slug]/BlogPage";
 import { setPost } from "@/src/redux/slice/postSlice";
 import { useAppDispatch } from "@/src/redux/hooks/dispatch";
 

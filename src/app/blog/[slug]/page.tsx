@@ -1,72 +1,79 @@
-"use client";
-import Image from "next/image";
-import { useEffect, useState, Suspense, lazy  } from "react";
-import Category from "@/src/components/Elements/Category";
-import BlogDetails from "@/src/components/Blog/BlogDetails";
-import BlogContent from "@/src/components/Blog/BlogContent";
-import { useAppDispatch } from "@/src/redux/hooks/dispatch";
-import { fetchPostByTitle } from "@/src/redux/slice/postSlice";
-import LoadingSpinner from "@/src/components/loading/loadingSpinner";
-import ShareButtons from "@/src/components/Elements/ShareButtons";
-import Script from "next/script";
-import EditPostButton from "@/src/components/Post/EditPostButton";
-import CommentSection from "@/src/components/Blog/CommentSection";
+import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+import BlogPage from './BlogPage';
+import api from '@/src/api';
 
-const AuthorSection = lazy(() => import("@/src/components/User/AuthorSection"));
-
-export interface Blog {
-  id: string;
-  title: string;
-  category: string;
-  content: any;
-  image_links: string;
-  author: string;
-  publication_date: string;
-  updatedAt?: string;
-  tags: string[];
+// Server-side data fetching
+async function getBlog(slug: string) {
+  try {
+    const res = await api.get(`v1/blog/post/title/${slug}/`);
+    return res.data;
+  } catch (error) {
+    console.error('Error fetching blog:', error);
+    return null;
+  }
 }
-export default function BlogPage({ params }: { params: { slug: string } }) {
-  const dispatch = useAppDispatch();
 
-  const [blog, setBlog] = useState<Blog | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<any | null>(null);
-
-  useEffect(() => {
-    setLoading(true);
-    dispatch(fetchPostByTitle(params.slug))
-      .unwrap()
-      .then((result: Blog) => {
-        setBlog(result);
-      })
-      .catch((err: any) => {
-        setError(err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [dispatch, params.slug]);
-
-  if (loading) {
-    return <LoadingSpinner />;
-  }
-
-  if (error) {
-    return <div>Error loading blog: {error.message}</div>;
-  }
-
+// Generate SEO metadata
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const blog = await getBlog(params.slug);
+  
   if (!blog) {
-    return <div>No blog found</div>;
+    return {
+      title: 'Blog Post Not Found',
+    };
   }
 
-  const jsonLdArticle = {
+  const blogUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/blog/${params.slug}`;
+  const blogImage = blog.image_links || '/default-social-banner.png';
+  const description = blog.content?.substring(0, 160) || `Read ${blog.title} on Naijup`;
+
+  return {
+    title: blog.title,
+    description: description,
+    keywords: blog.tags?.join(', ') || '',
+    authors: [{ name: blog.author?.name || 'Naijup' }],
+    openGraph: {
+      title: blog.title,
+      description: description,
+      url: blogUrl,
+      siteName: 'Naijup',
+      images: [
+        {
+          url: blogImage,
+          width: 1200,
+          height: 630,
+          alt: blog.title,
+        },
+      ],
+      type: 'article',
+      publishedTime: blog.publication_date,
+      modifiedTime: blog.updatedAt,
+      authors: [blog.author?.name || 'Naijup'],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: blog.title,
+      description: description,
+      images: [blogImage],
+      creator: '@maoltech',
+    },
+    alternates: {
+      canonical: blogUrl,
+    },
+  };
+}
+
+// JSON-LD structured data
+function BlogStructuredData({ blog, slug }: { blog: any; slug: string }) {
+  const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": blog.title,
     "image": [blog.image_links],
     "author": {
       "@type": "Person",
-      "name": "MaolTech"
+      "name": blog.author?.name || "Naijup"
     },
     "publisher": {
       "@type": "Organization",
@@ -76,77 +83,34 @@ export default function BlogPage({ params }: { params: { slug: string } }) {
         "url": "https://res.cloudinary.com/drfvlkzpy/image/upload/v1756673161/naijup_vqwjcx.png"
       }
     },
-    "datePublished": new Date().toISOString(), // replace with real publish date from backend if available
-    "dateModified": new Date().toISOString(),
+    "datePublished": blog.publication_date,
+    "dateModified": blog.updatedAt || blog.publication_date,
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": `https://naijup.ng/blog/${params.slug}`
+      "@id": `${process.env.NEXT_PUBLIC_SITE_URL}/blog/${slug}`
     },
-    "description": blog.title?.substring(0, 160) // meta description
+    "description": blog.content?.substring(0, 160)
   };
 
   return (
-    <>
-      <Script
-        id="ld-article"
-        type="application/ld+json"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdArticle) }}
-      />
-      <article>
-        <div className="mb-8 text-center relative w-full h-[70vh] bg-dark">
-          <div className="w-full z-10 flex flex-col items-center justify-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-            <Category
-              name={blog.category}
-              link={`/categories/${blog.category}`}
-              className="px-6 text-sm py-2"
-            />
-            <h1 className="inline-block mt-6 font-semibold capitalize text-light text-2xl md:text-3xl lg:text-5xl !leading-normal relative w-5/6">
-              {blog.title}
-            </h1>
-          </div>
-          <div className="absolute top-0 left-0 right-0 bottom-0 h-full bg-dark/60 dark:bg-dark/40" />
-          <Image
-            src={blog.image_links}
-            alt={blog.title}
-            width={100}
-            height={100}
-            className="aspect-square w-full h-full object-cover object-center"
-            priority
-            sizes="100vw"
-            unoptimized
-          />
-        </div>
-        <BlogDetails blog={blog} slug={blog.title} />
-        <div className="px-5 md:px-10">
-          <ShareButtons
-            url={`https://naijup.ng/blog/${params.slug}`} 
-            title={blog.title}
-          />
-        </div>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
+}
 
-        <div className="grid grid-cols-12  gap-y-8 lg:gap-8 sxl:gap-16 mt-8 px-5 md:px-10">
-          <div className="col-span-12  lg:col-span-3">
-            <details
-              className="border-[1px] border-solid border-dark dark:border-light text-dark dark:text-light rounded-lg p-4 sticky top-6 max-h-[80vh] overflow-hidden overflow-y-auto"
-              open
-            ></details>
-          </div>
-          <div className="col-span-12 lg:col-span-9">
-            <BlogContent content={blog.content} />
-          </div>
-          {/* <RenderMdx blog={blog} /> */}
-        </div>
-        <CommentSection postId={Number(blog.id)} />
-        {/* Edit button is client-only, doesn’t delay render */}
-        <EditPostButton slug={params.slug} blog={blog} />
-        <div className="px-5 md:px-10 mt-10">
-            <Suspense fallback={<div>Loading author...</div>}>
-              <AuthorSection authorId={blog.author} />
-            </Suspense>
-        </div>
-      </article>
+export default async function BlogSEOPage({ params }: { params: { slug: string } }) {
+  const blog = await getBlog(params.slug);
+  
+  if (!blog) {
+    notFound();
+  }
+
+  return (
+    <>
+      <BlogStructuredData blog={blog} slug={params.slug} />
+      <BlogPage blog={blog} />
     </>
   );
-  // }
 }

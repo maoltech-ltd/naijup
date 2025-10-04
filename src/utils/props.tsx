@@ -1,4 +1,4 @@
-import { Blog } from "../app/blog/[slug]/page";
+import { Blog } from "../app/blog/[slug]/BlogPage";
 
 export type Props = {
   blogs: Blog[];
