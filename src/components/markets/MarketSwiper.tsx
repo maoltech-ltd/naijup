@@ -20,6 +20,12 @@ const MarketSwiper = () => {
     if (equity.status === "idle") dispatch(fetchMarketEquity());
   }, [dispatch, fx.status, snapshot.status, equity.status]);
 
+  if(fx.status == "loading" || snapshot.status == "loading" || equity.status == "loading"){
+    return (<p>Loading stats...</p>)
+  }
+
+  if(fx.status == "succeeded" && snapshot.status == "succeeded" && equity.status == "succeeded"){
+    console.log(fx.data, snapshot.data, equity.data)
   return (
     <div className="col-span-2 sm:col-span-1 row-span-1 relative">
       <Swiper spaceBetween={16} slidesPerView={1} autoplay={{ delay: 4000 }}>
@@ -104,6 +110,7 @@ const MarketSwiper = () => {
       </Swiper>
     </div>
   );
+}
 };
 
 export default MarketSwiper;

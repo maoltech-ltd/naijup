@@ -63,6 +63,7 @@ const MarketEquity = () => {
 
   return (
     <section>
+      {console.log({data, status, error})}
       <h2 className="text-2xl font-semibold text-dark dark:text-light mb-4">
         Equities
       </h2>

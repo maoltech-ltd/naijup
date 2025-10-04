@@ -24,7 +24,7 @@ const MarketSnapshot = () => {
       <h2 className="text-2xl font-semibold text-dark dark:text-light mb-4">
         NGX Snapshot
       </h2>
-
+      {console.log({data, status, error})}
       {/* Loading State */}
       {status === "loading" && (
         <p className="text-gray-500 dark:text-gray-400">Loading snapshot...</p>
@@ -36,7 +36,7 @@ const MarketSnapshot = () => {
           {error || "Failed to fetch snapshot"}
         </p>
       )}
-
+      
       {/* Data Table */}
       {status === "succeeded" && data && (
         <div className="overflow-x-auto rounded-lg shadow-md bg-white dark:bg-gray-800">
