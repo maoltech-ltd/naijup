@@ -1,26 +1,3 @@
-// const MarketETF = () => {
-//   const etfs = ["STANBICETF30 – ₦120.5", "LOTUSHALAL – ₦105.7"];
-
-//   return (
-//     <section>
-//       <h2 className="text-2xl font-semibold text-dark dark:text-light mb-4">
-//         ETFs
-//       </h2>
-//       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-//         {etfs.map((etf, idx) => (
-//           <div
-//             key={idx}
-//             className="p-4 rounded-xl shadow-md bg-white dark:bg-gray-800"
-//           >
-//             <p className="text-dark dark:text-light">{etf}</p>
-//           </div>
-//         ))}
-//       </div>
-//     </section>
-//   );
-// };
-
-// export default MarketETF;
 // "use client";
 
 // import { useAppDispatch } from "@/src/redux/hooks/dispatch";
@@ -31,18 +8,32 @@
 
 // const MarketETF = () => {
 //   const dispatch = useAppDispatch();
-//   const { data,status, error } = useSelector((state: RootState) => state.etf);
+//   const { data, status, error } = useSelector((state: RootState) => state.etf);
 
 //   useEffect(() => {
 //     dispatch(fetchMarketETF());
 //   }, [dispatch]);
 
 //   if (status === "loading") {
-//     return <p className="text-center text-gray-500">Loading etf...</p>;
+//     return <p className="text-center text-gray-500">Loading ETFs...</p>;
 //   }
 
 //   if (status === "failed") {
 //     return <p className="text-center text-red-500">{error}</p>;
+//   }
+
+//   // 🛡️ safe check for empty or null data
+//   if (!data || data.length === 0) {
+//     return (
+//       <section>
+//         <h2 className="text-2xl font-semibold text-dark dark:text-light mb-4">
+//           ETFs
+//         </h2>
+//         <p className="text-center text-gray-500 dark:text-gray-400">
+//           No ETF data available.
+//         </p>
+//       </section>
+//     );
 //   }
 
 //   return (
@@ -97,14 +88,18 @@ import { fetchMarketETF } from "@/src/redux/slice/marketSlice";
 import { RootState } from "@/src/redux/store";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { TrendingUp } from "lucide-react";
+import MarketCard from "./MarketCard";
 
 const MarketETF = () => {
   const dispatch = useAppDispatch();
   const { data, status, error } = useSelector((state: RootState) => state.etf);
 
   useEffect(() => {
-    dispatch(fetchMarketETF());
-  }, [dispatch]);
+    if (status === "idle") {
+      dispatch(fetchMarketETF());
+    }
+  }, [dispatch, status]);
 
   if (status === "loading") {
     return <p className="text-center text-gray-500">Loading ETFs...</p>;
@@ -114,25 +109,18 @@ const MarketETF = () => {
     return <p className="text-center text-red-500">{error}</p>;
   }
 
-  // 🛡️ safe check for empty or null data
   if (!data || data.length === 0) {
     return (
-      <section>
-        <h2 className="text-2xl font-semibold text-dark dark:text-light mb-4">
-          ETFs
-        </h2>
+      <MarketCard title="ETFs" icon={<TrendingUp />} subtitle="Exchange Traded Funds">
         <p className="text-center text-gray-500 dark:text-gray-400">
           No ETF data available.
         </p>
-      </section>
+      </MarketCard>
     );
   }
 
   return (
-    <section>
-      <h2 className="text-2xl font-semibold text-dark dark:text-light mb-4">
-        ETFs
-      </h2>
+    <MarketCard title="ETFs" icon={<TrendingUp />} subtitle="Exchange Traded Funds">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {data.map((etf: any) => (
           <div
@@ -145,9 +133,7 @@ const MarketETF = () => {
               </p>
               <span
                 className={`text-sm font-medium ${
-                  etf.PERCENTAGE_CHANGE >= 0
-                    ? "text-green-600"
-                    : "text-red-600"
+                  etf.PERCENTAGE_CHANGE >= 0 ? "text-green-600" : "text-red-600"
                 }`}
               >
                 {etf.PERCENTAGE_CHANGE.toFixed(2)}%
@@ -168,8 +154,9 @@ const MarketETF = () => {
           </div>
         ))}
       </div>
-    </section>
+    </MarketCard>
   );
 };
 
 export default MarketETF;
+
