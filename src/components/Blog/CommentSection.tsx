@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { useAppDispatch } from "@/src/redux/hooks/dispatch";
 import { RootState } from "@/src/redux/store";
 import ErrorModal from "../Modal/ErrorModal";
+import formatDate from "@/src/utils/dateFormatter";
 
 interface Props {
   postId: number;
@@ -81,7 +82,7 @@ export default function CommentSection({ postId }: Props) {
             <div className="flex items-center justify-between">
               <span className="font-semibold">{comment.author_username ?? "Anonymous"}</span>
               <span className="text-sm text-gray-500">
-                {new Date(comment.publish_date).toLocaleDateString()}
+                {formatDate(comment.publish_date)}
               </span>
             </div>
             <p className="mt-2">{comment.content}</p>

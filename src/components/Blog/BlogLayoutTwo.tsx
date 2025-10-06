@@ -1,3 +1,4 @@
+import formatDate from "@/src/utils/dateFormatter"
 import { BlogProp } from "@/src/utils/props"
 import Image from "next/image"
 import Link from "next/link"
@@ -37,7 +38,7 @@ const BlogLayoutTwo: React.FC<BlogProp> = (blog: any) => {
         </Link>
 
         <span className="inline-block w-full capitalize text-gray dark:text-light/50 font-semibold  text-xs sm:text-base">
-          {(blog.blog.publication_date)}
+          {formatDate(blog.blog.publication_date)}
         </span>
       </div>
     </div>
