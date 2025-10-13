@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import { useParams } from "next/navigation";
 import { useAppDispatch } from "@/src/redux/hooks/dispatch";
-import { fetchPostByTitle } from "@/src/redux/slice/postSlice";
+import { fetchPostBySlug } from "@/src/redux/slice/postSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "@/src/redux/store";
 import ProtectedRoute from "@/src/components/ProtectedRoute";
@@ -20,7 +20,7 @@ const EditPostPage = () => {
 
   useEffect(() => {
     if (slug) {
-      dispatch(fetchPostByTitle(slug));
+      dispatch(fetchPostBySlug(slug));
     }
   }, [slug, dispatch]);
 

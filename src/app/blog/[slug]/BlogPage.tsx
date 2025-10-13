@@ -1,14 +1,10 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useState, Suspense, lazy  } from "react";
+import { Suspense, lazy  } from "react";
 import Category from "@/src/components/Elements/Category";
 import BlogDetails from "@/src/components/Blog/BlogDetails";
 import BlogContent from "@/src/components/Blog/BlogContent";
-import { useAppDispatch } from "@/src/redux/hooks/dispatch";
-import { fetchPostByTitle } from "@/src/redux/slice/postSlice";
-import LoadingSpinner from "@/src/components/loading/loadingSpinner";
 import ShareButtons from "@/src/components/Elements/ShareButtons";
-import Script from "next/script";
 import EditPostButton from "@/src/components/Post/EditPostButton";
 import CommentSection from "@/src/components/Blog/CommentSection";
 
@@ -23,6 +19,7 @@ export interface Blog {
   author: string;
   publication_date: string;
   updatedAt?: string;
+  slug: string;
   tags: string[];
 }
 export default function BlogPage({  blog }: {  blog: Blog  }) {
@@ -83,10 +80,10 @@ export default function BlogPage({  blog }: {  blog: Blog  }) {
             unoptimized
           />
         </div>
-        <BlogDetails blog={blog} slug={blog.title} />
+        <BlogDetails blog={blog} slug={blog.slug} />
         <div className="px-5 md:px-10">
           <ShareButtons
-            url={`https://naijup.ng/blog/${encodeURIComponent(blog.title)}`} 
+            url={`https://naijup.ng/blog/${encodeURIComponent(blog.slug)}`} 
             title={blog.title}
           />
         </div>
@@ -105,7 +102,7 @@ export default function BlogPage({  blog }: {  blog: Blog  }) {
         </div>
         <CommentSection postId={Number(blog.id)} />
         {/* Edit button is client-only, doesn’t delay render */}
-        <EditPostButton slug={blog.title} blog={blog} />
+        <EditPostButton slug={blog.slug} blog={blog} />
         <div className="px-5 md:px-10 mt-10">
             <Suspense fallback={<div>Loading author...</div>}>
               <AuthorSection authorId={blog.author} />
