@@ -83,7 +83,7 @@ export default function BlogPage({  blog }: {  blog: Blog  }) {
         <BlogDetails blog={blog} slug={blog.slug} />
         <div className="px-5 md:px-10">
           <ShareButtons
-            url={`https://naijup.ng/blog/${encodeURIComponent(blog.slug)}`} 
+            url={`https://naijup.ng/blog/${blog.slug}`} 
             title={blog.title}
           />
         </div>

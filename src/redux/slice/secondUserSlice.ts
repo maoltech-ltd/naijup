@@ -8,7 +8,7 @@ interface SecondUserState {
     firstName?: string;
     lastName?: string;
     profilePicture?: string;
-    bio?: string;
+    bio?: string[];
     status: 'idle' | 'pending' | 'fulfilled' | 'rejected';
 }
 
@@ -20,12 +20,12 @@ const  secondUserInitialState: SecondUserState = {
     firstName: "",
     lastName: "",
     profilePicture: "",
-    bio: "",
+    bio: [],
     status: "idle"
 };
 
 
-export const getUserDetails = createAsyncThunk('user/updateUserProfile', async (data: {username: string, token: string} ) => {
+export const getUserDetails = createAsyncThunk('user/getUserDetails', async (data: {username: string, token: string} ) => {
     const headers = {
         Authorization: "Bearer " + data.token
     };
@@ -33,7 +33,7 @@ export const getUserDetails = createAsyncThunk('user/updateUserProfile', async (
     return response.data;
 });
 
-export const getUserById = createAsyncThunk('user/updateUserProfile', async (userId: string ) => {
+export const getUserById = createAsyncThunk('user/getUserById', async (userId: string ) => {
     const response = await api.get(`v1/user/id/${userId}`);
     return response.data;
 });
@@ -49,7 +49,7 @@ const secondUserSlice = createSlice({
             state.firstName = "";
             state.lastName = "";
             state.profilePicture = "";
-            state.bio = "";
+            state.bio = [];
             state.status = "idle";
         }
     },
@@ -69,6 +69,22 @@ const secondUserSlice = createSlice({
                 state.status = "pending";
             })
             .addCase(getUserDetails.rejected, (state) => {
+                state.status = "rejected";
+            })
+            .addCase(getUserById.fulfilled, (state, action) => {
+                state.userId = action.payload.id;
+                state.userName = action.payload.username;
+                state.userEmail = action.payload.email;
+                state.firstName = action.payload.first_name;
+                state.lastName = action.payload.last_name;
+                state.profilePicture = action.payload.profile_picture;
+                state.bio = action.payload.bio;
+                state.status = "fulfilled";
+            })
+            .addCase(getUserById.pending, (state) => {
+                state.status = "pending";
+            })
+            .addCase(getUserById.rejected, (state) => {
                 state.status = "rejected";
             });
     }
