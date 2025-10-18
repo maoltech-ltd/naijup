@@ -58,7 +58,11 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
 
   useEffect(() => {
     if (errors.title) {
-      console.log("Title can't be empty!");
+      <ErrorModal
+        isOpen={true}
+        onClose={() => {}}
+        message="Title is required ❌"
+      />;
     }
   }, [errors.title]);
 

@@ -1,10 +1,6 @@
 import api from "@/src/api";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-
-
-
-
 const initialState = {
     image: "",
     status: "idle",
@@ -41,7 +37,7 @@ const imageSlice = createSlice({
             })
             .addCase(createImage.rejected, (state: any, action) => {
                 state.status = "failed";
-                state.error = action.error.message || "Failed to create post.";
+                state.error = action.error.message || action.error || "Failed to create post.";
             })
     },
 });
