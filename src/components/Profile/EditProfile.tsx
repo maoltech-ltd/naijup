@@ -102,6 +102,7 @@ const EditProfile = ({ user }: any) => {
                       alt="Profile Preview"
                       width={128}
                       height={128}
+                      quality={50}
                       className="w-full h-full object-cover"
                     />
                   ) : (

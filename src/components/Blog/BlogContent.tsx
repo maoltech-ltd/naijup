@@ -38,6 +38,7 @@ const BlogContent = ({ content }: any) => {
                 alt={item.data.caption || "Image"} // Corrected alt text reference
                 width={800}
                 height={400}
+                quality={50}
                 className="object-cover w-full"
                 unoptimized
               />

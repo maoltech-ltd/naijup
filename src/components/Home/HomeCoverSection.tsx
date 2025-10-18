@@ -42,6 +42,7 @@ const HomeCoverSection: React.FC<Props> = ({ blogs }) => {
               <Image
                 src={blog.image_links}
                 alt={blog.title}
+                quality={50}
                 fill
                 priority
                 className="object-cover object-center absolute inset-0 z-0"

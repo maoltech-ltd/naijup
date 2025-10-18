@@ -42,6 +42,7 @@ const AuthorSection = ({ authorId }: AuthorSectionProps) => {
           alt={userName}
           width={64}
           height={64}
+          quality={50}
           className="rounded-full object-cover"
         />
         <div>

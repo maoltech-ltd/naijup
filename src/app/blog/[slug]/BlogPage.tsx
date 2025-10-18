@@ -52,6 +52,7 @@ export default function BlogPage({  blog }: {  blog: Blog  }) {
             alt={blog.title}
             width={100}
             height={100}
+            quality={50}
             className="aspect-square w-full h-full object-cover object-center"
             priority
             sizes="100vw"
