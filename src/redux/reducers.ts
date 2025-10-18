@@ -12,6 +12,7 @@ import {
     equityReducer,
     bondReducer,
     etfReducer, 
+    headlinesReducer
 } from "./slice";
 
 
@@ -27,7 +28,8 @@ const rootReducer = combineReducers({
     equity: equityReducer,
     snapshot: snapshotReducer,
     bond: bondReducer,
-    etf: etfReducer
+    etf: etfReducer,
+    headlines: headlinesReducer
 })
 
 export default rootReducer

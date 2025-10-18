@@ -1,52 +1,3 @@
-// "use client";
-// import Image from "next/image";
-// import Link from "next/link";
-// import Category from "../Elements/Category";
-// import { Props } from "@/src/utils/props";
-
-// const HomeCoverSection: React.FC<Props> = (blog: any) => {
-//   const { blogs } = blog;
-
-//   return (
-//     <div className="w-full inline-block">
-//       <article className="relative flex flex-col items-start justify-end mx-5 sm:mx-10 h-[60vh] sm:h-[85vh] rounded-3xl overflow-hidden">
-//         {/* Background Image */}
-//         <Image
-//           src={blogs.image_links}
-//           alt={blogs.title}
-//           fill
-//           priority
-//           className="object-cover object-center absolute inset-0 z-0"
-//           unoptimized
-//         />
-
-//         {/* Gradient Overlay */}
-//         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-dark/90 z-10" />
-
-//         {/* Content */}
-//         <div className="relative w-3/4 p-6 sm:p-8 md:p-12 flex flex-col items-start justify-center z-20 text-light">
-//           <Category
-//             link={`/categories/${blogs.category}`}
-//             name={blogs.category}
-//           />
-//           <Link href={`/blog/${blogs.title}`} className="mt-6">
-//             <h1 className="font-bold capitalize text-light text-4xl sm:text-xl md:text-3xl lg:text-4xl">
-//               <span
-//                 className="bg-gradient-to-r from-accent to-accent dark:from-accentDark/50 
-//                 dark:to-accentDark/50 bg-[length:0px_6px]
-//                 hover:bg-[length:100%_6px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500"
-//               >
-//                 {blogs.title}
-//               </span>
-//             </h1>
-//           </Link>
-//         </div>
-//       </article>
-//     </div>
-//   );
-// };
-
-// export default HomeCoverSection;
 "use client";
 import React from "react";
 import Image from "next/image";
@@ -66,6 +17,14 @@ const HomeCoverSection: React.FC<Props> = ({ blogs }) => {
     return null;
   }
 
+  const validBlogs = blogs.filter(blog => 
+    blog && blog.image_links && blog.title && blog.category
+  );
+
+  if (validBlogs.length === 0) {
+    return null;
+  }
+
   return (
     <div className="w-full inline-block">
       <Swiper
@@ -76,7 +35,7 @@ const HomeCoverSection: React.FC<Props> = ({ blogs }) => {
         slidesPerView={1}
         className="rounded-3xl overflow-hidden"
       >
-        {blogs.slice(0, 4).map((blog, index) => (
+        {validBlogs.slice(0, 4).map((blog, index) => (
           <SwiperSlide key={index}>
             <article className="relative flex flex-col items-start justify-end mx-5 sm:mx-10 h-[60vh] sm:h-[85vh] rounded-3xl overflow-hidden">
               {/* Background Image */}

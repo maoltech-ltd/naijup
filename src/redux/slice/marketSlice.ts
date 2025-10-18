@@ -58,6 +58,25 @@
 import api from "@/src/api";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+// --- Types ---
+export interface HeadlinesResponse {
+  headlines: string[];
+  count: number;
+  timestamp: string;
+}
+
+interface HeadlinesState {
+  data: HeadlinesResponse | null;
+  status: "idle" | "loading" | "succeeded" | "failed";
+  error: string | null;
+}
+
+// --- Initial States ---
+const headlinesInitialState: HeadlinesState = {
+  data: null,
+  status: "idle",
+  error: null,
+};
 // --- Generic Types ---
 interface MarketDataState<T> {
   data: T | null;
@@ -129,6 +148,14 @@ export const fetchMarketETF = createAsyncThunk("market/fetchMarketETF", async ()
   const response = await api.get("v1/market/etf/");
   return response.data;
 });
+
+export const fetchHeadlines = createAsyncThunk(
+  "market/fetchHeadlines", 
+  async () => {
+    const response = await api.get("v1/market-monitoring/headlines/");
+    return response.data as HeadlinesResponse;
+  }
+);
 
 // --- FX Slice ---
 const fxSlice = createSlice({
@@ -239,9 +266,46 @@ const etfSlice = createSlice({
   },
 });
 
+// --- Headlines Slice ---
+const headlinesSlice = createSlice({
+  name: "headlines",
+  initialState: headlinesInitialState,
+  reducers: {
+    clearHeadlines: (state) => {
+      state.data = null;
+      state.status = "idle";
+      state.error = null;
+    },
+    addHeadline: (state, action: PayloadAction<string>) => {
+      if (state.data) {
+        state.data.headlines = [action.payload, ...state.data.headlines].slice(0, 7);
+        state.data.count = state.data.headlines.length;
+        state.data.timestamp = new Date().toISOString();
+      }
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchHeadlines.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchHeadlines.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.data = action.payload;
+      })
+      .addCase(fetchHeadlines.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message || "Failed to fetch headlines.";
+      });
+  },
+});
+
+
+export const { clearHeadlines, addHeadline } = headlinesSlice.actions;
 // --- Export Reducers ---
 export const fxReducer = fxSlice.reducer;
 export const snapshotReducer = snapshotSlice.reducer;
 export const equityReducer = equitySlice.reducer;
 export const bondReducer = bondSlice.reducer;
 export const etfReducer = etfSlice.reducer;
+export const headlinesReducer = headlinesSlice.reducer;

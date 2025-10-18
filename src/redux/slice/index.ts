@@ -5,7 +5,7 @@ import userReducer from "./userSlice";
 import imageReducer from "./ImageSlice";
 import secondUserReducer from "./secondUserSlice";
 import postReducer from "./postSlice";
-import {fxReducer, snapshotReducer, equityReducer, etfReducer, bondReducer} from "./marketSlice";
+import {fxReducer, snapshotReducer, equityReducer, etfReducer, bondReducer, headlinesReducer} from "./marketSlice";
 
 export {
     commentReducer,
@@ -19,6 +19,7 @@ export {
     snapshotReducer,
     equityReducer,
     etfReducer,
-    bondReducer
+    bondReducer,
+    headlinesReducer
 
 }

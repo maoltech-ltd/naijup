@@ -6,7 +6,7 @@ import api from '@/src/api';
 // Server-side data fetching
 async function getBlog(slug: string) {
   try {
-    const res = await api.get(`v1/blog/post/title/${slug}/`);
+    const res = await api.get(`v1/blog/post/slug/${slug}/`);
     return res.data;
   } catch (error) {
     console.error('Error fetching blog:', error);

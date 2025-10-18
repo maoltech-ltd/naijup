@@ -23,36 +23,12 @@ export interface Blog {
   tags: string[];
 }
 export default function BlogPage({  blog }: {  blog: Blog  }) {
-  // const dispatch = useAppDispatch();
-
-  // const [blog, setBlog] = useState<Blog | null>(null);
-  // const [loading, setLoading] = useState(true);
-  // const [error, setError] = useState<any | null>(null);
-
-  // useEffect(() => {
-  //   setLoading(true);
-  //   dispatch(fetchPostByTitle(params.slug))
-  //     .unwrap()
-  //     .then((result: Blog) => {
-  //       setBlog(result);
-  //     })
-  //     .catch((err: any) => {
-  //       setError(err);
-  //     })
-  //     .finally(() => {
-  //       setLoading(false);
-  //     });
-  // }, [dispatch, params.slug]);
-
-  // if (loading) {
-  //   return <LoadingSpinner />;
-  // }
 
   if (!blog) {
     return <div>No blog found</div>;
   }
 
-
+  const imageSrc = blog.image_links || '/default-image.jpg';
 
   return (
     <>
@@ -70,7 +46,7 @@ export default function BlogPage({  blog }: {  blog: Blog  }) {
           </div>
           <div className="absolute top-0 left-0 right-0 bottom-0 h-full bg-dark/60 dark:bg-dark/40" />
           <Image
-            src={blog.image_links}
+            src={imageSrc}
             alt={blog.title}
             width={100}
             height={100}
