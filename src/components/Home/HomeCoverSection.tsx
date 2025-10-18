@@ -24,7 +24,7 @@ const HomeCoverSection: React.FC<Props> = ({ blogs }) => {
   if (validBlogs.length === 0) {
     return null;
   }
-
+  console.log({slug: blogs[0].slug});
   return (
     <div className="w-full inline-block">
       <Swiper

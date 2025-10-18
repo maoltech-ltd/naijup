@@ -7,6 +7,7 @@ import api from '@/src/api';
 async function getBlog(slug: string) {
   try {
     const res = await api.get(`v1/blog/post/slug/${slug}/`);
+    console.log({resdata: res.data});
     return res.data;
   } catch (error) {
     console.error('Error fetching blog:', error);

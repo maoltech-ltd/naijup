@@ -46,7 +46,7 @@ const Home: React.FC = () => {
   if (!blogs) {
     return <div>No blog found</div>;
   }
-  
+  console.log({blogsresult: blogs.results})
   return (
     <main className="flex flex-col items-center justify-center">
       <>
