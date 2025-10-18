@@ -57,7 +57,7 @@ const HomeCoverSection: React.FC<Props> = ({ blogs }) => {
                   link={`/categories/${blog.category}`}
                   name={blog.category}
                 />
-                <Link href={`/blog/${blog.title}`} className="mt-6">
+                <Link href={`/blog/${blog.slug}`} className="mt-6">
                   <h1 className="font-bold capitalize text-light text-4xl sm:text-xl md:text-3xl lg:text-4xl">
                     <span
                       className="bg-gradient-to-r from-accent to-accent dark:from-accentDark/50 

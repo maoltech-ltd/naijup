@@ -8,7 +8,7 @@ const BlogLayoutTwo: React.FC<BlogProp> = (blog: any) => {
   return (
     <div className="group grid grid-cols-12 gap-4 items-center text-dark dark:text-light">
       <Link
-        href={`/blog/${blog.blog.title}`}
+        href={`/blog/${blog.blog.slug}`}
         className=" col-span-12  lg:col-span-4 h-full rounded-xl overflow-hidden"
       >
         <Image
@@ -26,7 +26,7 @@ const BlogLayoutTwo: React.FC<BlogProp> = (blog: any) => {
         <span className="inline-block w-full uppercase text-accent dark:text-accentDark font-semibold text-xs sm:text-sm">
           {blog.blog.category}
         </span>
-        <Link href={`/blog/${blog.blog.title}`} className="inline-block my-1">
+        <Link href={`/blog/${blog.blog.slug}`} className="inline-block my-1">
           <h2 className="font-semibold capitalize text-base sm:text-lg">
             <span
               className="bg-gradient-to-r from-accent/50 dark:from-accentDark/50 to-accent/50 dark:to-accentDark/50 bg-[length:0px_6px]
