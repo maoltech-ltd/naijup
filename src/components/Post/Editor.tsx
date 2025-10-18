@@ -95,10 +95,17 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
       let imageUrl = post?.image_links;
 
       if (imageFile) {
-        const uploadedImageUrl = await dispatch(
-          createImage(imageFile)
-        ).unwrap();
-        imageUrl = uploadedImageUrl.url;
+        try {
+          const uploadedImageUrl = await dispatch(
+            createImage(imageFile)
+          ).unwrap();
+          imageUrl = uploadedImageUrl.url;
+        } catch (error: any) {
+          setErrorMessage(error.message || "Image upload failed");
+          setErrorModalOpen(true);
+          return;
+        }
+        
       }
 
       const postData = {
@@ -131,6 +138,12 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
 
   const handleImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files[0];
+  
+    if (file && file.size > 100 * 1024) { // 100KB in bytes
+      setErrorMessage("File size must not exceed 100KB");
+      setErrorModalOpen(true);
+      return;
+    }
     setImageFile(file);
   };
 
@@ -204,7 +217,11 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
                       },
                     };
                   } catch (error: any) {
-                    setErrorMessage(error.message || error.error || "Image upload failed ❌");
+                    const errorMessage = error.message || 
+                                    error.payload?.message || 
+                                    error.error || 
+                                    "Image upload failed ❌";
+                    setErrorMessage(errorMessage);
                     setErrorModalOpen(true);
                     return {
                       success: 0,
