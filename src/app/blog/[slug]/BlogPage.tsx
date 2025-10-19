@@ -29,9 +29,7 @@ export default function BlogPage({  blog }: {  blog: Blog  }) {
   }
 
   const imageSrc = blog.image_links || '/default-image.jpg';
-  console.log({blogpost: blog});
-  console.log({blogimage: imageSrc});
-  console.log({blogslug: blog.slug});
+  
   return (
     <>
       <article>

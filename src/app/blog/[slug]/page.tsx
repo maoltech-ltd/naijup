@@ -4,14 +4,28 @@ import BlogPage from './BlogPage';
 import api from '@/src/api';
 
 // Server-side data fetching
-async function getBlog(slug: string) {
-  try {
-    const res = await api.get(`v1/blog/post/slug/${slug}/`);
-    console.log({resdata: res.data});
-    return res.data;
-  } catch (error) {
-    console.error('Error fetching blog:', error);
-    return null;
+// async function getBlog(slug: string) {
+//   try {
+//     const res = await api.get(`v1/blog/post/slug/${slug}/`);
+//     return res.data;
+//   } catch (error) {
+//     console.error('Error fetching blog:', error);
+//     return null;
+//   }
+// }
+
+async function getBlog(slug: string, retries = 2) {
+  for (let i = 0; i <= retries; i++) {
+    try {
+      const res = await api.get(`v1/blog/post/slug/${slug}/`);
+      if (res.data?.title) return res.data;
+    } catch (error) {
+      if (i === retries) {
+        console.error('Error fetching blog:', error);
+        return null;
+      }
+      await new Promise(r => setTimeout(r, 500));
+    }
   }
 }
 
