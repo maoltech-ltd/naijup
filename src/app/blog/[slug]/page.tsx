@@ -23,8 +23,7 @@ export const revalidate = 60;
 
 async function getBlog(slug: string) {
   try {
-    console.log(`${process.env.NEXT_PUBLIC_BASE_URL}/v1/blog/post/slug/${slug}/`)
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/v1/blog/post/slug/${slug}/`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}v1/blog/post/slug/${slug}/`, {
       next: { revalidate: 60 },
     });
 
@@ -137,8 +136,6 @@ export default async function BlogSEOPage({ params }: { params: { slug: string }
   const blog = await getBlog(params.slug);
   
   if (!blog) {
-
-    <>{`${process.env.NEXT_PUBLIC_BASE_URL}/v1/blog/post/slug/${params.slug}/`}</>
     notFound();
   }
 
