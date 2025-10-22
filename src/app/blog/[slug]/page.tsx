@@ -1,33 +1,45 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import BlogPage from './BlogPage';
-import api from '@/src/api';
+// import api from '@/src/api';
 
-// Server-side data fetching
-// async function getBlog(slug: string) {
-//   try {
-//     const res = await api.get(`v1/blog/post/slug/${slug}/`);
-//     return res.data;
-//   } catch (error) {
-//     console.error('Error fetching blog:', error);
-//     return null;
+
+// async function getBlog(slug: string, retries = 2) {
+//   for (let i = 0; i <= retries; i++) {
+//     try {
+//       const res = await api.get(`v1/blog/post/slug/${slug}/`);
+//       if (res.data?.title) return res.data;
+//     } catch (error) {
+//       if (i === retries) {
+//         console.error('Error fetching blog:', error);
+//         return null;
+//       }
+//       await new Promise(r => setTimeout(r, 500));
+//     }
 //   }
 // }
 
-async function getBlog(slug: string, retries = 2) {
-  for (let i = 0; i <= retries; i++) {
-    try {
-      const res = await api.get(`v1/blog/post/slug/${slug}/`);
-      if (res.data?.title) return res.data;
-    } catch (error) {
-      if (i === retries) {
-        console.error('Error fetching blog:', error);
-        return null;
-      }
-      await new Promise(r => setTimeout(r, 500));
-    }
+export const revalidate = 60;
+
+async function getBlog(slug: string) {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/v1/blog/post/slug/${slug}/`, {
+      next: { revalidate: 60 },
+    });
+
+    if (!res.ok) throw new Error(`Failed to fetch blog: ${res.status}`);
+
+    const blog = await res.json();
+
+    if (!blog?.title) return null;
+
+    return blog;
+  } catch (error) {
+    console.error('Error fetching blog:', error);
+    return null;
   }
 }
+
 
 const firstParagraph = (content: any) =>{
   return content.find(
@@ -35,7 +47,6 @@ const firstParagraph = (content: any) =>{
   )?.data?.text;
 }
 
-// Generate SEO metadata
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const blog = await getBlog(params.slug);
   
@@ -47,7 +58,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 
   const blogUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/blog/${params.slug}`;
   const blogImage = blog.image_links || '/default-social-banner.png';
-  const description = (firstParagraph(blog.content)?.substring(0, 160)) || `Read ${blog.title} on Naijup`;
+  const description = firstParagraph(blog.content)?.substring(0, 160) || `Read ${blog.title} on Naijup`;
 
   return {
     title: blog.title,
@@ -56,7 +67,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     authors: [{ name: blog.author?.name || 'Naijup' }],
     openGraph: {
       title: blog.title,
-      description: description,
+      description,
       url: blogUrl,
       siteName: 'Naijup',
       images: [
@@ -75,7 +86,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     twitter: {
       card: 'summary_large_image',
       title: blog.title,
-      description: description,
+      description,
       images: [blogImage],
       creator: '@maoltech',
     },
