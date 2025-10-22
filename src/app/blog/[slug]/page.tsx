@@ -136,6 +136,8 @@ export default async function BlogSEOPage({ params }: { params: { slug: string }
   const blog = await getBlog(params.slug);
   
   if (!blog) {
+
+    <>{`${process.env.NEXT_PUBLIC_BASE_URL}/v1/blog/post/slug/${params.slug}/`}</>
     notFound();
   }
 
