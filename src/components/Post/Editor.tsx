@@ -129,7 +129,7 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
       }
 
       reset();
-      router.push(`/blog/${data.title}`);
+      router.push(`/blog/${data.slug}`);
     } catch (error: any) {
       setErrorMessage(error?.message || "Something went wrong ❌");
       setErrorModalOpen(true);
