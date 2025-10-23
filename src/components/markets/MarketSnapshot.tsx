@@ -20,10 +20,14 @@ const MarketSnapshot = () => {
   if (status === "loading") return <p>Loading snapshot...</p>;
   if (status === "failed") return <p className="text-red-500">{error}</p>;
 
+  const filteredData = data ? Object.entries(data).filter(([key]) => 
+    key !== "$id" && key !== "Id"
+  ) : [];
+
   return (
     <MarketCard title="NGX Snapshot" icon={<BarChart3 className="w-5 h-5 text-indigo-600" />} subtitle="Market Overview">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {data && Object.entries(data).map(([key, value]) => (
+        {filteredData.map(([key, value]) => (
           <StatCard
             key={key}
             label={key.replace("_", " ")}
