@@ -16,6 +16,8 @@ import { cs } from "@/src/utils";
 import { useSelector } from "react-redux";
 import { categories } from "@/src/utils/props";
 import FxSlider from "../markets/FxSlider";
+import { usePathname } from "next/navigation";
+
 
 const Header = () => {
   const user = useSelector((state: any) => state.user);
@@ -75,13 +77,21 @@ const Header = () => {
     };
   }, []);
 
+  const pathname = usePathname();
+  const isHome = pathname === "/";
   return (
     <div className="relative">
       <div className="w-full items-center justify-around bg-black dark:bg-white py-2">
         <Link href="/">
-          <div className="text-2xl sm:text-4xl font-bold text-white dark:text-black text-center">
-            NaijUp
-          </div>
+          {isHome ? (
+            <h1 className="text-2xl sm:text-4xl font-bold text-white dark:text-black text-center">
+              NaijUp
+            </h1>
+          ) : (
+            <div className="text-2xl sm:text-4xl font-bold text-white dark:text-black text-center">
+              NaijUp
+            </div>
+          )}
         </Link>
       </div>
       <div>
