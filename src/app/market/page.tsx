@@ -12,7 +12,7 @@ const MarketETF = dynamic(() => import("@/src/components/markets/MarketETF"));
 export const metadata: Metadata = {
   title: "Nigeria Market Insights | NGN FX, NGX Stocks, Bonds & ETFs | Naijup Finance",
   description:
-    "Get real-time updates on Nigeria's financial markets — NGN currency exchange rates, NGX stock performance, FGN bond yields, and ETF insights. Stay informed with Naijup Finance.",
+    "Get real-time updates on Nigeria's financial markets — NGN currency exchange rates, NGX stock performance, FGN bond yields, and ETF insights.",
   keywords: [
     "Nigeria market",
     "NGN FX rates",
@@ -22,6 +22,12 @@ export const metadata: Metadata = {
     "Naijup Finance",
     "Naira currency",
     "Nigerian economy",
+    "Naira",
+    "USDNGN",
+    "GBPNGN",
+    "BTCNGN",
+    "Dollar to Naira",
+    "Naira to Dollar"
   ],
   alternates: {
     canonical: "https://naijup.com/market",
