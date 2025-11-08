@@ -117,19 +117,24 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
         author: user.userId,
         tags: tags,
       };
-
+      let result;
       if (post) {
-        await dispatch(updatePost({ id: post.id, changes: postData, token: user.token }));
+        result = await dispatch(updatePost({ id: post.id, changes: postData, token: user.token }));
         setSuccessMessage("Post updated successfully ✅");
         setSuccessModalOpen(true);
       } else {
-        await dispatch(createPost({ post: postData, token: user.token }));
+        result = await dispatch(createPost({ post: postData, token: user.token }));
         setSuccessMessage("Post created successfully 🎉");
         setSuccessModalOpen(true);
       }
 
       reset();
-      router.push(`/blog/${data.slug}`);
+      if(result && result.payload.slug){
+        router.push(`/blog/${result.payload.slug}`);
+      }else {
+        router.push('/');
+      }
+      
     } catch (error: any) {
       setErrorMessage(error?.message || "Something went wrong ❌");
       setErrorModalOpen(true);
