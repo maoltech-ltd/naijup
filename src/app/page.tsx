@@ -8,6 +8,8 @@ import RecentPost from "../components/Home/RecentPost";
 import ErrorModal from "../components/Modal/ErrorModal";
 import LoadingSpinner from "../components/loading/loadingSpinner";
 import HeadlineTicker from "../components/markets/HeadlineTicker";
+import { categories } from "../utils/props";
+import CategorySection from "../components/Home/CategorySection";
 
 
 const Home: React.FC = () => {
@@ -46,16 +48,29 @@ const Home: React.FC = () => {
   if (!blogs) {
     return <div>No blog found</div>;
   }
-  console.log({blogsresult: blogs.results})
+  const results = blogs.results;
   return (
     <main className="flex flex-col items-center justify-center">
       <>
-        <HomeCoverSection blogs={blogs.results} />
+        <HomeCoverSection blogs={results} />
         <div>
           <HeadlineTicker />
         </div>
-        <FeaturedPost blogs={blogs.results} />
-        <RecentPost blogs={blogs.results} />
+        <FeaturedPost blogs={results} />
+        <RecentPost blogs={results} />
+        {/* 🆕 Dynamic Category Sections */}
+        {categories.map((cat) => {
+          const catPosts = results.filter(
+            (post: any) => post.category?.toLowerCase() === cat.name.toLowerCase()
+          );
+          return (
+            <CategorySection
+              key={cat.name}
+              category={cat.name}
+              blogs={catPosts}
+            />
+          );
+        })}
       </>
       <ErrorModal
         isOpen={isErrorOpen}
