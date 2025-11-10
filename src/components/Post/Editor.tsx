@@ -130,7 +130,7 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
         setErrorModalOpen(true);
   
         setTimeout(() => {
-          router.push("/login");
+          router.push("/signin");
         }, 1500);
         return;
       }
