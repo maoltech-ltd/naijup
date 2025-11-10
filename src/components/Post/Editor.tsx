@@ -120,21 +120,31 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
       let result;
       if (post) {
         result = await dispatch(updatePost({ id: post.id, changes: postData, token: user.token }));
-        setSuccessMessage("Post updated successfully ✅");
-        setSuccessModalOpen(true);
       } else {
         result = await dispatch(createPost({ post: postData, token: user.token }));
-        setSuccessMessage("Post created successfully 🎉");
-        setSuccessModalOpen(true);
       }
-      console.log(result);
+      console.log({result})
+      // 🔥 Check for expired/invalid token
+      if (result.meta.requestStatus === "rejected" && result.payload?.code === 401) {
+        setErrorMessage("Your session has expired. Please sign in again.");
+        setErrorModalOpen(true);
+  
+        setTimeout(() => {
+          router.push("/login");
+        }, 1500);
+        return;
+      }
+  
+      // ✅ Handle success
+      setSuccessMessage(post ? "Post updated successfully ✅" : "Post created successfully 🎉");
+      setSuccessModalOpen(true);
       reset();
-      if(result && result.payload.slug){
+  
+      if (result && result.payload?.slug) {
         router.push(`/blog/${result.payload.slug}`);
-      }else {
-        router.push('/');
+      } else {
+        router.push("/");
       }
-      
     } catch (error: any) {
       setErrorMessage(error?.message || "Something went wrong ❌");
       setErrorModalOpen(true);

@@ -1,8 +1,12 @@
 import api from "@/src/api";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
 
-
+interface PostError {
+    code: number;
+    message: string;
+}
 interface PostState {
     posts: []
     status: "idle";
@@ -27,25 +31,49 @@ export const fetchPost = createAsyncThunk('posts/fetchPost', async (postId: stri
 }) 
 
 // Thunk to create a new post
-export const createPost = createAsyncThunk('posts/createPost', async (payload: {post: any, token: string} ) => {
-    const headers = {
-        Authorization: "Bearer " + payload.token
-    };
-    const response = await api.post('v1/blog/', payload.post, {headers});
-    return response.data;
+export const createPost = createAsyncThunk<any, {post: any; token: string}, {rejectValue: PostError}>('posts/createPost', async (payload: {post: any, token: string}, {rejectWithValue} ) => {
+    try{
+        const headers = {
+            Authorization: "Bearer " + payload.token
+        };
+        const response = await api.post('v1/blog/', payload.post, {headers});
+        return response.data;
+    }catch(err: any){
+        if (axios.isAxiosError(err) && err.response?.status === 401) {
+            return rejectWithValue({ code: 401, message: "Unauthorized — Token expired" });
+        }
+        return rejectWithValue({
+            code: err.response?.status || 500,
+            message: err.response?.data?.message || "Failed to create post.",
+        });   
+    }
 });
 
-
-export const updatePost = createAsyncThunk(
+interface PostError {
+    code: number;
+    message: string;
+  }
+export const updatePost = createAsyncThunk<any, {id: string; changes: any, token: string}, {rejectValue: PostError}>(
     "posts/updatePost",
-    async (payload: { id: string; changes: any; token: string }) => {
-      const headers = {
-        Authorization: "Bearer " + payload.token,
-      };
-      const response = await api.patch(`v1/blog/${payload.id}/`, payload.changes, {
-        headers,
-      });
-      return response.data;
+    async (payload: { id: string; changes: any; token: string }, {rejectWithValue}) => {
+        try {
+            const headers = {
+                Authorization: "Bearer " + payload.token,
+              };
+              const response = await api.patch(`v1/blog/${payload.id}/`, payload.changes, {
+                headers,
+              });
+              return response.data;
+        } catch (err: any) {
+            if (axios.isAxiosError(err) && err.response?.status === 401) {
+                return rejectWithValue({ code: 401, message: "Unauthorized — Token expired" });
+            }
+            return rejectWithValue({
+                code: err.response?.status || 500,
+                message: err.response?.data?.message || "Failed to update post.",
+            });
+        }
+
     }
   );
 
@@ -82,7 +110,7 @@ const postsSlice = createSlice({
             })
             .addCase(createPost.rejected, (state: any, action) => {
                 state.status = "failed";
-                state.error = action.error.message || action.error.message || "Failed to create post.";
+                state.error = action.payload?.message || action.error.message || "Failed to create post.";
             })
             // Update post
             .addCase(updatePost.fulfilled, (state: any, action) => {
@@ -94,7 +122,7 @@ const postsSlice = createSlice({
             })
             .addCase(updatePost.rejected, (state: any, action) => {
                 state.status = "failed";
-                state.error = action.error.message || action.error.message || "Failed to update post.";
+                state.error = action.payload?.message || action.error.message || "Failed to update post.";
             })
             // Delete post
             .addCase(deletePost.fulfilled, (state: any, action) => {
