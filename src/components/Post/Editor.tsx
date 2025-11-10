@@ -127,7 +127,7 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
         setSuccessMessage("Post created successfully 🎉");
         setSuccessModalOpen(true);
       }
-
+      console.log(result);
       reset();
       if(result && result.payload.slug){
         router.push(`/blog/${result.payload.slug}`);
