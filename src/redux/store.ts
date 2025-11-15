@@ -34,6 +34,8 @@ const persistConfig: PersistConfig<ReturnType<typeof rootReducer>> = {
   key: "root",
   storage,
   timeout: 6000,
+  whitelist: ["user", "image", "post"],     // persist ONLY tiny slices (adjust based on your app)
+  blacklist: ["posts", "bulkCategories", "categories", "comments", "fxRates", "secondUser"], // VERY IMPORTANT
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -43,8 +45,15 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: ["persist/PERSIST"],
+        ignoredActions: [
+          "persist/PERSIST",
+          "persist/REHYDRATE",
+          "persist/PAUSE",
+          "persist/PURGE",
+          "persist/FLUSH",
+          "persist/REGISTER",],
       },
+      ignoredPaths: ["err"],
     }),
 });
 

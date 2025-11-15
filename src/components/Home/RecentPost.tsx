@@ -1,3 +1,4 @@
+"use client";
 import { Props } from "@/src/utils/props";
 import { sortBlogs } from "@/src/utils";
 import Link from "next/link";

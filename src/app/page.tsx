@@ -8,8 +8,8 @@ import RecentPost from "../components/Home/RecentPost";
 import ErrorModal from "../components/Modal/ErrorModal";
 import LoadingSpinner from "../components/loading/loadingSpinner";
 import HeadlineTicker from "../components/markets/HeadlineTicker";
-// import { categories } from "../utils/props";
-// import CategorySection from "../components/Home/CategorySection";
+import { categories } from "../utils/props";
+import CategorySection from "../components/Home/CategorySection";
 
 
 const Home: React.FC = () => {
@@ -42,7 +42,7 @@ const Home: React.FC = () => {
   }
 
   if (errorMessage) {
-    return <div>Error loading blog: {errorMessage.message}</div>;
+    return <div>Error loading blog: {errorMessage}</div>;
   }
 
   if (!blogs) {
@@ -59,18 +59,14 @@ const Home: React.FC = () => {
         <FeaturedPost blogs={results} />
         <RecentPost blogs={results} />
         {/* 🆕 Dynamic Category Sections */}
-        {/* {categories.map((cat) => {
-          const catPosts = results.filter(
-            (post: any) => post.category?.toLowerCase() === cat.name.toLowerCase()
-          );
+        {categories.map((cat) => {
           return (
             <CategorySection
               key={cat.name}
               category={cat.name}
-              blogs={catPosts}
             />
           );
-        })} */}
+        })} 
       </>
       <ErrorModal
         isOpen={isErrorOpen}

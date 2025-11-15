@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 
 export function useThemeSwitch() {
-  const preferDarkQuery = "(prefers-color-schema:dark)";
+  // const preferDarkQuery = "(prefers-color-schema:dark)";
+  const preferDarkQuery = "(prefers-color-scheme: dark)";
   const storageKey = "theme";
 
   const toggleTheme = (theme:any) => {
