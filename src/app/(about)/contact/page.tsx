@@ -1,12 +1,11 @@
 import Image from "next/image"
 import profileCharacter from "../../../../public/image/character.png"
-import ContactForm from "./ContactForm"
 import siteMetadata from "@/src/utils/sitemetadata";
 
 
 export const metadata = {
-    title: "Contact Me",
-    description: `Contact me through the form available on this page or email me at ${siteMetadata.email}`,
+    title: "Contact Us",
+    description: `Contact us through the form available on this page or email me at ${siteMetadata.email}`,
 };
 
 const Contact = () => {
@@ -22,12 +21,38 @@ const Contact = () => {
             />
         </div>
         </div>
-            <div className="w-full  md:w-3/5 flex flex-col items-start justify-center px-5 xs:px-10 md:px-16 pb-8">
-            <h2 className="font-bold capitalize  text-2xl xs:text-3xl sm:text-4xl">Let&apos;s Connect!</h2>
-            <ContactForm />
-            </div>
+        <div className="w-full  md:w-3/5 flex flex-col items-start justify-center px-5 xs:px-10 md:px-16 pb-8">
+            <h2 className="font-bold capitalize text-2xl xs:text-3xl sm:text-4xl">Let&apos;s Connect!</h2>
+            <p className="mt-6 text-base md:text-lg leading-relaxed">
+            You can reach out to us via email at{" "}
+            <a href="mailto:admin@naijup.ng" className="underline underline-offset-2">
+                admin@naijup.ng
+            </a>.
+            </p>
+            <p className="mt-4 text-base md:text-lg leading-relaxed">
+            Follow us on social media for updates, news, and insights:
+            </p>
+            <ul className="mt-2 text-base md:text-lg space-y-2">
+            <li>
+                Twitter/X:{" "}
+                <a href="https://twitter.com/official_naijup" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">
+                @official_naijup
+                </a>
+            </li>
+            <li>
+                Instagram:{" "}
+                <a href="https://instagram.com/official_naijup" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">
+                @official_naijup
+                </a>
+            </li>
+            </ul>
+            <p className="mt-6 text-base md:text-lg leading-relaxed">
+            We&apos;d love to hear from you and help you stay informed on finance, business, and crypto in Nigeria!
+            </p>
+        </div>
   </section>
   )
 }
 
 export default Contact
+

@@ -31,7 +31,7 @@ const siteMetadata = {
     siteUrl: "https://naijup.ng", // use your live domain
     siteLogo: "/logo.png",
     socialBanner: "/social-banner.png", // recommended 1200x630
-    email: "naijup27@gmail.com",
+    email: "admin@naijup.ng",
     github: "https://github.com/maoltech",
     twitter: "https://twitter.com/maoltech",
     facebook: "https://facebook.com/naijupng",

@@ -79,6 +79,7 @@ const Footer = () => {
         >
           sitemap.xml
         </Link>
+        <Link href="/privacy-policy" className="underline text-center">Privacy Policy</Link>
         <div className="text-center">
           Made with &hearts; by{" "}
           <a href="https://github.com/maoltech" className="underline" target="_blank">
