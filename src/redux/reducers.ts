@@ -13,7 +13,8 @@ import {
     bondReducer,
     etfReducer, 
     headlinesReducer,
-    bulkCategoryReducer
+    bulkCategoryReducer,
+    authorReducer,
 } from "./slice";
 
 
@@ -31,7 +32,8 @@ const rootReducer = combineReducers({
     bond: bondReducer,
     etf: etfReducer,
     headlines: headlinesReducer,
-    bulkCategory: bulkCategoryReducer
+    bulkCategory: bulkCategoryReducer,
+    author: authorReducer,
 })
 
 export default rootReducer

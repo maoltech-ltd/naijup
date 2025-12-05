@@ -6,6 +6,7 @@ import imageReducer from "./ImageSlice";
 import secondUserReducer from "./secondUserSlice";
 import postReducer from "./postSlice";
 import bulkCategoryReducer from "./bulkCategorySlice";
+import authorReducer from "./authorSlice";
 import {fxReducer, snapshotReducer, equityReducer, etfReducer, bondReducer, headlinesReducer} from "./marketSlice";
 
 export {
@@ -22,6 +23,7 @@ export {
     etfReducer,
     bondReducer,
     headlinesReducer,
-    bulkCategoryReducer
+    bulkCategoryReducer,
+    authorReducer,
 
 }

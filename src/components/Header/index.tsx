@@ -7,8 +7,6 @@ import {
   DribbbleIcon,
   FacebookIcon,
   LinkedinIcon,
-  MoonIcon,
-  SunIcon,
   TwitterIcon,
 } from "../icon";
 import { useThemeSwitch } from "../Hooks/useThemeSwitch";
@@ -18,17 +16,22 @@ import { categories } from "@/src/utils/props";
 // import FxSlider from "../markets/FxSlider";
 import { usePathname } from "next/navigation";
 import dynamic from "next/dynamic";
+import { Moon, Sun } from "lucide-react";
 
 const FxSlider = dynamic(() => import("../markets/FxSlider"), {
   ssr: false
 });
 
 const Header = () => {
+  
+
+  
   const user = useSelector((state: any) => state.user);
   const [mode, setMode]: any = useThemeSwitch();
   const [click, setClick] = useState(false);
   const [showCategories, setShowCategories] = useState(false);
   const [isSwitching, setIsSwitching] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   const categoriesRef = useRef<HTMLDivElement>(null);
   const mobileCategoriesRef = useRef<HTMLDivElement>(null);
@@ -51,6 +54,7 @@ const Header = () => {
 
   // Close dropdowns when clicking outside
   useEffect(() => {
+    setMounted(true);
     const handleClickOutside = (event: MouseEvent) => {
       if (
         categoriesRef.current &&
@@ -82,6 +86,8 @@ const Header = () => {
   }, []);
 
   const pathname = usePathname();
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
   const isHome = pathname === "/";
   return (
     <div className="relative">
@@ -101,8 +107,24 @@ const Header = () => {
       <div>
       <FxSlider />
       </div>
+      <button
+        onClick={handleThemeChange}
+        className="fixed top-5 right-5 p-3 rounded-full bg-white dark:bg-gray-700 shadow-xl cursor-pointer"
+      >
+        {mode === "light" ? <Moon /> : <Sun />}
+      </button>
       <header className="w-full p-4 px-5 sm:px-10 flex items-center justify-between relative">
-        <Logo user={user} />
+        <div>
+          <Logo user={user} />
+          {user?.isAuthor && (
+            <Link href="/dashboard" className="ml-2">
+              <span className="px-2 py-1 bg-blue-500 text-white text-xs font-semibold rounded">
+                Author
+              </span>
+            </Link>
+          )}
+        </div>
+        
 
         {/* Hamburger Menu for Small Screens */}
         <button
@@ -189,7 +211,7 @@ const Header = () => {
             Contacts
           </Link>
 
-          <button
+          {/* <button
             onClick={handleThemeChange}
             className={cs(
               "w-6 h-6 ease ml-2 flex items-center justify-center rounded-full p-1 cursor-pointer",
@@ -208,7 +230,8 @@ const Header = () => {
             ) : (
               <SunIcon className={"fill-dark"} />
             )}
-          </button>
+          </button> */}
+
         </nav>
 
         {/* Mobile Navigation */}
@@ -314,7 +337,7 @@ const Header = () => {
                   </Link>
 
                   <div className="pt-4">
-                    <button
+                    {/* <button
                       onClick={handleThemeChange}
                       className={cs(
                         "w-full flex items-center justify-between py-3 px-4 rounded-lg border",
@@ -323,8 +346,14 @@ const Header = () => {
                           : "bg-gray-100 text-dark border-gray-200"
                       )}
                       aria-label="theme-switcher"
+                    > */}
+                    {/* <button
+                      onClick={handleThemeChange}
+                      className="fixed top-5 right-5 p-3 rounded-full bg-white dark:bg-gray-700 shadow-xl cursor-pointer"
                     >
-                      <span>Theme</span>
+                      {mode === "light" ? <Moon /> : <Sun />}
+                    </button> */}
+                      {/* <span>Theme</span>
                       {isSwitching ? (
                         mode === "light" ? (
                           <SunIcon className="w-5 h-5" />
@@ -336,7 +365,7 @@ const Header = () => {
                       ) : (
                         <SunIcon className="w-5 h-5" />
                       )}
-                    </button>
+                    </button> */}
                   </div>
 
                   {/* Social Links in Mobile Menu */}
