@@ -2,6 +2,9 @@
 import dynamic from "next/dynamic";
 import MarketCoverSection from "@/src/components/markets/MarketCoverSection";
 import { Metadata } from "next";
+import MarketIntroSEOSection from "@/src/components/markets/MarketIntroSection";
+import WhatWeTrackSection from "@/src/components/markets/WhatWeTrackSection";
+import MarketFAQSection from "@/src/components/markets/MarketFAQSection";
 
 const CurrencyFX = dynamic(() => import("@/src/components/markets/CurrencyFX"));
 const MarketSnapshot = dynamic(() => import("@/src/components/markets/MarketSnapshot"));
@@ -51,8 +54,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    site: "@naijupfinance",
-    creator: "@naijupfinance",
+    site: "@official_naijup",
+    creator: "@official_naijup",
     title: "Nigeria Market Insights | NGN FX, NGX Stocks, Bonds & ETFs",
     description:
       "Real-time NGN FX rates, NGX stock data, FGN bonds, and ETF trends — your complete Nigerian market snapshot.",
@@ -65,11 +68,14 @@ const Market = () => {
     <>
       <MarketCoverSection />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-8 space-y-12">
+        <MarketIntroSEOSection />
+        <WhatWeTrackSection />
         <CurrencyFX />
         <MarketSnapshot />
         <MarketEquity />
         <MarketBond />
         <MarketETF />
+        <MarketFAQSection />
       </div>
     </>
   );
