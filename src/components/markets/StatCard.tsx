@@ -46,7 +46,7 @@ const StatCard = ({ label, value, change }: StatCardProps) => {
 
       {/* Value */}
       <h3
-        className="text-lg sm:text-2xl font-bold text-dark dark:text-light truncate max-w-full"
+        className="text-lg sm:text-2xl font-bold text-dark truncate max-w-full"
         title={String(value)} // shows full number on hover
       >
         {displayValue}

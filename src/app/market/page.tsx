@@ -2,15 +2,15 @@
 import dynamic from "next/dynamic";
 import MarketCoverSection from "@/src/components/markets/MarketCoverSection";
 import { Metadata } from "next";
-import MarketIntroSEOSection from "@/src/components/markets/MarketIntroSection";
-import WhatWeTrackSection from "@/src/components/markets/WhatWeTrackSection";
-import MarketFAQSection from "@/src/components/markets/MarketFAQSection";
 
 const CurrencyFX = dynamic(() => import("@/src/components/markets/CurrencyFX"));
 const MarketSnapshot = dynamic(() => import("@/src/components/markets/MarketSnapshot"));
 const MarketEquity = dynamic(() => import("@/src/components/markets/MarketEquity"));
 const MarketBond = dynamic(() => import("@/src/components/markets/MarketBond"));
 const MarketETF = dynamic(() => import("@/src/components/markets/MarketETF"));
+const MarketIntroSEOSection = dynamic(() => import("@/src/components/markets/MarketIntroSection"));
+const WhatWeTrackSection = dynamic(() => import("@/src/components/markets/WhatWeTrackSection"));
+const MarketFAQSection = dynamic(() => import("@/src/components/markets/MarketFAQSection"));
 
 export const metadata: Metadata = {
   title: "Nigeria Market Insights | NGN FX, NGX Stocks, Bonds & ETFs | Naijup Finance",

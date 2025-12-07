@@ -48,7 +48,7 @@ const MarketBond = () => {
             key={idx}
             className="p-4 rounded-xl shadow-md bg-white dark:bg-gray-800"
           >
-            <p className="text-dark dark:text-light font-medium">
+            <p className="text-dark font-medium">
               {bond.SYMBOL} – ₦
               {bond.TODAYS_CLOSE.toLocaleString("en-NG", {
                 maximumFractionDigits: 2,

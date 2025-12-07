@@ -3,9 +3,9 @@ const MarketIntroSEOSection = () => {
     <section className="mt-10 bg-white dark:bg-gray-900 p-8 rounded-xl shadow-sm">
       <h2 className="text-2xl font-bold mb-4">Nigeria Market Overview</h2>
       <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-        Nigeria&rsquo;s financial markets move quickly, and NaijUp Market Watch keeps
-        you updated with accurate, real-time insights. Whether you&rsquo;re tracking
-        today&#39;s Dollar to Naira rate, monitoring NGX stock performance, or
+        Nigeria’s financial markets move quickly, and NaijUp Market Watch keeps
+        you updated with accurate, real-time insights. Whether you’re tracking
+        today's Dollar to Naira rate, monitoring NGX stock performance, or
         checking the latest government bonds and ETFs, this dashboard provides a
         clear and detailed breakdown of everything happening in the economy.
         <br /><br />
@@ -21,14 +21,14 @@ const MarketIntroSEOSection = () => {
         on government and corporate bonds, alongside pricing insights for major
         ETFs like NEWGOLD and STANBICETF30.
         <br /><br />
-        Whether you&rsquo;re a trader, analyst, student, or everyday Nigerian looking
+        Whether you're a trader, analyst, student, or everyday Nigerian looking
         for accurate information, NaijUp Market Watch delivers reliable and
         clear financial insights across multiple asset classes.
       </p>
 
       <div className="mt-6 text-blue-600 dark:text-blue-400 underline">
-        <a href="/category/economy">Explore Economic Updates</a> •
-        <a className="ml-2" href="/market/forex"> Forex Insights</a> •
+        <a href="/category/economy">Explore Economic Updates</a> &bull;
+        <a className="ml-2" href="/market/forex"> Forex Insights</a> &bull;
         <a className="ml-2" href="/market/stocks"> Stock Market News</a>
       </div>
     </section>
