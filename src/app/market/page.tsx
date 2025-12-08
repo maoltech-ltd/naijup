@@ -33,19 +33,19 @@ export const metadata: Metadata = {
     "Naira to Dollar"
   ],
   alternates: {
-    canonical: "https://naijup.com/market",
+    canonical: "https://naijup.ng/market",
   },
   openGraph: {
     title: "Nigeria Market Insights | NGN FX, NGX Stocks, Bonds & ETFs",
     description:
       "Explore Nigeria's latest financial data — currency (NGN), stocks (NGX), FGN bonds, and ETFs — all in one place.",
-    url: "https://naijup.com/market",
+    url: "https://naijup.ng/market",
     siteName: "Naijup Finance",
     locale: "en_NG",
     type: "website",
     images: [
       {
-        url: "https://naijup.com/images/market-preview.png",
+        url: "https://naijup.ng/images/market-preview.png",
         width: 1200,
         height: 630,
         alt: "Nigeria Market Overview - Naijup Finance",
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
     title: "Nigeria Market Insights | NGN FX, NGX Stocks, Bonds & ETFs",
     description:
       "Real-time NGN FX rates, NGX stock data, FGN bonds, and ETF trends — your complete Nigerian market snapshot.",
-    images: ["https://naijup.com/images/market-preview.png"],
+    images: ["https://naijup.ng/images/market-preview.png"],
   },
 };
 
