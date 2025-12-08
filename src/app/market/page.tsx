@@ -54,8 +54,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    site: "@official_naijup",
-    creator: "@official_naijup",
+    site: "@maoltech",
+    creator: "@maoltech",
     title: "Nigeria Market Insights | NGN FX, NGX Stocks, Bonds & ETFs",
     description:
       "Real-time NGN FX rates, NGX stock data, FGN bonds, and ETF trends — your complete Nigerian market snapshot.",
