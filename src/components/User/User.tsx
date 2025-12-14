@@ -18,6 +18,7 @@ const User =  ({ user, username }: any) => {
    const secondUser = useSelector((state: any) => state.secondUser);
 
    useEffect(() => {
+    if (!user?.token) return;
     if (username && user?.token) {
       dispatch(getUserDetails({ username, token: user.token }));
     }

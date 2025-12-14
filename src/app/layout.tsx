@@ -119,8 +119,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {/* Google Analytics */}
     
 
-        <Script async src="https://www.googletagmanager.com/gtag/js?id=AW-933643807" strategy="afterInteractive"></Script>
-        <Script id="google-analytics" strategy="afterInteractive">
+        <Script async src="https://www.googletagmanager.com/gtag/js?id=AW-933643807" strategy="afterInteractive" crossOrigin="anonymous"></Script>
+        <Script id="google-analytics" strategy="afterInteractive" crossOrigin="anonymous">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
