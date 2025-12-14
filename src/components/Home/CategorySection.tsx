@@ -28,21 +28,44 @@ const CategorySection: React.FC<Props> = ({ category }) => {
 
   const { categories, status, error } = useSelector(selectCategoryData);
 
+  // useEffect(() => {
+  //   const element = ref.current;
+  //   if (!element) return;
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       const entry = entries[0];
+  //       if (entry.isIntersecting) {
+  //         setVisible(true);
+  //       }
+  //     },
+  //     { threshold: 0.3 }
+  //   );
+  //   if (element) observer.observe(element);
+  //   return () => {
+  //     if (element) observer.unobserve(element);
+  //   };
+  // }, []);
+
   useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+
     const observer = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0];
+      ([entry]) => {
         if (entry.isIntersecting) {
           setVisible(true);
         }
       },
       { threshold: 0.3 }
     );
-    if (ref.current) observer.observe(ref.current);
+
+    observer.observe(element);
+
     return () => {
-      if (ref.current) observer.unobserve(ref.current);
+      observer.unobserve(element);
     };
   }, []);
+
 
   useEffect(() => {
     if (visible && !loaded) {
@@ -99,7 +122,9 @@ const CategorySection: React.FC<Props> = ({ category }) => {
                   alt={blog.title}
                   fill
                   loading="lazy"
-                  unoptimized
+                  sizes="(max-width: 640px) 100vw,
+                          (max-width: 1024px) 50vw,
+                          33vw"
                   className="object-cover"
                 />
               </div>

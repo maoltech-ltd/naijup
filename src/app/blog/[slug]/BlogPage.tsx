@@ -54,7 +54,6 @@ export default function BlogPage({  blog }: {  blog: Blog  }) {
             className="aspect-square w-full h-full object-cover object-center"
             priority
             sizes="100vw"
-            unoptimized
           />
         </div>
         <BlogDetails blog={blog} slug={blog.slug} />

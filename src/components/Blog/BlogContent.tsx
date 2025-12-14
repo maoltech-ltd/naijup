@@ -40,7 +40,6 @@ const BlogContent = ({ content }: any) => {
                 height={400}
                 quality={50}
                 className="object-cover w-full"
-                unoptimized
               />
               {item.data.caption && (
                 <p className="text-center text-sm mt-2">{item.data.caption}</p>

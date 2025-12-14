@@ -177,7 +177,7 @@ export default function AuthorDashboardClient() {
       dispatch(fetchAuthorMe(user.token));
       dispatch(fetchAuthorPosts({ token: user.token, page: 1 }));
     }
-  }, [user]);
+  }, [user, dispatch]);
 
   if (!user) return null;
 

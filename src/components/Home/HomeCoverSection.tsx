@@ -44,8 +44,8 @@ const HomeCoverSection: React.FC<Props> = ({ blogs }) => {
                 quality={50}
                 fill
                 priority
+                sizes="100vw"
                 className="object-cover object-center absolute inset-0 z-0"
-                unoptimized
               />
 
               {/* Gradient Overlay */}

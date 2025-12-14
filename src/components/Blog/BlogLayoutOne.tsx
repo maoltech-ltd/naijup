@@ -16,10 +16,10 @@ const BlogLayoutOne: React.FC<BlogProp> = (blog: any) => {
         alt={blog.blog.title}
         width={50}
         height={50}
+        // fill
         quality={50}
         className="w-full h-full object-center object-cover rounded-xl group-hover:scale-105 transition-all ease duration-300"
         sizes="(max-width: 1180px) 100vw, 50vw"
-        unoptimized
       />
 
       <div className="w-full absolute bottom-0 p-4 xs:p-6 sm:p-10 z-20">
