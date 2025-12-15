@@ -109,9 +109,12 @@ const Header = () => {
       </div>
       <button
         onClick={handleThemeChange}
+        aria-label={`Switch to ${mode === "light" ? "dark" : "light"} mode`}
+        title={`Switch to ${mode === "light" ? "dark" : "light"} mode`}
+        type="button"
         className="fixed top-5 right-5 p-3 rounded-full bg-white dark:bg-gray-700 shadow-xl cursor-pointer"
       >
-        {mode === "light" ? <Moon /> : <Sun />}
+        {mode === "light" ? <Moon aria-hidden /> : <Sun aria-hidden />}
       </button>
       <header className="w-full p-4 px-5 sm:px-10 flex items-center justify-between relative">
         <div>
