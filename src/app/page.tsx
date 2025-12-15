@@ -1,81 +1,33 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import { useAppDispatch } from "../redux/hooks/dispatch";
-import { fetchPosts } from "../redux/slice/postsSlice";
-import HomeCoverSection from "../components/Home/HomeCoverSection";
-import FeaturedPost from "../components/Home/FeaturedPost";
-import RecentPost from "../components/Home/RecentPost";
-import ErrorModal from "../components/Modal/ErrorModal";
-import LoadingSpinner from "../components/loading/loadingSpinner";
-import HeadlineTicker from "../components/markets/HeadlineTicker";
-import { categories } from "../utils/props";
-import CategorySection from "../components/Home/CategorySection";
+import React from "react";
+import HomeClient from "./HomeClient";
 
 
-const Home: React.FC = () => {
-  const dispatch = useAppDispatch();
+  async function fetchPosts() {
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}v1/blog/latest-posts/`, {
+            next: { revalidate: 60 },
+            });
+            if (!res.ok) throw new Error(`Failed to fetch blog: ${res.status}`);
 
-  const [isErrorOpen, setIsErrorOpen] = useState(false);
-  // const [isSuccessOpen, setIsSuccessOpen] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<any | null>(null);
-  const [blogs, setBlogs] = useState<any | null>(null);
-  const [loading, setLoading] = useState(true);
+            const blogs = await res.json();
 
-  useEffect(() => {
-    dispatch(fetchPosts())
-      .unwrap()
-      .then((result: any) => {
-        // setIsSuccessOpen(true);
-        setBlogs(result);
-      })
-      .catch((error: any) => {
-        setIsErrorOpen(true);
-        setErrorMessage(error.message);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [dispatch]);
+            return blogs;
+        } catch (error) {
+            console.error('Error fetching blog:', error);
+            return null;
+        }
+ }
 
-  if (loading) {
-    return <LoadingSpinner />;
-  }
+const Home = async() => {
+    const blogs = await fetchPosts();
+    if (!blogs || !blogs.results || blogs.results.length === 0 || blogs.error) {
+        const errorMsg = 'No posts found.';
+        console.error(errorMsg);
+        return <HomeClient error={errorMsg} />;
+    } 
 
-  if (errorMessage) {
-    return <div>Error loading blog: {errorMessage}</div>;
-  }
-
-  if (!blogs) {
-    return <div>No blog found</div>;
-  }
-  const results = blogs.results;
-  return (
-    <main className="flex flex-col items-center justify-center">
-      <>
-        <HomeCoverSection blogs={results} />
-        <div>
-          <HeadlineTicker />
-        </div>
-        <FeaturedPost blogs={results} />
-        <RecentPost blogs={results} />
-        {/* 🆕 Dynamic Category Sections */}
-        {categories.map((cat) => {
-          return (
-            <CategorySection
-              key={cat.name}
-              category={cat.name}
-            />
-          );
-        })} 
-      </>
-      <ErrorModal
-        isOpen={isErrorOpen}
-        onClose={() => setIsErrorOpen(false)}
-        message={errorMessage}
-      />
-      {/* <SuccessModal isOpen={isSuccessOpen} onClose={() => setIsSuccessOpen(false)} message={successMessage} /> */}
-    </main>
-  );
+    return <HomeClient blogs={blogs.results}  />;
+  
 };
 
 export default Home;

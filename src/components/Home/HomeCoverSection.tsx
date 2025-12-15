@@ -3,19 +3,22 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Category from "../Elements/Category";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
+import dynamic from "next/dynamic";
 
 type Props = {
   blogs: any[];
 };
+const Swiper = dynamic(() => import("swiper/react").then(m => m.Swiper), {
+  ssr: false,
+});
 
 const HomeCoverSection: React.FC<Props> = ({ blogs }) => {
-  if (!blogs || blogs.length === 0) {
-    return null;
-  }
+
+  if (!blogs || blogs.length === 0) return null;
 
   const validBlogs = blogs.filter(blog => 
     blog && blog.image_links && blog.title && blog.category
@@ -35,7 +38,7 @@ const HomeCoverSection: React.FC<Props> = ({ blogs }) => {
         className="rounded-3xl overflow-hidden"
       >
         {validBlogs.slice(0, 4).map((blog, index) => (
-          <SwiperSlide key={index}>
+          <SwiperSlide key={blog.slug}>
             <article className="relative flex flex-col items-start justify-end mx-5 sm:mx-10 h-[60vh] sm:h-[85vh] rounded-3xl overflow-hidden">
               {/* Background Image */}
               <Image
@@ -43,7 +46,7 @@ const HomeCoverSection: React.FC<Props> = ({ blogs }) => {
                 alt={blog.title}
                 quality={50}
                 fill
-                priority
+                priority={index === 0}
                 sizes="100vw"
                 className="object-cover object-center absolute inset-0 z-0"
               />

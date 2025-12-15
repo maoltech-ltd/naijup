@@ -16,9 +16,9 @@ export default function HeadlineTicker() {
     }
   }, [dispatch, status]);
 
-  useEffect(() => {
-      dispatch(fetchHeadlines());
-  }, [dispatch]);
+  // useEffect(() => {
+  //     dispatch(fetchHeadlines());
+  // }, [dispatch]);
 
   if (!data || !data.headlines || data.headlines.length === 0) {
     return (

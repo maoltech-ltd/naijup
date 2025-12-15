@@ -3,9 +3,12 @@ import { Props } from "@/src/utils/props";
 import { sortBlogs } from "@/src/utils";
 import Link from "next/link";
 import BlogLayoutThree from "../Blog/BlogLayoutThree";
+import { useMemo } from "react";
 
 const RecentPost: React.FC<Props> = (blogs: any) => {
-  const sortedBlogs = sortBlogs(blogs);
+  // const sortedBlogs = sortBlogs(blogs);
+  const sortedBlogs = useMemo(() => sortBlogs(blogs), [blogs]);
+
   return (
     <section className="w-full  mt-16 sm:mt-24  md:mt-32 px-5 sm:px-10 md:px-24  sxl:px-32 flex flex-col items-center justify-center">
     <div className="w-full flex  justify-between">

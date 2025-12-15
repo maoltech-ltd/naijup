@@ -6,9 +6,12 @@ import BlogLayoutTwo from "../Blog/BlogLayoutTwo"
 import BlogLayoutThree from "../Blog/BlogLayoutThree"
 import MarketSwiper from "../markets/MarketSwiper"
 import HeadlinesArticle from "../markets/HeadlinesArticle"
+import { useMemo } from "react";
 
 const FeaturedPost: React.FC<Props> = (blogs) => {
-  const sortedBlogs = sortBlogs(blogs)
+  // const sortedBlogs = sortBlogs(blogs)
+  const sortedBlogs = useMemo(() => sortBlogs(blogs), [blogs]);
+
   return (
      <section className="w-full mt-16 sm:mt-24  md:mt-32 px-5 sm:px-10 md:px-24  sxl:px-32 flex flex-col items-center justify-center">
     <h2 className="w-full inline-block font-bold capitalize text-2xl md:text-4xl text-dark dark:text-light">Featured Posts</h2>
