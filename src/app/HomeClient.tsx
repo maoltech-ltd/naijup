@@ -5,13 +5,20 @@ import FeaturedPost from "../components/Home/FeaturedPost";
 import RecentPost from "../components/Home/RecentPost";
 import HeadlineTicker from "../components/markets/HeadlineTicker";
 import { categories, Props } from "../utils/props";
-import CategorySection from "../components/Home/CategorySection";
+// import CategorySection from "../components/Home/CategorySection";
 import ErrorModal from "../components/Modal/ErrorModal";
+import dynamic from "next/dynamic";
+import LoadingSpinner from "../components/loading/loadingSpinner";
 
 type HomeClientProps = {
   blogs?: any;
   error?: string;
 };
+
+const CategorySection = dynamic(
+  () => import("../components/Home/CategorySection"),
+  { ssr: false, loading: () => <LoadingSpinner /> }
+);
 
 const HomeClient: React.FC<HomeClientProps> = ({blogs, error}) => {
   const [open, setOpen] = useState(!!error);
