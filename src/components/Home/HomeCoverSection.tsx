@@ -26,7 +26,7 @@ const HomeCoverSection: React.FC<Props> = ({ blogs }) => {
     }, 100);
     
     return () => clearTimeout(timer);
-  }, []);
+  }, [blogs.length]);
 
   if (!blogs || !blogs.length) return null;
   const validBlogs = blogs.filter(blog => 
