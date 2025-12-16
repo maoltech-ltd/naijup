@@ -1,25 +1,34 @@
 "use client";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Category from "../Elements/Category";
-import { SwiperSlide } from "swiper/react";
+import { SwiperSlide, Swiper } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
-import dynamic from "next/dynamic";
 
 type Props = {
   blogs: any[];
 };
-const Swiper = dynamic(() => import("swiper/react").then(m => m.Swiper), {
-  ssr: false,
-});
 
 const HomeCoverSection: React.FC<Props> = ({ blogs }) => {
 
-  if (!blogs || blogs.length === 0) return null;
+  
 
+  const swiperRef = useRef<any>(null);
+  const [loadedSlides, setLoadedSlides] = useState(1);
+
+ useEffect(() => {
+    // Lazy load more slides after initial render
+    const timer = setTimeout(() => {
+      setLoadedSlides(Math.min(blogs.length, 5));
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (!blogs || !blogs.length) return null;
   const validBlogs = blogs.filter(blog => 
     blog && blog.image_links && blog.title && blog.category
   );
@@ -27,9 +36,17 @@ const HomeCoverSection: React.FC<Props> = ({ blogs }) => {
   if (validBlogs.length === 0) {
     return null;
   }
+  // const firstBlog = validBlogs[0];
   return (
     <div className="w-full inline-block">
+      {/* <Link 
+        rel="preload" 
+        href={firstBlog.image_links} 
+        as="image"
+      /> */}
       <Swiper
+        ref={swiperRef}
+        onSwiper={(swiper) => (swiperRef.current = swiper)}
         modules={[Navigation, Autoplay]}
         navigation
         autoplay={{ delay: 4000, disableOnInteraction: false }}
@@ -37,7 +54,7 @@ const HomeCoverSection: React.FC<Props> = ({ blogs }) => {
         slidesPerView={1}
         className="rounded-3xl overflow-hidden"
       >
-        {validBlogs.slice(0, 4).map((blog, index) => (
+        {validBlogs.slice(0, loadedSlides).map((blog, index) => (
           <SwiperSlide key={blog.slug}>
             <article className="relative flex flex-col items-start justify-end mx-5 sm:mx-10 h-[60vh] sm:h-[85vh] rounded-3xl overflow-hidden">
               {/* Background Image */}
@@ -47,8 +64,12 @@ const HomeCoverSection: React.FC<Props> = ({ blogs }) => {
                 quality={50}
                 fill
                 priority={index === 0}
+                loading={index === 0 ? "eager" : "lazy"}
+                fetchPriority={index === 0 ? "high" : "auto"}
                 sizes="100vw"
                 className="object-cover object-center absolute inset-0 z-0"
+                placeholder="blur"
+                blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 800 450'%3E%3Crect width='800' height='450' fill='%232d3748'/%3E%3C/svg%3E`}
               />
 
               {/* Gradient Overlay */}
