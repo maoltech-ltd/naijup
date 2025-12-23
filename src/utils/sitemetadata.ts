@@ -33,7 +33,7 @@ const siteMetadata = {
     socialBanner: "/social-banner.png", // recommended 1200x630
     email: "admin@naijup.ng",
     github: "https://github.com/maoltech",
-    twitter: "https://twitter.com/maoltech",
+    twitter: "https://x.com/official_naijup",
     facebook: "https://facebook.com/naijupng",
     youtube: "https://youtube.com/@maoltech",
     linkedin: "https://www.linkedin.com/in/maoltech/",

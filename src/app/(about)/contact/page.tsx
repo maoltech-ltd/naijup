@@ -35,7 +35,7 @@ const Contact = () => {
             <ul className="mt-2 text-base md:text-lg space-y-2">
             <li>
                 Twitter/X:{" "}
-                <a href="https://twitter.com/official_naijup" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">
+                <a href="https://x.com/official_naijup" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">
                 @official_naijup
                 </a>
             </li>

@@ -37,7 +37,7 @@ const jsonLdOrganization = {
   name: "Naijup",
   url: "https://naijup.ng",
   logo: "https://naijup.ng/image/naijup-logo.png",
-  sameAs: ["https://twitter.com/naijup", "https://facebook.com/naijup"],
+  sameAs: ["https://x.com/official_naijup", "https://facebook.com/naijup"],
 };
 
 const jsonLdBreadcrumb = {

@@ -374,7 +374,7 @@ const Header = () => {
                   {/* Social Links in Mobile Menu */}
                   <div className="flex justify-center space-x-1 pt-4 border-t border-gray-200 dark:border-gray-700">
                     <a
-                      href="https://twitter.com/naijup"
+                      href="https://x.com/official_naijup"
                       className="p-2 hover:scale-125 transition-transform"
                     >
                       <TwitterIcon className="w-6 h-6" />
@@ -407,7 +407,7 @@ const Header = () => {
         {/* Desktop Social Links */}
         <div className="hidden sm:flex items-center">
           <a
-            href="https://twitter.com/naijup"
+            href="https://x.com/official_naijup"
             className="inline-block w-6 h-6 mr-4 hover:scale-125 transition-transform"
             aria-label="Follow us on Twitter"
           >
