@@ -53,6 +53,7 @@ export type TPost = {
 };
 
 export const categories = [
+  { name: "general", link: "/categories/general" },
   { name: "startup", link: "/categories/startup" },
   { name: "crypto", link: "/categories/crypto" },
   { name: "opportunity", link: "/categories/opportunity" },

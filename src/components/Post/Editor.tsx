@@ -398,7 +398,7 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
             {...register("category")}
             className="w-full md:w-1/2 mt-2 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-[#1e1e1e] dark:text-white dark:border-gray-700"
           >
-            <option key="General" value="General">
+            <option key="General" value={categories[0].name}>
               General
             </option>
             {categories.map((category) => (
