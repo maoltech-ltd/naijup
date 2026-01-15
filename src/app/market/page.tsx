@@ -3,6 +3,8 @@ import dynamic from "next/dynamic";
 import MarketCoverSection from "@/src/components/markets/MarketCoverSection";
 import { Metadata } from "next";
 
+
+const CurrencyCalculator = dynamic(() => import("@/src/components/markets/CurrencyCalculator"));
 const CurrencyFX = dynamic(() => import("@/src/components/markets/CurrencyFX"));
 const MarketSnapshot = dynamic(() => import("@/src/components/markets/MarketSnapshot"));
 const MarketEquity = dynamic(() => import("@/src/components/markets/MarketEquity"));
@@ -70,6 +72,7 @@ const Market = () => {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-8 space-y-12">
         <MarketIntroSEOSection />
         <WhatWeTrackSection />
+        <CurrencyCalculator />
         <CurrencyFX />
         <MarketSnapshot />
         <MarketEquity />

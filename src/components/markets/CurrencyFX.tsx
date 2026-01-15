@@ -74,18 +74,26 @@
 import { useAppDispatch } from "@/src/redux/hooks/dispatch";
 import { fetchFxRates } from "@/src/redux/slice/marketSlice";
 import { RootState } from "@/src/redux/store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Banknote } from "lucide-react";
 import MarketCard from "./MarketCard";
 
 const CurrencyFX = () => {
   const dispatch = useAppDispatch();
+  const [mounted, setMounted] = useState(false);
+
   const { data, status, error } = useSelector((state: RootState) => state.fx);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (status === "idle") dispatch(fetchFxRates());
   }, [dispatch, status]);
+
+  if (!mounted) return null;
 
   if (status === "loading") return <p>Loading FX rates...</p>;
   if (status === "failed") return <p className="text-red-500">{error}</p>;
