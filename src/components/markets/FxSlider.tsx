@@ -30,15 +30,15 @@ export default function FxTicker() {
   ];
 
   return (
-    <div className="w-full overflow-hidden bg-gray-100 dark:bg-gray-800 py-2 group">
+    <div className="w-full overflow-hidden bg-gray-100 dark:bg-dark py-2 group">
       <div className="flex animate-marquee whitespace-nowrap group-hover:animate-marquee-paused">
         {items.concat(items).map((item, i) => (
           <div
             key={i}
-            className="mx-4 flex items-center space-x-2 text-sm bg-white dark:bg-gray-900 px-3 py-1 rounded shadow-sm"
+            className="mx-4 flex items-center space-x-2 text-sm bg-white dark:bg-dark px-3 py-1 rounded shadow-sm"
           >
             <span className="font-bold text-blue-600">{item.label}</span>
-            <span className="text-gray-700 dark:text-gray-300">{item.value}</span>
+            <span className="text-gray-700 dark:text-light">{item.value}</span>
           </div>
         ))}
       </div>

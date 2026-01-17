@@ -34,7 +34,7 @@ const MarketSwiper = () => {
       <Swiper spaceBetween={16} slidesPerView={1} modules={[Autoplay]} autoplay={{ delay: 4000 }}>
         {/* --- FX Rates --- */}
         <SwiperSlide>
-          <div className="p-4 rounded-xl shadow bg-white dark:bg-gray-800">
+          <div className="p-4 rounded-xl shadow bg-white dark:bg-dark dark:text-light">
             <h3 className="font-bold text-lg mb-2">Currency FX (₦)</h3>
             <div className="grid grid-cols-2 gap-2">
               {fx.data &&
@@ -52,7 +52,7 @@ const MarketSwiper = () => {
 
         {/* --- NGX Snapshot --- */}
         <SwiperSlide>
-          <div className="p-4 rounded-xl shadow bg-white dark:bg-gray-800">
+          <div className="p-4 rounded-xl shadow bg-white dark:bg-dark dark:text-light">
             <h3 className="font-bold text-lg mb-2">NGX Snapshot</h3>
             {snapshot.data && (
               <ul className="text-sm space-y-1">
@@ -68,7 +68,7 @@ const MarketSwiper = () => {
 
         {/* --- Top Gainers --- */}
         <SwiperSlide>
-          <div className="p-4 rounded-xl shadow bg-white dark:bg-gray-800">
+          <div className="p-4 rounded-xl shadow bg-white dark:bg-dark dark:text-light">
             <h3 className="font-bold text-lg mb-2">Top Gainers</h3>
             <ul className="text-sm space-y-1">
               {equity.data?.top_gainers?.slice(0, 5).map((g: any) => (
@@ -83,7 +83,7 @@ const MarketSwiper = () => {
 
         {/* --- Top Losers --- */}
         <SwiperSlide>
-          <div className="p-4 rounded-xl shadow bg-white dark:bg-gray-800">
+          <div className="p-4 rounded-xl shadow bg-white dark:bg-dark dark:text-light">
             <h3 className="font-bold text-lg mb-2">Top Losers</h3>
             <ul className="text-sm space-y-1">
               {equity.data?.top_losers?.slice(0, 5).map((l: any) => (
@@ -98,7 +98,7 @@ const MarketSwiper = () => {
 
         {/* --- Top Trades --- */}
         <SwiperSlide>
-          <div className="p-4 rounded-xl shadow bg-white dark:bg-gray-800">
+          <div className="p-4 rounded-xl shadow bg-white dark:bg-dark dark:text-light">
             <h3 className="font-bold text-lg mb-2">Top Trades</h3>
             <ul className="text-sm space-y-1">
               {equity.data?.top_trades?.slice(0, 5).map((t: any) => (

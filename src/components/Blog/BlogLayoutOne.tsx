@@ -14,7 +14,7 @@ const BlogLayoutOne: React.FC<BlogProp> = (blog: any) => {
       <Image
         src={blog.blog.image_links}
         alt={blog.blog.title}
-        width={50}
+        width={100}
         height={50}
         // fill
         quality={50}

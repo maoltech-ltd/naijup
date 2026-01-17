@@ -8,7 +8,7 @@
 
 // const StatCard = ({ label, value, change }: StatCardProps) => {
 //   return (
-//     <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4 shadow-sm">
+//     <div className="bg-gray-50 dark:bg-dark rounded-xl p-4 shadow-sm">
 //       <p className="text-sm text-gray-500 dark:text-gray-400">{label}</p>
 //       <h3 className="text-2xl font-bold text-dark dark:text-light">{value}</h3>
 //       {change !== undefined && (
@@ -38,15 +38,15 @@ const StatCard = ({ label, value, change }: StatCardProps) => {
     typeof value === "number" ? formatCompactNumber(value) : value;
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4 shadow-sm min-w-0">
+    <div className="bg-gray-50 dark:bg-dark rounded-xl p-4 shadow-sm min-w-0">
       {/* Label */}
-      <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 truncate">
+      <p className="text-xs sm:text-sm text-gray-500 dark:text-light truncate">
         {label}
       </p>
 
       {/* Value */}
       <h3
-        className="text-lg sm:text-2xl font-bold text-dark truncate max-w-full"
+        className="text-lg sm:text-2xl font-bold text-dark truncate max-w-full dark:text-light"
         title={String(value)} // shows full number on hover
       >
         {displayValue}

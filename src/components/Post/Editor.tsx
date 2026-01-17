@@ -325,7 +325,7 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
         <div className="max-w-[650px] m-auto">
           {/* 🔥 NEW: diff preview for edit mode */}
           {post && (
-            <div className="my-4 p-4 border rounded-md bg-gray-50 dark:bg-gray-800">
+            <div className="my-4 p-4 border rounded-md bg-gray-50 dark:bg-dark">
               <h4 className="font-bold mb-2 text-lg">Changes Preview</h4>
               {Object.entries(
                 getPostDiff(post, {

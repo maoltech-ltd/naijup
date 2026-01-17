@@ -51,8 +51,8 @@ const SignIn = () => {
     }
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
-            <div className="card w-full max-w-md bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 space-y-4">
+        <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-dark">
+            <div className="card w-full max-w-md bg-white dark:bg-dark rounded-lg shadow-lg p-6 space-y-4">
                 <h4 className="text-center text-2xl font-semibold dark:text-white">Login</h4>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                     <div className="form-group">

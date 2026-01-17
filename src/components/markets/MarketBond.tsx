@@ -29,7 +29,7 @@ const MarketBond = () => {
   if (!data || data.length === 0) {
     return (
       <MarketCard title="Bonds" icon={<Banknote />} subtitle="Government & Corporate Bonds">
-        <p className="text-center text-gray-500 dark:text-gray-400">
+        <p className="text-center text-gray-500 dark:text-light">
           No bond data available.
         </p>
       </MarketCard>
@@ -46,9 +46,9 @@ const MarketBond = () => {
         {data.map((bond: any, idx: number) => (
           <div
             key={idx}
-            className="p-4 rounded-xl shadow-md bg-white dark:bg-gray-800"
+            className="p-4 rounded-xl shadow-md bg-white dark:bg-dark dark:text-light"
           >
-            <p className="text-dark font-medium">
+            <p className="text-dark font-medium dark:text-light">
               {bond.SYMBOL} – ₦
               {bond.TODAYS_CLOSE.toLocaleString("en-NG", {
                 maximumFractionDigits: 2,

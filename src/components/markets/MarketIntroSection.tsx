@@ -1,8 +1,8 @@
 const MarketIntroSEOSection = () => {
   return (
-    <section className="mt-10 bg-white dark:bg-gray-900 p-8 rounded-xl shadow-sm">
-      <h2 className="text-2xl font-bold mb-4">Nigeria Market Overview</h2>
-      <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+    <section className="mt-10 bg-white dark:bg-dark p-8 rounded-xl shadow-sm">
+      <h2 className="text-2xl font-bold mb-4 dark:text-light">Nigeria Market Overview</h2>
+      <p className="text-gray-700 dark:text-light leading-relaxed">
         Nigeria&rsquo;s financial markets move quickly, and NaijUp Market Watch keeps
         you updated with accurate, real-time insights. Whether you&rsquo;re tracking
         today&rsquo;s Dollar to Naira rate, monitoring NGX stock performance, or

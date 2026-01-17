@@ -31,7 +31,7 @@ export default function AuthorDashboardClient() {
   if (!user) return null;
 
   return (
-    <div className="p-8 space-y-10 bg-gray-100 dark:bg-gray-900 min-h-screen transition duration-300">
+    <div className="p-8 space-y-10 bg-gray-100 dark:bg-dark min-h-screen transition duration-300">
       <AuthorProtectedRoute>
         {() => (
           <motion.div
@@ -39,7 +39,7 @@ export default function AuthorDashboardClient() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-50">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-light">
               Welcome, {user.firstName}
             </h1>
 
@@ -49,14 +49,14 @@ export default function AuthorDashboardClient() {
               <motion.div
                 layout="position"
                 whileHover={{ scale: 1.02 }}
-                className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition"
+                className="p-6 bg-white dark:bg-dark rounded-xl shadow-md hover:shadow-xl transition"
               >
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-50">Your Stats</h2>
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-light">Your Stats</h2>
 
                 {!stats ? (
-                  <p className="mt-3 text-gray-500 dark:text-gray-400">Loading stats…</p>
+                  <p className="mt-3 text-gray-500 dark:text-light">Loading stats…</p>
                 ) : (
-                  <div className="mt-3 text-gray-700 dark:text-gray-300 space-y-1">
+                  <div className="mt-3 text-gray-700 dark:text-light space-y-1">
                     <p>Total Posts: {stats.total_posts}</p>
                     <p>Total Views: {stats.total_views}</p>
                     <p>Avg Views/Post: {stats.average_views_per_post?.toFixed(1)}</p>
@@ -68,9 +68,9 @@ export default function AuthorDashboardClient() {
               <motion.div
                 layout="position"
                 whileHover={{ scale: 1.02 }}
-                className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition"
+                className="p-6 bg-white dark:bg-dark rounded-xl shadow-md hover:shadow-xl transition"
               >
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-50">Quick Actions</h2>
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-light">Quick Actions</h2>
                 <div className="flex flex-col space-y-3 mt-3">
                   <Link
                     href="/createpost"
@@ -91,10 +91,10 @@ export default function AuthorDashboardClient() {
               <motion.div
                 layout="position"
                 whileHover={{ scale: 1.02 }}
-                className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition"
+                className="p-6 bg-white dark:bg-dark rounded-xl shadow-md hover:shadow-xl transition"
               >
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-50">Profile</h2>
-                <p className="mt-3 text-gray-700 dark:text-gray-300">{user.userEmail}</p>
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-light">Profile</h2>
+                <p className="mt-3 text-gray-700 dark:text-light">{user.userEmail}</p>
                 <Link
                   href="/edituserprofile"
                   className="block mt-4 px-4 py-2 bg-green-600 text-white rounded-lg text-center hover:bg-green-700 transition"
@@ -105,13 +105,13 @@ export default function AuthorDashboardClient() {
             </div>
 
             {/* Posts Section */}
-            <div className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-md">
-              <h2 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-50">
+            <div className="p-6 bg-white dark:bg-dark rounded-xl shadow-md">
+              <h2 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-light">
                 Your Posts
               </h2>
 
               {status === "loading" && (
-                <p className="text-gray-600 dark:text-gray-400">Loading posts...</p>
+                <p className="text-gray-600 dark:text-light">Loading posts...</p>
               )}
 
               <div className="space-y-6">
@@ -120,14 +120,14 @@ export default function AuthorDashboardClient() {
                     layout="position"
                     key={post.id}
                     whileHover={{ scale: 1.01 }}
-                    className="p-5 rounded-xl bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 shadow-sm transition relative"
+                    className="p-5 rounded-xl bg-gray-50 dark:bg-dark hover:bg-gray-100 dark:hover:bg-gray-600 shadow-sm transition relative"
                     onMouseEnter={() => setHoveredId(post.id)}
                     onMouseLeave={() => setHoveredId(null)}
                   >
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-50">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-light">
                       {post.title}
                     </h3>
-                    <p className="text-gray-600 dark:text-gray-300">{post.category}</p>
+                    <p className="text-gray-600 dark:text-light">{post.category}</p>
 
                     <Link
                       href={`/blog/${post.slug}`}
@@ -142,11 +142,11 @@ export default function AuthorDashboardClient() {
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.3 }}
-                        className="absolute right-0 top-0 p-4 bg-white dark:bg-gray-700 shadow-xl w-64 rounded-lg"
+                        className="absolute right-0 top-0 p-4 bg-white dark:bg-dark shadow-xl w-64 rounded-lg"
                       >
-                        <h4 className="font-semibold text-gray-900 dark:text-gray-50">Post Stats</h4>
+                        <h4 className="font-semibold text-gray-900 dark:text-light">Post Stats</h4>
                         {post.stats ? (
-                          <div className="mt-2 text-sm space-y-1 text-gray-700 dark:text-gray-300">
+                          <div className="mt-2 text-sm space-y-1 text-gray-700 dark:text-light">
                             <p>Total Views: {post.stats.total_views}</p>
                             <p>Unique Views: {post.stats.unique_views}</p>
                             <p>Avg Time: {post.stats.average_time_spent} sec</p>

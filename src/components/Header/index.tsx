@@ -112,7 +112,7 @@ const Header = () => {
         aria-label={`Switch to ${mode === "light" ? "dark" : "light"} mode`}
         title={`Switch to ${mode === "light" ? "dark" : "light"} mode`}
         type="button"
-        className="fixed top-5 right-5 p-3 rounded-full bg-white dark:bg-gray-700 shadow-xl cursor-pointer"
+        className="fixed top-5 right-5 p-3 rounded-full bg-white shadow-xl cursor-pointer"
       >
         {mode === "light" ? <Moon aria-hidden /> : <Sun aria-hidden />}
       </button>
@@ -184,7 +184,7 @@ const Header = () => {
             </button>
             {showCategories && (
               <div
-                // className="absolute top-full left-0 mt-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-2 min-w-[150px] z-50 border border-gray-200 dark:border-gray-700"
+                // className="absolute top-full left-0 mt-2 bg-white dark:bg-dark rounded-lg shadow-lg p-2 min-w-[150px] z-50 border border-gray-200 dark:border-gray-700"
                 className="absolute top-full left-0 mt-1 bg-dark text-light dark:bg-light dark:text-dark rounded-md shadow-md p-1 min-w-[120px] z-50"
               >
                 {categories.map((category, index) => (
@@ -244,8 +244,8 @@ const Header = () => {
             onClick={toggleMenu}
           >
             <nav
-              // className="fixed right-0 top-0 h-full w-3/4 max-w-sm bg-white dark:bg-gray-900 shadow-lg z-50 overflow-y-auto"
-              className="fixed right-2 top-16 w-2/4 bg-white dark:bg-gray-900 shadow-lg z-50 rounded-lg overflow-hidden"
+              // className="fixed right-0 top-0 h-full w-3/4 max-w-sm bg-white dark:bg-dark shadow-lg z-50 overflow-y-auto"
+              className="fixed right-2 top-16 w-2/4 bg-white dark:bg-dark shadow-lg z-50 rounded-lg overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="p-6">
@@ -314,7 +314,7 @@ const Header = () => {
                             <span
                               onClick={toggleMenu}
                               // className="block py-2 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
-                              className="block py-1.5 px-2 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md transition-colors"
+                              className="block py-1.5 px-2 text-gray-700 dark:text-light hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md transition-colors"
                             >
                               {category.name}
                             </span>
@@ -352,7 +352,7 @@ const Header = () => {
                     > */}
                     {/* <button
                       onClick={handleThemeChange}
-                      className="fixed top-5 right-5 p-3 rounded-full bg-white dark:bg-gray-700 shadow-xl cursor-pointer"
+                      className="fixed top-5 right-5 p-3 rounded-full bg-white dark:bg-dark shadow-xl cursor-pointer"
                     >
                       {mode === "light" ? <Moon /> : <Sun />}
                     </button> */}

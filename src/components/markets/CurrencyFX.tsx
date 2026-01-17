@@ -102,9 +102,9 @@ const CurrencyFX = () => {
     <MarketCard title="Currency FX" icon={<Banknote className="w-5 h-5 text-emerald-600" />} subtitle="NGN Rates">
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {data && Object.entries(data.fx_rates).map(([currency, rate]) => (
-          <div key={currency} className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 text-center shadow-sm">
-            <p className="text-sm text-gray-500">{currency}</p>
-            <p className="text-xl font-bold text-dark">{Number(rate).toLocaleString()}</p>
+          <div key={currency} className="bg-gray-50 dark:bg-dark rounded-lg p-4 text-center shadow-sm">
+            <p className="text-sm text-gray-500 dark:text-light">{currency}</p>
+            <p className="text-xl font-bold text-dark dark:text-light">{Number(rate).toLocaleString()}</p>
           </div>
         ))}
       </div>
@@ -113,9 +113,9 @@ const CurrencyFX = () => {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {data?.crypto_rates_ngn &&
           Object.entries(data.crypto_rates_ngn).map(([symbol, rate]) => (
-            <div key={symbol} className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 text-center shadow-sm">
-              <p className="text-sm text-gray-500">{symbol}</p>
-              <p className="text-xl font-bold text-dark">₦{Number(rate).toLocaleString()}</p>
+            <div key={symbol} className="bg-gray-50 dark:bg-dark rounded-lg p-4 text-center shadow-sm">
+              <p className="text-sm text-gray-500 dark:text-light">{symbol}</p>
+              <p className="text-xl font-bold text-dark dark:text-light">₦{Number(rate).toLocaleString()}</p>
             </div>
           ))}
       </div>

@@ -49,7 +49,7 @@
 //   if (!fxRates) return null;
 
 //   return (
-//     <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-5 mt-6">
+//     <div className="bg-gray-50 dark:bg-dark rounded-xl p-5 mt-6">
 //       <h3 className="text-lg font-semibold mb-4">Currency Calculator</h3>
 
 //       <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
@@ -59,13 +59,13 @@
 //           placeholder="Amount"
 //           value={amount}
 //           onChange={(e) => setAmount(e.target.value)}
-//           className="border rounded-lg px-3 py-2 bg-white dark:bg-gray-900"
+//           className="border rounded-lg px-3 py-2 bg-white dark:bg-dark"
 //         />
 
 //         <select
 //           value={from}
 //           onChange={(e) => setFrom(e.target.value)}
-//           className="border rounded-lg px-3 py-2 bg-white dark:bg-gray-900"
+//           className="border rounded-lg px-3 py-2 bg-white dark:bg-dark"
 //         >
 //           {currencies.map((c) => (
 //             <option key={c}>{c}</option>
@@ -75,14 +75,14 @@
 //         <select
 //           value={to}
 //           onChange={(e) => setTo(e.target.value)}
-//           className="border rounded-lg px-3 py-2 bg-white dark:bg-gray-900"
+//           className="border rounded-lg px-3 py-2 bg-white dark:bg-dark"
 //         >
 //           {currencies.map((c) => (
 //             <option key={c}>{c}</option>
 //           ))}
 //         </select>
 
-//         <div className="border rounded-lg px-3 py-2 bg-white dark:bg-gray-900 font-bold flex items-center">
+//         <div className="border rounded-lg px-3 py-2 bg-white dark:bg-dark font-bold flex items-center">
 //           {convertedAmount}
 //         </div>
 
@@ -180,13 +180,13 @@ const CurrencyCalculator = () => {
   if (!fxRates && !cryptoRates) return null;
 
   return (
-    <section className="bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-6">
+    <section className="bg-white dark:bg-dark rounded-2xl shadow-lg p-6">
 
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-bold text-dark">
+        <h2 className="text-xl font-bold text-dark dark:text-light">
           Currency & Crypto Calculator
         </h2>
-        <span className="text-xs text-gray-400">Live Rates</span>
+        <span className="text-xs text-gray-400 dark:text-light">Live Rates</span>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-5 gap-3 items-center">
@@ -198,14 +198,14 @@ const CurrencyCalculator = () => {
           placeholder="Enter amount"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
-          className="border rounded-xl px-4 py-3 bg-gray-50 dark:bg-gray-800 focus:ring-2 focus:ring-emerald-500 outline-none"
+          className="border rounded-xl px-4 py-3 bg-gray-50 dark:bg-dark dark:text-light focus:ring-2 focus:ring-emerald-500 outline-none"
         />
 
         {/* From */}
         <select
           value={from}
           onChange={(e) => setFrom(e.target.value)}
-          className="border rounded-xl px-3 py-3 bg-gray-50 dark:bg-gray-800"
+          className="border rounded-xl px-3 py-3 bg-gray-50 dark:bg-dark dark:text-light"
         >
           {currencies.map((c) => (
             <option key={c}>{c}</option>
@@ -225,7 +225,7 @@ const CurrencyCalculator = () => {
         <select
           value={to}
           onChange={(e) => setTo(e.target.value)}
-          className="border rounded-xl px-3 py-3 bg-gray-50 dark:bg-gray-800"
+          className="border rounded-xl px-3 py-3 bg-gray-50 dark:bg-dark dark:text-light"
         >
           {currencies.map((c) => (
             <option key={c}>{c}</option>
@@ -233,13 +233,13 @@ const CurrencyCalculator = () => {
         </select>
 
         {/* Result */}
-        <div className="bg-gray-100 dark:bg-gray-800 rounded-xl px-4 py-3 font-bold text-lg text-emerald-600 flex items-center">
+        <div className="bg-gray-100 dark:bg-dark rounded-xl px-4 py-3 font-bold text-lg text-emerald-600 flex items-center">
           {convertedAmount}
         </div>
       </div>
 
       {/* Hint */}
-      <p className="text-xs text-gray-400 mt-3">
+      <p className="text-xs text-gray-400 mt-3 dark:text-light">
         Supports Fiat → Crypto → NGN → Cross Currency conversion
       </p>
     </section>

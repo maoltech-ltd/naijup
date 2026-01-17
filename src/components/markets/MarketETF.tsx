@@ -29,7 +29,7 @@ const MarketETF = () => {
   if (!data || data.length === 0) {
     return (
       <MarketCard title="ETFs" icon={<TrendingUp />} subtitle="Exchange Traded Funds">
-        <p className="text-center text-gray-500 dark:text-gray-400">
+        <p className="text-center text-gray-500 dark:text-light">
           No ETF data available.
         </p>
       </MarketCard>
@@ -42,7 +42,7 @@ const MarketETF = () => {
         {data.map((etf: any) => (
           <div
             key={etf.ID}
-            className="p-4 rounded-xl shadow-md bg-white dark:bg-gray-800"
+            className="p-4 rounded-xl shadow-md bg-white dark:bg-dark"
           >
             <div className="flex items-center justify-between">
               <p className="font-semibold text-dark dark:text-light">
@@ -56,13 +56,13 @@ const MarketETF = () => {
                 {etf.PERCENTAGE_CHANGE.toFixed(2)}%
               </span>
             </div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-sm text-gray-600 dark:text-light">
               Close: ₦
               {etf.TODAYS_CLOSE.toLocaleString("en-NG", {
                 maximumFractionDigits: 2,
               })}
             </p>
-            <p className="text-xs text-gray-500 dark:text-gray-500">
+            <p className="text-xs text-gray-500 dark:text-light">
               Prev: ₦
               {etf.LAST_CLOSE.toLocaleString("en-NG", {
                 maximumFractionDigits: 2,

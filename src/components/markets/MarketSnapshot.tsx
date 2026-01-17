@@ -26,7 +26,7 @@ const MarketSnapshot = () => {
 
   return (
     <MarketCard title="NGX Snapshot" icon={<BarChart3 className="w-5 h-5 text-indigo-600" />} subtitle="Market Overview">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 dark:text-light">
         {filteredData.map(([key, value]) => (
           <StatCard
             key={key}

@@ -25,14 +25,14 @@ const MarketEquity = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {["top_gainers", "top_losers", "top_trades"].map((category, idx) => (
           <div key={idx}>
-            <h3 className="font-semibold text-gray-700 dark:text-gray-300 mb-2 capitalize">
+            <h3 className="font-semibold text-gray-700 dark:text-light mb-2 capitalize">
               {category.replace("_", " ")}
             </h3>
             <ul className="space-y-2">
               {data?.[category]?.map((item:any, i:number) => (
                 <li
                 key={i}
-                className="flex items-center justify-between bg-gray-50 dark:bg-gray-800 px-3 py-2 rounded-lg shadow-sm"
+                className="flex items-center justify-between bg-gray-50 dark:bg-dark px-3 py-2 rounded-lg shadow-sm dark:text-light"
               >
                 <span className="truncate max-w-[80px]">{item.SYMBOL || item.Symbol}</span>
               
