@@ -17,9 +17,12 @@ import { Post } from "@/src/redux/slice/postSlice";
 import ErrorModal from "../Modal/ErrorModal";
 import SuccessModal from "../Modal/SuccessModal";
 
+
 const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const capitalize = (text: string) =>
+  text.charAt(0).toUpperCase() + text.slice(1);
 
   const {
     register,
@@ -398,12 +401,17 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
             {...register("category")}
             className="w-full md:w-1/2 mt-2 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-[#1e1e1e] dark:text-white dark:border-gray-700"
           >
-            <option key="General" value={categories[0].name}>
+            {/* <option key="general" value={categories[0].name}>
               General
-            </option>
-            {categories.map((category) => (
+            </option> */}
+            {/* {categories.map((category) => (
               <option key={category.name} value={category.name}>
                 {category.name}
+              </option>
+            ))} */}
+            {categories.map((category) => (
+              <option key={category.name} value={category.name}>
+                {capitalize(category.name)}
               </option>
             ))}
           </select>
