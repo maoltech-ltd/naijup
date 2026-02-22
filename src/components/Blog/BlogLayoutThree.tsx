@@ -1,5 +1,4 @@
 import formatDate from "@/src/utils/dateFormatter"
-import { BlogProp } from "@/src/utils/props"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -11,10 +10,10 @@ const BlogLayoutThree: React.FC<any> = (blog: any) => {
         <Image
           src={blog.blog.image_links}
           alt={blog.blog.title}
-          width={50}
-          height={50}
+          width={35}
+          height={35}
           // fill
-          quality={50}
+          quality={35}
           className=" aspect-[4/3] w-full h-full object-cover object-center  group-hover:scale-105 transition-all ease duration-300 "
           sizes="(max-width: 640px) 100vw,(max-width: 1024px) 50vw, 33vw"
         />

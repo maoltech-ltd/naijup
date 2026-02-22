@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import HomeCoverSection from "../components/Home/HomeCoverSection";
 import FeaturedPost from "../components/Home/FeaturedPost";
 import RecentPost from "../components/Home/RecentPost";
-import HeadlineTicker from "../components/markets/HeadlineTicker";
+// import HeadlineTicker from "../components/markets/HeadlineTicker";
 import { categories, Props } from "../utils/props";
 // import CategorySection from "../components/Home/CategorySection";
 import ErrorModal from "../components/Modal/ErrorModal";
@@ -40,9 +40,9 @@ const HomeClient: React.FC<HomeClientProps> = ({blogs, error}) => {
     <main className="flex flex-col items-center justify-center">
       <>
         <HomeCoverSection blogs={blogs} />
-        <div>
+        {/* <div>
           <HeadlineTicker />
-        </div>
+        </div> */}
         <FeaturedPost blogs={blogs} />
         <RecentPost blogs={blogs} />
         {/* 🆕 Dynamic Category Sections */}

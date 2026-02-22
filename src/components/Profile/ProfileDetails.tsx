@@ -37,7 +37,7 @@ const ProfileDetails = ({ user }: any) => {
                 <Image
                   src={user.profilePicture}
                   alt={user.username}
-                  quality={50}
+                  quality={35}
                   fill
                   className="rounded-full object-cover border-4 border-white shadow-lg"
                 />
