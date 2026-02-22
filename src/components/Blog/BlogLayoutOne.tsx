@@ -5,7 +5,8 @@ import Image from "next/image"
 
 const BlogLayoutOne: React.FC<BlogProp> = (blog: any) => {
   return (
-    <div className="group inline-block overflow-hidden rounded-xl">
+    // <div className="group inline-block overflow-hidden rounded-xl">
+    <div className="group relative inline-block overflow-hidden rounded-xl h-[400px]">  
       <div
         className="absolute top-0 left-0 bottom-0 right-0 h-full
             bg-gradient-to-b from-transparent from-0% to-dark/90 rounded-xl z-10
@@ -14,9 +15,9 @@ const BlogLayoutOne: React.FC<BlogProp> = (blog: any) => {
       <Image
         src={blog.blog.image_links}
         alt={blog.blog.title}
-        // width={50}
-        // height={50}
-        fill
+        width={50}
+        height={50}
+        // fill
         quality={50}
         className="w-full h-full object-center object-cover rounded-xl group-hover:scale-105 transition-all ease duration-300"
         sizes="(max-width: 1180px) 100vw, 50vw"
