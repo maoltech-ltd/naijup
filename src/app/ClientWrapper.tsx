@@ -11,6 +11,10 @@ export default function ClientWrapper({ children }: { children: React.ReactNode 
   const pathname = usePathname();
   const excludePaths = ["/signin", "/signup"];
   const shouldShowHeaderFooter = !excludePaths.includes(pathname);
+  // const isAuthPage = pathname === "/signin" || pathname === "/signup";
+  // const isAwolPage = pathname.startsWith("/awol");
+
+  // const shouldShowHeaderFooter = !(isAuthPage || isAwolPage);
 
   return (
     <ReduxProvider>

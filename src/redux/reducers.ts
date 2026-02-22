@@ -15,6 +15,12 @@ import {
     headlinesReducer,
     bulkCategoryReducer,
     authorReducer,
+    customerReducer,
+    contractReducer,
+    paymentReducer,
+    companyReducer,
+    productReducer,
+    defaultReducer,
 } from "./slice";
 
 
@@ -34,6 +40,12 @@ const rootReducer = combineReducers({
     headlines: headlinesReducer,
     bulkCategory: bulkCategoryReducer,
     author: authorReducer,
+    customer: customerReducer,
+    contract: contractReducer,
+    payment: paymentReducer,
+    company: companyReducer,
+    product: productReducer,
+    default: defaultReducer,
 })
 
 export default rootReducer
