@@ -272,7 +272,7 @@ const Header = () => {
                   </button>
                 </div>
 
-                <div className="flex flex-col space-y-6">
+                <div className="flex flex-col space-y-6 dark:text-light">
                   <Link
                     href="/market"
                     className="text-lg font-medium py-2 border-b border-gray-200 dark:border-gray-700"
