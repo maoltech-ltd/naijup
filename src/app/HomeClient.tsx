@@ -39,7 +39,7 @@ const HomeClient: React.FC<HomeClientProps> = ({blogs, error}) => {
   return (
     <main className="flex flex-col items-center justify-center">
       <>
-        <HomeCoverSection blogs={blogs} />
+        <HomeCoverSection blog={blogs[0]} />
         {/* <div>
           <HeadlineTicker />
         </div> */}
