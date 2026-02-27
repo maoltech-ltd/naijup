@@ -1,11 +1,10 @@
-"use client";
 import { Props } from "@/src/utils/props"
 import { sortBlogs } from "@/src/utils"
 import BlogLayoutOne from "../Blog/BlogLayoutOne"
 import BlogLayoutTwo from "../Blog/BlogLayoutTwo"
 import BlogLayoutThree from "../Blog/BlogLayoutThree"
 import MarketSwiper from "../markets/MarketSwiper"
-import HeadlinesArticle from "../markets/HeadlinesArticle"
+// import HeadlinesArticle from "../markets/HeadlinesArticle"
 import { useMemo } from "react";
 
 const FeaturedPost: React.FC<Props> = (blogs) => {
@@ -26,7 +25,7 @@ const FeaturedPost: React.FC<Props> = (blogs) => {
       <article className=" col-span-2 sm:col-span-1 row-span-1 relative">
         <MarketSwiper />
       </article>
-      <HeadlinesArticle />
+      {/* <HeadlinesArticle /> */}
       <article className="col-span-2 sm:col-span-1 row-span-1 relative">
           <BlogLayoutThree blog={sortedBlogs[2]} />
       </article>

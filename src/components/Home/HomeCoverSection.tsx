@@ -1,104 +1,139 @@
-"use client";
-import React, { useEffect, useRef, useState } from "react";
+// "use client";
+// import React, { useEffect, useRef, useState, memo } from "react";
+// import Image from "next/image";
+// import Link from "next/link";
+// import Category from "../Elements/Category";
+// import { SwiperSlide, Swiper } from "swiper/react";
+// import { Navigation, Autoplay } from "swiper/modules";
+// import "swiper/css";
+// import "swiper/css/navigation";
+
+// type Props = {
+//   blogs: any[];
+// };
+
+// const HomeCoverSection: React.FC<Props> = memo(({ blogs }) => {
+//   const [mounted, setMounted] = useState(false);
+
+//   useEffect(() => {
+//     setMounted(true);
+//   }, []);
+
+//   if (!mounted || !blogs?.length) return null;
+
+//   const validBlogs = blogs.filter(blog => 
+//     blog && blog.image_links && blog.title && blog.category
+//   ).slice(0, 3); // Limit to 3 slides maximum
+
+//   if (validBlogs.length === 0) return null;
+
+//   return (
+//     <div className="w-full inline-block">
+//       {/* Preload first image */}
+//       <link 
+//         rel="preload" 
+//         as="image"
+//         href={validBlogs[0].image_links}
+//         fetchPriority="high"
+//       />
+      
+//       <Swiper
+//         modules={[Navigation, Autoplay]}
+//         navigation
+//         autoplay={{ delay: 5000, disableOnInteraction: false }}
+//         loop={validBlogs.length > 1}
+//         slidesPerView={1}
+//         className="rounded-3xl overflow-hidden"
+//         lazyPreloadPrevNext={1}
+//       >
+//         {validBlogs.map((blog, index) => (
+//           <SwiperSlide key={blog.slug}>
+//             <article className="relative flex flex-col items-start justify-end mx-5 sm:mx-10 h-[50vh] sm:h-[70vh] rounded-3xl overflow-hidden">
+//               {/* Optimized Image with proper sizing */}
+//               <Image
+//                 src={blog.image_links}
+//                 alt={blog.title}
+//                 fill
+//                 priority={index === 0}
+//                 loading={index === 0 ? "eager" : "lazy"}
+//                 fetchPriority={index === 0 ? "high" : "auto"}
+//                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
+//                 quality={75} // Reduced from 85 for better performance
+//                 className="object-cover object-center"
+//                 placeholder="blur"
+//                 blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRg..." // Use a tiny base64 placeholder
+//               />
+
+//               <div className="absolute inset-0 bg-gradient-to-b from-transparent to-dark/80 z-10" />
+
+//               <div className="relative w-3/4 p-4 sm:p-6 md:p-8 z-20 text-light">
+//                 <Category
+//                   link={`/categories/${blog.category}`}
+//                   name={blog.category}
+//                   className="text-xs sm:text-sm"
+//                 />
+//                 <Link href={`/blog/${blog.slug}`} className="mt-4 block">
+//                   <h1 className="font-bold text-light text-2xl sm:text-3xl lg:text-4xl line-clamp-3">
+//                     {blog.title}
+//                   </h1>
+//                 </Link>
+//               </div>
+//             </article>
+//           </SwiperSlide>
+//         ))}
+//       </Swiper>
+//     </div>
+//   );
+// });
+
+// HomeCoverSection.displayName = 'HomeCoverSection';
+// export default HomeCoverSection;
 import Image from "next/image";
 import Link from "next/link";
 import Category from "../Elements/Category";
-import { SwiperSlide, Swiper } from "swiper/react";
-import { Navigation, Autoplay } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
+import { Blog } from "@/src/app/blog/[slug]/BlogPage";
 
 type Props = {
-  blogs: any[];
+  blog: Blog;
 };
 
-const HomeCoverSection: React.FC<Props> = ({ blogs }) => {
+export default function HomeCoverSection({ blog }: Props) {
+  if (!blog?.image_links || !blog?.title || !blog?.category) return null;
 
-  
 
-  const swiperRef = useRef<any>(null);
-  const [loadedSlides, setLoadedSlides] = useState(1);
-
- useEffect(() => {
-    // Lazy load more slides after initial render
-    const timer = setTimeout(() => {
-      setLoadedSlides(Math.min(blogs.length, 5));
-    }, 100);
-    
-    return () => clearTimeout(timer);
-  }, [blogs.length]);
-
-  if (!blogs || !blogs.length) return null;
-  const validBlogs = blogs.filter(blog => 
-    blog && blog.image_links && blog.title && blog.category
-  );
-
-  if (validBlogs.length === 0) {
-    return null;
-  }
-  // const firstBlog = validBlogs[0];
   return (
-    <div className="w-full inline-block">
-      {/* <Link 
-        rel="preload" 
-        href={firstBlog.image_links} 
-        as="image"
-      /> */}
-      <Swiper
-        ref={swiperRef}
-        onSwiper={(swiper) => (swiperRef.current = swiper)}
-        modules={[Navigation, Autoplay]}
-        navigation
-        autoplay={{ delay: 4000, disableOnInteraction: false }}
-        loop
-        slidesPerView={1}
-        className="rounded-3xl overflow-hidden"
-      >
-        {validBlogs.slice(0, loadedSlides).map((blog, index) => (
-          <SwiperSlide key={blog.slug}>
-            <article className="relative flex flex-col items-start justify-end mx-5 sm:mx-10 h-[60vh] sm:h-[85vh] rounded-3xl overflow-hidden">
-              {/* Background Image */}
-              <Image
-                src={blog.image_links}
-                alt={blog.title}
-                quality={50}
-                fill
-                priority={index === 0}
-                loading={index === 0 ? "eager" : "lazy"}
-                fetchPriority={index === 0 ? "high" : "auto"}
-                sizes="100vw"
-                className="object-cover object-center absolute inset-0 z-0"
-                placeholder="blur"
-                blurDataURL={`data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 800 450'%3E%3Crect width='800' height='450' fill='%232d3748'/%3E%3C/svg%3E`}
-              />
+    <section className="w-full px-5 sm:px-10">
+      <article className="relative flex items-end h-[50vh] sm:h-[60vh] rounded-3xl overflow-hidden">
 
-              {/* Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-dark/90 z-10" />
+        {/* Optimized Hero Image */}
+        <Image
+          src={blog.image_links}
+          alt={blog.title}
+          fill
+          priority
+          sizes="100vw"
+          quality={70}
+          className="object-cover object-center"
+        />
 
-              {/* Content */}
-              <div className="relative w-3/4 p-6 sm:p-8 md:p-12 flex flex-col items-start justify-center z-20 text-light">
-                <Category
-                  link={`/categories/${blog.category}`}
-                  name={blog.category}
-                />
-                <Link href={`/blog/${blog.slug}`} className="mt-6">
-                  <h1 className="font-bold capitalize text-light text-4xl sm:text-xl md:text-3xl lg:text-4xl">
-                    <span
-                      className="bg-gradient-to-r from-accent to-accent dark:from-accentDark/50 
-                      dark:to-accentDark/50 bg-[length:0px_6px]
-                      hover:bg-[length:100%_6px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500"
-                    >
-                      {blog.title}
-                    </span>
-                  </h1>
-                </Link>
-              </div>
-            </article>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </div>
+        {/* Dark gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+
+        {/* Content */}
+        <div className="relative z-10 w-4/5 p-6 md:p-10 text-white">
+          <Category
+            link={`/categories/${blog.category}`}
+            name={blog.category}
+            className="text-sm"
+          />
+
+          <Link href={`/blog/${blog.slug}`} className="block mt-4">
+            <h1 className="font-bold text-2xl sm:text-3xl lg:text-4xl leading-tight">
+              {blog.title}
+            </h1>
+          </Link>
+        </div>
+      </article>
+    </section>
   );
-};
-
-export default HomeCoverSection;
+}

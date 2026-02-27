@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
+    formats: ['image/avif', 'image/webp'],
     remotePatterns: [
       {
         protocol: 'https',
@@ -22,6 +23,6 @@ const nextConfig = {
       }
     ],
   },
-  compiler: { removeConsole: true }
+  compiler: { removeConsole: true },
 };
 export default nextConfig;

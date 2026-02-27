@@ -42,7 +42,7 @@
 //           alt={userName}
 //           width={64}
 //           height={64}
-//           quality={50}
+//           quality={35}
 //           className="rounded-full object-cover"
 //         />
 //         <div>

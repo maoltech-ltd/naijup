@@ -22,7 +22,7 @@ const RenderMdx: React.FC<BlogProp> = ({blog}) => {
     sm:first-letter:text-5xl
     
     '> 
-        <Image src={blog.image.link} alt={blog.title} width={blog.image.width} height={blog.image.height} quality={50} />
+        <Image src={blog.image.link} alt={blog.title} width={blog.image.width} height={blog.image.height} quality={35} />
     </div>
   )
 
