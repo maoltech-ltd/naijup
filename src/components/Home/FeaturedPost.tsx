@@ -17,17 +17,17 @@ const FeaturedPost: React.FC<Props> = (blogs) => {
 
     <div className="grid grid-cols-2 grid-rows-2 gap-6  mt-10 sm:mt-16">
       <article className=" col-span-2  sxl:col-span-1 row-span-2 relative">
-        <BlogLayoutOne blog={sortedBlogs[0]} />
+        <BlogLayoutOne blog={sortedBlogs[1]} />
       </article>
       <article className=" col-span-2 sm:col-span-1 row-span-1 relative">
-          <BlogLayoutTwo blog={sortedBlogs[1]} />
+          <BlogLayoutTwo blog={sortedBlogs[2]} />
       </article>
       <article className=" col-span-2 sm:col-span-1 row-span-1 relative">
         <MarketSwiper />
       </article>
       {/* <HeadlinesArticle /> */}
       <article className="col-span-2 sm:col-span-1 row-span-1 relative">
-          <BlogLayoutThree blog={sortedBlogs[2]} />
+          <BlogLayoutThree blog={sortedBlogs[3]} />
       </article>
     </div>
   </section>

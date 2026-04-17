@@ -13,7 +13,6 @@ import { useThemeSwitch } from "../Hooks/useThemeSwitch";
 import { cs } from "@/src/utils";
 import { useSelector } from "react-redux";
 import { categories } from "@/src/utils/props";
-// import FxSlider from "../markets/FxSlider";
 import { usePathname } from "next/navigation";
 import dynamic from "next/dynamic";
 import { Moon, Sun } from "lucide-react";
