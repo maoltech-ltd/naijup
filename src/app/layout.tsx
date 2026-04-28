@@ -4,24 +4,30 @@ import "./globals.css"
 import ClientWrapper from "./ClientWrapper"
 import Script from "next/script"
 
+const siteUrl = siteMetadata.siteUrl
+const logoUrl = `${siteUrl}${siteMetadata.siteLogo}`
+const socialBannerUrl = `${siteUrl}${siteMetadata.socialBanner}`
+
 // JSON-LD Organization Schema
 const jsonLdOrganization = {
   "@context": "https://schema.org",
-  "@type": "Organization",
+  "@type": "NewsMediaOrganization",
+  "@id": `${siteUrl}/#organization`,
   name: "NaijUp",
-  alternateName: "NaijUp Financial Magazine",
-  url: "https://naijup.ng",
-  logo: "https://naijup.ng/image/naijup-logo.png",
-  description: "Nigeria's leading financial news and market data platform covering finance, crypto, startups, economy, and investment opportunities.",
+  alternateName: ["NaijUp Finance", "NaijUp Financial Magazine"],
+  url: siteUrl,
+  logo: logoUrl,
+  description: siteMetadata.description,
   sameAs: [
-    "https://x.com/official_naijup",
-    "https://facebook.com/naijup",
-    "https://linkedin.com/company/naijup",
+    siteMetadata.twitter,
+    siteMetadata.facebook,
+    siteMetadata.linkedin,
   ],
   contactPoint: {
     "@type": "ContactPoint",
-    contactType: "customer service",
-    url: "https://naijup.ng/contact",
+    contactType: "editorial",
+    email: siteMetadata.email,
+    url: `${siteUrl}/contact`,
   },
 }
 
@@ -30,25 +36,28 @@ const jsonLdWebSite = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   name: "NaijUp",
-  url: "https://naijup.ng",
-  potentialAction: {
-    "@type": "SearchAction",
-    target: {
-      "@type": "EntryPoint",
-      urlTemplate: "https://naijup.ng/categories/all?q={search_term_string}",
-    },
-    "query-input": "required name=search_term_string",
+  url: siteUrl,
+  inLanguage: siteMetadata.locale,
+  publisher: {
+    "@id": `${siteUrl}/#organization`,
   },
 }
 
-// JSON-LD Breadcrumb
-const jsonLdBreadcrumb = {
+// JSON-LD finance entity
+const jsonLdFinancialService = {
   "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Home", item: "https://naijup.ng" },
-    { "@type": "ListItem", position: 2, name: "Market", item: "https://naijup.ng/market" },
-    { "@type": "ListItem", position: 3, name: "Blog", item: "https://naijup.ng/blog" },
+  "@type": "FinancialService",
+  name: "NaijUp Market Watch",
+  url: `${siteUrl}/market`,
+  areaServed: {
+    "@type": "Country",
+    name: "Nigeria",
+  },
+  serviceType: [
+    "Naira exchange rates",
+    "NGX stock market data",
+    "Nigerian bonds",
+    "Cryptocurrency market data",
   ],
 }
 
@@ -73,25 +82,8 @@ export const metadata: Metadata = {
     apple: "/image/naijup-logo.png",
   },
   description: siteMetadata.description,
-  keywords: [
-    "Nigerian finance news",
-    "Nigeria stock market",
-    "NGX stocks",
-    "NSE market data",
-    "Naira exchange rate",
-    "USD to NGN",
-    "cryptocurrency Nigeria",
-    "Bitcoin Nigeria",
-    "Nigerian startups",
-    "Africa fintech",
-    "Nigerian economy",
-    "investment opportunities Nigeria",
-    "forex rates Nigeria",
-    "CBN exchange rate",
-    "parallel market rate",
-    "Nigerian business news",
-  ],
-  authors: [{ name: "NaijUp Team", url: "https://naijup.ng/about" }],
+  keywords: siteMetadata.keywords,
+  authors: [{ name: siteMetadata.author, url: `${siteUrl}/about` }],
   creator: "NaijUp",
   publisher: "NaijUp",
   formatDetection: {
@@ -102,11 +94,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: siteMetadata.title,
     description: siteMetadata.description,
-    url: siteMetadata.siteUrl,
-    siteName: siteMetadata.title,
+    url: siteUrl,
+    siteName: siteMetadata.siteName,
     images: [
       {
-        url: siteMetadata.socialBanner,
+        url: socialBannerUrl,
         width: 1200,
         height: 630,
         alt: `${siteMetadata.title} - Nigerian Financial News`,
@@ -118,13 +110,13 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: siteMetadata.title,
-    images: [siteMetadata.socialBanner],
+    images: [socialBannerUrl],
     description: siteMetadata.description,
     creator: "@official_naijup",
     site: "@official_naijup",
   },
   alternates: {
-    canonical: siteMetadata.siteUrl,
+    canonical: siteUrl,
   },
   robots: {
     index: true,
@@ -137,9 +129,9 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  verification: {
-    google: "your-google-verification-code",
-  },
+  verification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
+    : undefined,
   category: "finance",
 }
 
@@ -164,10 +156,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
         />
 
-        {/* JSON-LD Breadcrumb */}
+        {/* JSON-LD Financial Service */}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdFinancialService) }}
         />
       </head>
       <body

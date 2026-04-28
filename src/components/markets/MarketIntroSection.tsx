@@ -11,8 +11,8 @@ const MarketIntroSEOSection = () => {
         <br /><br />
         Our FX tracker shows live NGN exchange rates such as USD/NGN, EUR/NGN,
         GBP/NGN, MXN/NGN, INR/NGN and more, helping you make smarter financial
-        decisions. We also convert major cryptocurrencies into naira — including
-        Bitcoin, Ethereum, BNB, Solana, and ADA — giving you access to digital
+        decisions. We also convert major cryptocurrencies into naira, including
+        Bitcoin, Ethereum, BNB, Solana, and ADA, giving you access to digital
         asset values at a glance.
         <br /><br />
         For investors, NaijUp provides in-depth NGX data including market
@@ -27,8 +27,8 @@ const MarketIntroSEOSection = () => {
       </p>
 
       <div className="mt-6 text-blue-600 dark:text-blue-400 underline">
-        <a href="/category/economy">Explore Economic Updates</a> &bull;
-        <a className="ml-2" href="/market/forex"> Forex Insights</a> &bull;
+        <a href="/categories/economy">Explore Economic Updates</a> &bull;
+        <a className="ml-2" href="/categories/finance"> Finance Insights</a> &bull;
         <a className="ml-2" href="/market/stocks"> Stock Market News</a>
       </div>
     </section>

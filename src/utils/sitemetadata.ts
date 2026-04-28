@@ -1,9 +1,10 @@
 const siteMetadata = {
-  title: "NaijUp - Nigeria Financial News, Market Data & Investment Insights",
+  title: "NaijUp - Nigerian Financial News, Markets & Investment Insights",
+  siteName: "NaijUp",
   author: "NaijUp Team",
   headerTitle: "NaijUp",
   description:
-    "Nigeria's premier financial news platform. Get real-time NGX stock prices, Naira exchange rates, cryptocurrency updates, startup news, and expert investment analysis. Your trusted source for Nigerian finance and economy.",
+    "Track Nigerian finance news, NGX market data, Naira exchange rates, cryptocurrency prices, startup updates, economy coverage, and investment insights from NaijUp.",
   language: "en-US",
   theme: "system",
   siteUrl: "https://naijup.ng",
@@ -54,6 +55,8 @@ const siteMetadata = {
     "investment opportunities Nigeria",
     "money management Nigeria",
     "personal finance Africa",
+    "Nigerian investment news",
+    "finance magazine Nigeria",
     
     // Economy keywords
     "Nigerian economy",

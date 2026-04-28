@@ -1,4 +1,5 @@
-import { MetadataRoute } from "next"
+import type { MetadataRoute } from "next";
+import siteMetadata from "@/src/utils/sitemetadata";
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -12,21 +13,18 @@ export default function robots(): MetadataRoute.Robots {
           "/createpost/",
           "/editpost/",
           "/edituserprofile/",
-          "/_next/",
+          "/signin/",
+          "/signup/",
+          "/userprofile/",
           "/private/",
         ],
       },
       {
-        userAgent: "Googlebot",
-        allow: "/",
-        disallow: ["/api/", "/dashboard/", "/createpost/", "/editpost/"],
-      },
-      {
         userAgent: "Googlebot-Image",
-        allow: "/",
+        allow: ["/", "/image/"],
       },
     ],
-    sitemap: "https://naijup.ng/sitemap.xml",
-    host: "https://naijup.ng",
-  }
+    sitemap: `${siteMetadata.siteUrl}/sitemap.xml`,
+    host: siteMetadata.siteUrl,
+  };
 }

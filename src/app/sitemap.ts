@@ -1,100 +1,95 @@
-import { MetadataRoute } from "next"
+import type { MetadataRoute } from "next";
+import siteMetadata from "@/src/utils/sitemetadata";
+import { categories as defaultCategories } from "@/src/utils/props";
 
-export const revalidate = 3600 // Revalidate every hour
+export const revalidate = 3600;
+
+type BlogPost = {
+  slug?: string;
+  updated_at?: string;
+  updatedAt?: string;
+  publication_date?: string;
+};
+
+const baseUrl = siteMetadata.siteUrl;
+const apiBaseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://api.naijup.ng/api/";
+
+async function fetchJson<T>(path: string): Promise<T | null> {
+  try {
+    const res = await fetch(`${apiBaseUrl}${path}`, {
+      next: { revalidate },
+    });
+
+    if (!res.ok) return null;
+    return res.json();
+  } catch (error) {
+    console.error(`Sitemap fetch error for ${path}:`, error);
+    return null;
+  }
+}
+
+function slugify(value?: string) {
+  return value
+    ?.toString()
+    .trim()
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function route(
+  url: string,
+  changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"],
+  priority: number,
+  lastModified = new Date()
+): MetadataRoute.Sitemap[number] {
+  return {
+    url,
+    lastModified,
+    changeFrequency,
+    priority,
+  };
+}
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = "https://naijup.ng"
+  const postsResponse = await fetchJson<{ results?: BlogPost[] }>("v1/blog/latest-posts/");
+  const posts = postsResponse?.results || [];
 
-  let blogs: any[] = []
-  let categories: any[] = []
-
-  try {
-    const [blogRes, categoryRes] = await Promise.all([
-      fetch(`${baseUrl}/api/blogs`, { next: { revalidate: 3600 } }),
-      fetch(`${baseUrl}/api/categories`, { next: { revalidate: 3600 } }),
-    ])
-
-    if (blogRes.ok) blogs = (await blogRes.json()).results || []
-    if (categoryRes.ok) categories = (await categoryRes.json()).results || []
-  } catch (err) {
-    console.error("Sitemap fetch error:", err)
-  }
-
-  // Static routes with priority
   const staticRoutes: MetadataRoute.Sitemap = [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 1.0,
-    },
-    {
-      url: `${baseUrl}/market`,
-      lastModified: new Date(),
-      changeFrequency: "hourly",
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/about`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/contact`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/privacy-policy`,
-      lastModified: new Date(),
-      changeFrequency: "yearly",
-      priority: 0.3,
-    },
-  ]
+    route(baseUrl, "daily", 1),
+    route(`${baseUrl}/market`, "hourly", 0.9),
+    route(`${baseUrl}/about`, "monthly", 0.5),
+    route(`${baseUrl}/contact`, "monthly", 0.5),
+    route(`${baseUrl}/privacy-policy`, "yearly", 0.3),
+  ];
 
-  // Blog routes - high priority for content
-  const blogRoutes: MetadataRoute.Sitemap = blogs.map((blog) => ({
-    url: `${baseUrl}/blog/${blog.slug}`,
-    lastModified: new Date(blog.updated_at || blog.publication_date || Date.now()),
-    changeFrequency: "weekly" as const,
-    priority: 0.8,
-  }))
+  const blogRoutes: MetadataRoute.Sitemap = posts
+    .filter((blog) => blog.slug)
+    .map((blog) =>
+      route(
+        `${baseUrl}/blog/${blog.slug}`,
+        "weekly",
+        0.8,
+        new Date(blog.updated_at || blog.updatedAt || blog.publication_date || Date.now())
+      )
+    );
 
-  // Category routes
-  const categoryRoutes: MetadataRoute.Sitemap = categories.map((cat) => ({
-    url: `${baseUrl}/categories/${cat.slug || cat.name?.toLowerCase()}`,
-    lastModified: new Date(),
-    changeFrequency: "daily" as const,
-    priority: 0.7,
-  }))
+  const categorySlugs = new Set<string>();
 
-  // Add default category routes
-  const defaultCategories = [
-    "finance",
-    "crypto",
-    "startups",
-    "economy",
-    "opportunity",
-    "business",
-  ]
+  defaultCategories.forEach((category) => {
+    const slug = slugify(category.name);
+    if (slug) categorySlugs.add(slug);
+  });
 
-  const defaultCategoryRoutes: MetadataRoute.Sitemap = defaultCategories.map(
-    (cat) => ({
-      url: `${baseUrl}/categories/${cat}`,
-      lastModified: new Date(),
-      changeFrequency: "daily" as const,
-      priority: 0.7,
-    })
-  )
+  posts.forEach((post: any) => {
+    const slug = slugify(post.category);
+    if (slug) categorySlugs.add(slug);
+  });
 
-  return [
-    ...staticRoutes,
-    ...blogRoutes,
-    ...categoryRoutes,
-    ...defaultCategoryRoutes.filter(
-      (route) => !categoryRoutes.some((r) => r.url === route.url)
-    ),
-  ]
+  const categoryRoutes: MetadataRoute.Sitemap = Array.from(categorySlugs).map((slug) =>
+    route(`${baseUrl}/categories/${slug}`, "daily", 0.7)
+  );
+
+  return [...staticRoutes, ...blogRoutes, ...categoryRoutes];
 }

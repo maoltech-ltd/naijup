@@ -1,6 +1,5 @@
 "use client";
 import { useAppDispatch } from '@/src/redux/hooks/dispatch';
-import { useSelector } from 'react-redux';
 import Link from 'next/link';
 import { registerUser } from '@/src/redux/slice/userSlice';
 import { useForm } from 'react-hook-form';
@@ -13,11 +12,8 @@ import { useState } from 'react';
 const SignUp = () => {
     const dispatch = useAppDispatch();
     const router = useRouter();
-    const { isLoggedIn, status } = useSelector((state: any) => state.user);
-
     const [showPassword, setShowPassword] = useState(false);
 
-    // form validation rules 
     const validationSchema = Yup.object().shape({
         username: Yup.string().required('Username is required'),
         email: Yup.string().email().required('Email is required'),
@@ -33,8 +29,6 @@ const SignUp = () => {
 
         if (registerUser.fulfilled.match(resultAction)) {
             router.push('/');
-        } else {
-            console.log('Registration failed: ', resultAction.payload);
         }
     }
 

@@ -1,15 +1,14 @@
 "use client";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Button } from "@nextui-org/react";
 import TextareaAutosize from "react-textarea-autosize";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import EditorJS from "@editorjs/editorjs";
+import type EditorJS from "@editorjs/editorjs";
 import { BackIcon } from "../icon";
 import { useAppDispatch } from "@/src/redux/hooks/dispatch";
 import { createPost, updatePost } from "@/src/redux/slice/postsSlice";
-import { useSelector } from "react-redux";
 import { createImage } from "@/src/redux/slice/ImageSlice";
 import { categories } from "@/src/utils/props";
 import { UserState } from "@/src/redux/slice/userSlice";
@@ -31,11 +30,11 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
     resetField,
     setValue,
     watch,
-    formState: { isSubmitting, errors },
+    formState: { isSubmitting },
   } = useForm<any>({ defaultValues: { title: post?.title, category: post?.category } });
 
   const postType = watch("postType");
-  const [imageFile, setImageFile] = useState<any>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const [isMounted, setIsMounted] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState("");
@@ -45,8 +44,9 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
   const [successMessage, setSuccessMessage] = useState("");
   const ref = useRef<EditorJS | undefined>(undefined);
 
-  const { status: imageStatus, image: uploadedImage } = useSelector(
-    (state: any) => state.image
+  const imagePreviewUrl = useMemo(
+    () => (imageFile ? URL.createObjectURL(imageFile) : ""),
+    [imageFile]
   );
 
   useEffect(() => {
@@ -60,14 +60,12 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
   }, [post, reset]);
 
   useEffect(() => {
-    if (errors.title) {
-      <ErrorModal
-        isOpen={true}
-        onClose={() => {}}
-        message="Title is required ❌"
-      />;
-    }
-  }, [errors.title]);
+    return () => {
+      if (imagePreviewUrl) {
+        URL.revokeObjectURL(imagePreviewUrl);
+      }
+    };
+  }, [imagePreviewUrl]);
 
   function getPostDiff(original: Post, updated: any) {
     const changes: Record<string, { old: any; new: any }> = {};
@@ -126,8 +124,6 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
       } else {
         result = await dispatch(createPost({ post: postData, token: user.token }));
       }
-      console.log({result})
-      // 🔥 Check for expired/invalid token
       if (result.meta.requestStatus === "rejected" && result.payload?.code === 401) {
         setErrorMessage("Your session has expired. Please sign in again.");
         setErrorModalOpen(true);
@@ -138,8 +134,7 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
         return;
       }
   
-      // ✅ Handle success
-      setSuccessMessage(post ? "Post updated successfully ✅" : "Post created successfully 🎉");
+      setSuccessMessage(post ? "Post updated successfully." : "Post created successfully.");
       setSuccessModalOpen(true);
       reset();
   
@@ -149,7 +144,7 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
         router.push("/");
       }
     } catch (error: any) {
-      setErrorMessage(error?.message || "Something went wrong ❌");
+      setErrorMessage(error?.message || "Something went wrong.");
       setErrorModalOpen(true);
     }
   };
@@ -238,7 +233,7 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
                     const errorMessage = error.message || 
                                     error.payload?.message || 
                                     error.error || 
-                                    "Image upload failed ❌";
+                                    "Image upload failed.";
                     setErrorMessage(errorMessage);
                     setErrorModalOpen(true);
                     return {
@@ -271,8 +266,8 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
       initEditor();
 
       return () => {
-        ref.current && ref.current.destroy;
-        ref.current === undefined;
+        ref.current?.destroy();
+        ref.current = undefined;
       };
     }
   }, [isMounted, initEditor]);
@@ -291,22 +286,6 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
         </Button>
 
         <div className="flex items-center gap-4">
-        {/* <Button
-            variant="light"
-            color="primary"
-            radius="sm"
-            type="submit"
-            isDisabled={postType === "DRAFT" && isSubmitting ? true : false}
-            isLoading={postType === "DRAFT" && isSubmitting ? true : false}
-            onClick={() => setValue("postType", "DRAFT")}
-          >
-            <div className="dark:text-light">
-              {" "}
-              {postType === "DRAFT" && isSubmitting
-                ? "Saving..."
-                : "Save Draft"}
-            </div>
-          </Button> */}
           <Button
             color="primary"
             radius="sm"
@@ -326,7 +305,6 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
 
       <div className="max-md:px-4 h-full overflow-y-auto">
         <div className="max-w-[650px] m-auto">
-          {/* 🔥 NEW: diff preview for edit mode */}
           {post && (
             <div className="my-4 p-4 border rounded-md bg-gray-50 dark:bg-dark">
               <h4 className="font-bold mb-2 text-lg">Changes Preview</h4>
@@ -336,7 +314,7 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
                   category: watch("category"),
                   postType: watch("postType"),
                   tags,
-                  content: post.content, // you can also live-diff with editor.save()
+                  content: post.content,
                   image_links: imageFile || post.image_links,
                 })
               ).map(([key, diff]) => (
@@ -352,7 +330,6 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
               ))}
             </div>
           )}
-          {/* Image Upload Section */}
           <div className="flex flex-col gap-4 items-center mb-4">
             {!imageFile && (
               <label className="cursor-pointer text-blue-500 underline">
@@ -380,7 +357,7 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
                   <BackIcon name="x" />
                 </Button>
                 <Image
-                  src={URL.createObjectURL(imageFile)}
+                  src={imagePreviewUrl}
                   width={100}
                   height={100}
                   alt="post image"
@@ -390,7 +367,6 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
             )}
           </div>
 
-          {/* Category Section */}
           <div>
             <label htmlFor="category" className="font-semibold dark:text-white">
               Select Category
@@ -401,14 +377,6 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
             {...register("category")}
             className="w-full md:w-1/2 mt-2 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-[#1e1e1e] dark:text-white dark:border-gray-700"
           >
-            {/* <option key="general" value={categories[0].name}>
-              General
-            </option> */}
-            {/* {categories.map((category) => (
-              <option key={category.name} value={category.name}>
-                {category.name}
-              </option>
-            ))} */}
             {categories.map((category) => (
               <option key={category.name} value={category.name}>
                 {capitalize(category.name)}
@@ -416,7 +384,6 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
             ))}
           </select>
 
-          {/* Title Input */}
           <TextareaAutosize
             id="title"
             {...register("title", { required: true })}
@@ -425,8 +392,6 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
             maxRows={3}
           />
 
-          {/* Content Editor */}
-          {/* <div id="editor" className="min-h-[300px] dark:text-light"></div> */}
           <div
             id="editor"
             className="
@@ -451,12 +416,6 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
               max-w-none
             "
           ></div>
-          {/* <div
-            id="editor"
-            className="min-h-[300px] mt-6 p-4 border border-gray-200 rounded-lg shadow-sm bg-white focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent transition-all duration-200"
-          ></div> */}
-
-          {/* Tags Section */}
           <div className="mt-4">
             <input
               type="text"
@@ -466,6 +425,7 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
               placeholder="Enter tags and press Enter"
             />
             <Button
+              type="button"
               onPress={handleAddTag}
               className="mt-2"
               isDisabled={!tagInput}
@@ -480,6 +440,7 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
                 >
                   {tag}
                   <button
+                    type="button"
                     onClick={() => handleRemoveTag(tag)}
                     className="text-white"
                   >

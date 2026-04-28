@@ -1,8 +1,7 @@
-
 import dynamic from "next/dynamic";
+import type { Metadata } from "next";
+import siteMetadata from "@/src/utils/sitemetadata";
 import MarketCoverSection from "@/src/components/markets/MarketCoverSection";
-import { Metadata } from "next";
-
 
 const CurrencyCalculator = dynamic(() => import("@/src/components/markets/CurrencyCalculator"));
 const CurrencyFX = dynamic(() => import("@/src/components/markets/CurrencyFX"));
@@ -14,17 +13,22 @@ const MarketIntroSEOSection = dynamic(() => import("@/src/components/markets/Mar
 const WhatWeTrackSection = dynamic(() => import("@/src/components/markets/WhatWeTrackSection"));
 const MarketFAQSection = dynamic(() => import("@/src/components/markets/MarketFAQSection"));
 
+const title = "Nigeria Market Insights | NGN FX, NGX Stocks, Bonds & ETFs";
+const description =
+  "Get updates on Nigeria's financial markets, including NGN exchange rates, NGX stock performance, FGN bond yields, ETF prices, and crypto market data.";
+const marketUrl = `${siteMetadata.siteUrl}/market`;
+const imageUrl = `${siteMetadata.siteUrl}${siteMetadata.socialBanner}`;
+
 export const metadata: Metadata = {
-  title: "Nigeria Market Insights | NGN FX, NGX Stocks, Bonds & ETFs | Naijup Finance",
-  description:
-    "Get real-time updates on Nigeria's financial markets — NGN currency exchange rates, NGX stock performance, FGN bond yields, and ETF insights.",
+  title,
+  description,
   keywords: [
     "Nigeria market",
     "NGN FX rates",
     "NGX stocks",
     "FGN bonds",
     "Nigerian ETFs",
-    "Naijup Finance",
+    "NaijUp Finance",
     "Naira currency",
     "Nigerian economy",
     "Naira",
@@ -32,42 +36,65 @@ export const metadata: Metadata = {
     "GBPNGN",
     "BTCNGN",
     "Dollar to Naira",
-    "Naira to Dollar"
+    "Naira to Dollar",
   ],
   alternates: {
-    canonical: "https://naijup.ng/market",
+    canonical: marketUrl,
   },
   openGraph: {
-    title: "Nigeria Market Insights | NGN FX, NGX Stocks, Bonds & ETFs",
-    description:
-      "Explore Nigeria's latest financial data — currency (NGN), stocks (NGX), FGN bonds, and ETFs — all in one place.",
-    url: "https://naijup.ng/market",
-    siteName: "Naijup Finance",
-    locale: "en_NG",
+    title,
+    description,
+    url: marketUrl,
+    siteName: siteMetadata.siteName,
+    locale: siteMetadata.locale,
     type: "website",
     images: [
       {
-        url: "https://naijup.ng/images/market-preview.png",
+        url: imageUrl,
         width: 1200,
         height: 630,
-        alt: "Nigeria Market Overview - Naijup Finance",
+        alt: "Nigeria market overview on NaijUp Finance",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    site: "@maoltech",
-    creator: "@maoltech",
-    title: "Nigeria Market Insights | NGN FX, NGX Stocks, Bonds & ETFs",
+    site: "@official_naijup",
+    creator: "@official_naijup",
+    title,
     description:
-      "Real-time NGN FX rates, NGX stock data, FGN bonds, and ETF trends — your complete Nigerian market snapshot.",
-    images: ["https://naijup.ng/images/market-preview.png"],
+      "NGN FX rates, NGX stock data, FGN bonds, ETF trends, and crypto prices for a clearer Nigerian market snapshot.",
+    images: [imageUrl],
+  },
+};
+
+const marketJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: title,
+  url: marketUrl,
+  description,
+  about: [
+    "Naira exchange rates",
+    "NGX stocks",
+    "FGN bonds",
+    "Nigerian ETFs",
+    "Cryptocurrency prices in Nigeria",
+  ],
+  isPartOf: {
+    "@type": "WebSite",
+    name: siteMetadata.siteName,
+    url: siteMetadata.siteUrl,
   },
 };
 
 const Market = () => {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(marketJsonLd) }}
+      />
       <MarketCoverSection />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-8 space-y-12">
         <MarketIntroSEOSection />

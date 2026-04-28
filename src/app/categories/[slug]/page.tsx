@@ -1,80 +1,71 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import { sortBlogs } from "@/src/utils";
-import Categories from "@/src/components/Blog/Categories";
-import BlogLayoutThree from "@/src/components/Blog/BlogLayoutThree";
-import { useAppDispatch } from "@/src/redux/hooks/dispatch";
-import { fetchCategories } from "@/src/redux/slice/categorySlice";
-import { useSelector } from "react-redux";
-// import SuccessModal from "@/src/components/Modal/SuccessModal";
-import ErrorModal from "@/src/components/Modal/ErrorModal";
+import type { Metadata } from "next";
+import siteMetadata from "@/src/utils/sitemetadata";
+import CategoryClient from "./CategoryClient";
 
-const CategoryPage: React.FC<{ params: { slug: string } }> = ({ params }) => {
-  const dispatch = useAppDispatch();
+const categoryDescriptions: Record<string, string> = {
+  general: "Read the latest Nigerian finance and business updates from NaijUp.",
+  startup: "Follow Nigerian startup news, African fintech coverage, funding updates, and founder stories.",
+  investment: "Explore Nigerian investment news, market insights, personal finance, and wealth-building ideas.",
+  crypto: "Track cryptocurrency news in Nigeria, Bitcoin updates, crypto market trends, and digital asset coverage.",
+  opportunity: "Discover grants, jobs, funding opportunities, business openings, and financial opportunities in Nigeria.",
+  business: "Read Nigerian business news, company updates, entrepreneurship coverage, and market analysis.",
+  economy: "Follow Nigerian economy news, CBN updates, inflation, GDP, fiscal policy, and macroeconomic analysis.",
+  finance: "Read Nigerian finance news, banking updates, Naira exchange rates, markets, and money insights.",
+  others: "Explore more NaijUp stories across finance, business, technology, economy, and opportunity coverage.",
+};
 
-  const [isErrorOpen, setIsErrorOpen] = useState(false);
-  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+function titleCase(value: string) {
+  return value
+    .replace(/-/g, " ")
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+}
 
-   useEffect(() => {
-    dispatch(fetchCategories(params.slug));
-   }, [dispatch, params.slug]);
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const categoryName = titleCase(params.slug);
+  const url = `${siteMetadata.siteUrl}/categories/${params.slug}`;
+  const description =
+    categoryDescriptions[params.slug.toLowerCase()] ||
+    `Read the latest ${categoryName} news and analysis from NaijUp, covering Nigerian finance, markets, economy, startups, and business.`;
 
-   const { categories, status, error } = useSelector((state: any) => state.category);
+  return {
+    title: `${categoryName} News`,
+    description,
+    keywords: [
+      `${categoryName} news Nigeria`,
+      `Nigerian ${params.slug} news`,
+      ...siteMetadata.keywords,
+    ],
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      title: `${categoryName} News | ${siteMetadata.siteName}`,
+      description,
+      url,
+      siteName: siteMetadata.siteName,
+      locale: siteMetadata.locale,
+      type: "website",
+      images: [
+        {
+          url: `${siteMetadata.siteUrl}${siteMetadata.socialBanner}`,
+          width: 1200,
+          height: 630,
+          alt: `${categoryName} news on NaijUp`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${categoryName} News | ${siteMetadata.siteName}`,
+      description,
+      images: [`${siteMetadata.siteUrl}${siteMetadata.socialBanner}`],
+      site: "@official_naijup",
+    },
+  };
+}
 
-  useEffect(() => {
-    if (status === 'failed') {
-      setErrorMessage(error);
-      setIsErrorOpen(true);
-    } else if (status === 'succeeded') {
-      setSuccessMessage("Categories fetched successfully!");
-      setIsSuccessOpen(true);
-    }
-  }, [status, error]);
-
-  if (status === 'loading') {
-    return <div>Loading...</div>;
-  }
-
-  if (status === 'failed') {
-    return <div>Error: {error}</div>;
-  }
-
-  if (status === 'succeeded') {
-    const sortedBlogs = sortBlogs({blogs: categories.results});
-
-    const allCategories: string[] = [];
-    sortedBlogs.forEach((blog: any) => {
-      if (!allCategories.includes(blog.category)) {
-        allCategories.push(blog.category);
-      }
-    });
-
-    return (
-      <main className="mt-12 flex flex-col text-dark dark:text-light">
-        <div className="px-5 sm:px-10 md:px-24 sxl:px-32 flex flex-col">
-          <h1 className="mt-6 font-semibold text-2xl md:text-4xl lg:text-5xl">#{params.slug}</h1>
-          <span className="mt-2 inline-block">
-            Discover more categories and expand your knowledge!
-          </span>
-        </div>
-        <Categories categories={allCategories} currentSlug={params.slug} />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 grid-rows-2 gap-16 mt-5 sm:mt-10 md:mt-24 sxl:mt-32 px-5 sm:px-10 md:px-24 sxl:px-32">
-          {sortedBlogs.map((blog: any, index: number) => (
-            <article key={index} className="col-span-1 row-span-1 relative">
-              <BlogLayoutThree blog={blog} />
-            </article>
-          ))}
-        </div>
-
-        
-        {/* <SuccessModal isOpen={isSuccessOpen} onClose={() => setIsSuccessOpen(false)} message={successMessage} /> */}
-      </main>
-    );
-  }
-
-  return null;
+const CategoryPage = ({ params }: { params: { slug: string } }) => {
+  return <CategoryClient slug={params.slug} />;
 };
 
 export default CategoryPage;

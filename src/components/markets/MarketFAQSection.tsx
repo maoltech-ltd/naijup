@@ -7,7 +7,7 @@ const MarketFAQSection = () => {
         <div>
           <h3 className="font-semibold text-lg dark:text-light">What is NaijUp Market Watch?</h3>
           <p className="text-gray-700 dark:text-light">
-            NaijUp Market Watch provides real-time updates on Nigeria’s financial
+            NaijUp Market Watch provides updates on Nigeria&rsquo;s financial
             markets including FX rates, stocks, bonds, ETFs and cryptocurrencies.
           </p>
         </div>
@@ -15,8 +15,8 @@ const MarketFAQSection = () => {
         <div>
           <h3 className="font-semibold text-lg dark:text-light">How often are FX and crypto prices updated?</h3>
           <p className="text-gray-700 dark:text-light">
-            Prices update in real-time automatically, ensuring the most accurate
-            and current values.
+            Prices update automatically, helping readers follow current market
+            values across currencies and digital assets.
           </p>
         </div>
 
@@ -31,7 +31,7 @@ const MarketFAQSection = () => {
         <div>
           <h3 className="font-semibold text-lg dark:text-light">Can I use NaijUp for investment decisions?</h3>
           <p className="text-gray-700 dark:text-light">
-            Yes — NaijUp provides accurate insights that help improve your
+            NaijUp provides market context and financial information that can support
             personal or professional financial analysis.
           </p>
         </div>

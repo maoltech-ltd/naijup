@@ -5,6 +5,9 @@ import siteMetadata from "@/src/utils/sitemetadata"
 export const metadata = {
   title: "Privacy Policy",
   description: `Read the privacy policy of NaijUp to understand how we collect, use, and protect your data. Contact us at ${siteMetadata.email} for questions.`,
+  alternates: {
+    canonical: `${siteMetadata.siteUrl}/privacy-policy`,
+  },
 }
 
 const PrivacyPolicy = () => {

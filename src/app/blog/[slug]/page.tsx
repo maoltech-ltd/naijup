@@ -1,30 +1,35 @@
-import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
-import BlogPage from './BlogPage';
-// import api from '@/src/api';
-
-
-// async function getBlog(slug: string, retries = 2) {
-//   for (let i = 0; i <= retries; i++) {
-//     try {
-//       const res = await api.get(`v1/blog/post/slug/${slug}/`);
-//       if (res.data?.title) return res.data;
-//     } catch (error) {
-//       if (i === retries) {
-//         console.error('Error fetching blog:', error);
-//         return null;
-//       }
-//       await new Promise(r => setTimeout(r, 500));
-//     }
-//   }
-// }
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import siteMetadata from "@/src/utils/sitemetadata";
+import BlogPage from "./BlogPage";
 
 export const revalidate = 60;
 
-async function getBlog(slug: string) {
+type BlogAuthor = {
+  name?: string;
+};
+
+type BlogPost = {
+  id?: string;
+  title: string;
+  category?: string;
+  content?: any;
+  image_links?: string;
+  author?: BlogAuthor | string;
+  publication_date?: string;
+  updatedAt?: string;
+  updated_at?: string;
+  slug: string;
+  tags?: string[];
+};
+
+const baseUrl = siteMetadata.siteUrl;
+const apiBaseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://api.naijup.ng/api/";
+
+async function getBlog(slug: string): Promise<BlogPost | null> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}v1/blog/post/slug/${slug}/`, {
-      next: { revalidate: 60 },
+    const res = await fetch(`${apiBaseUrl}v1/blog/post/slug/${slug}/`, {
+      next: { revalidate },
     });
 
     if (!res.ok) throw new Error(`Failed to fetch blog: ${res.status}`);
@@ -35,93 +40,154 @@ async function getBlog(slug: string) {
 
     return blog;
   } catch (error) {
-    console.error('Error fetching blog:', error);
+    console.error("Error fetching blog:", error);
     return null;
   }
 }
 
+function stripHtml(value = "") {
+  return value
+    .replace(/<[^>]*>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/\s+/g, " ")
+    .trim();
+}
 
-const firstParagraph = (content: any) =>{
-  return content.find(
+function contentBlocks(content: any): any[] {
+  if (Array.isArray(content)) return content;
+  if (Array.isArray(content?.blocks)) return content.blocks;
+  return [];
+}
+
+function firstParagraph(content: any) {
+  const paragraph = contentBlocks(content).find(
     (block: any) => block.type === "paragraph" && block.data?.text
   )?.data?.text;
+
+  return stripHtml(paragraph);
+}
+
+function truncateDescription(value: string) {
+  if (value.length <= 160) return value;
+  return `${value.slice(0, 157).trim()}...`;
+}
+
+function absoluteUrl(path?: string) {
+  if (!path) return `${baseUrl}${siteMetadata.socialBanner}`;
+  if (path.startsWith("http://") || path.startsWith("https://")) return path;
+  return `${baseUrl}${path.startsWith("/") ? path : `/${path}`}`;
+}
+
+function authorName(author?: BlogAuthor | string) {
+  if (!author) return siteMetadata.author;
+  if (typeof author === "string") return author;
+  return author.name || siteMetadata.author;
+}
+
+function blogDescription(blog: BlogPost) {
+  return truncateDescription(
+    firstParagraph(blog.content) ||
+      `Read ${blog.title} on NaijUp for Nigerian finance, markets, business, and economy insights.`
+  );
+}
+
+function blogKeywords(blog: BlogPost) {
+  if (blog.tags?.length) return blog.tags;
+  return [blog.category, ...siteMetadata.keywords].filter(Boolean) as string[];
 }
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const blog = await getBlog(params.slug);
-  
+
   if (!blog) {
     return {
-      title: 'Blog Post Not Found',
+      title: "Blog Post Not Found",
+      robots: {
+        index: false,
+        follow: false,
+      },
     };
   }
 
-  const blogUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/blog/${params.slug}`;
-  const blogImage = blog.image_links || '/default-social-banner.png';
-  const description = firstParagraph(blog.content)?.substring(0, 160) || `Read ${blog.title} on Naijup`;
+  const blogUrl = `${baseUrl}/blog/${params.slug}`;
+  const image = absoluteUrl(blog.image_links);
+  const description = blogDescription(blog);
+  const author = authorName(blog.author);
 
   return {
     title: blog.title,
-    description: description,
-    keywords: blog.tags?.join(', ') || '',
-    authors: [{ name: blog.author?.name || 'Naijup' }],
+    description,
+    keywords: blogKeywords(blog),
+    authors: [{ name: author }],
+    alternates: {
+      canonical: blogUrl,
+    },
     openGraph: {
       title: blog.title,
       description,
       url: blogUrl,
-      siteName: 'Naijup',
+      siteName: siteMetadata.siteName,
       images: [
         {
-          url: blogImage,
+          url: image,
           width: 1200,
           height: 630,
           alt: blog.title,
         },
       ],
-      type: 'article',
+      type: "article",
       publishedTime: blog.publication_date,
-      modifiedTime: blog.updatedAt,
-      authors: [blog.author?.name || 'Naijup'],
+      modifiedTime: blog.updatedAt || blog.updated_at || blog.publication_date,
+      authors: [author],
+      section: blog.category,
+      tags: blog.tags,
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title: blog.title,
       description,
-      images: [blogImage],
-      creator: '@maoltech',
-    },
-    alternates: {
-      canonical: blogUrl,
+      images: [image],
+      creator: "@official_naijup",
+      site: "@official_naijup",
     },
   };
 }
 
-// JSON-LD structured data
-function BlogStructuredData({ blog, slug }: { blog: any; slug: string }) {
+function BlogStructuredData({ blog, slug }: { blog: BlogPost; slug: string }) {
+  const url = `${baseUrl}/blog/${slug}`;
+  const image = absoluteUrl(blog.image_links);
+  const author = authorName(blog.author);
+  const description = blogDescription(blog);
+
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": blog.title,
-    "image": [blog.image_links],
-    "author": {
+    "@type": "NewsArticle",
+    headline: blog.title,
+    image: [image],
+    author: {
       "@type": "Person",
-      "name": blog.author?.name || "Naijup"
+      name: author,
     },
-    "publisher": {
+    publisher: {
       "@type": "Organization",
-      "name": "Naijup",
-      "logo": {
+      name: siteMetadata.siteName,
+      logo: {
         "@type": "ImageObject",
-        "url": "https://res.cloudinary.com/drfvlkzpy/image/upload/v1756673161/naijup_vqwjcx.png"
-      }
+        url: absoluteUrl(siteMetadata.siteLogo),
+      },
     },
-    "datePublished": blog.publication_date,
-    "dateModified": blog.updatedAt || blog.publication_date,
-    "mainEntityOfPage": {
+    datePublished: blog.publication_date,
+    dateModified: blog.updatedAt || blog.updated_at || blog.publication_date,
+    mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `${process.env.NEXT_PUBLIC_SITE_URL}/blog/${slug}`
+      "@id": url,
     },
-    "description": firstParagraph(blog.content)?.substring(0, 160) || `Read ${blog.title} on Naijup`,
+    articleSection: blog.category,
+    keywords: blog.tags?.join(", "),
+    description,
   };
 
   return (
@@ -134,7 +200,7 @@ function BlogStructuredData({ blog, slug }: { blog: any; slug: string }) {
 
 export default async function BlogSEOPage({ params }: { params: { slug: string } }) {
   const blog = await getBlog(params.slug);
-  
+
   if (!blog) {
     notFound();
   }
@@ -142,7 +208,7 @@ export default async function BlogSEOPage({ params }: { params: { slug: string }
   return (
     <>
       <BlogStructuredData blog={blog} slug={params.slug} />
-      <BlogPage blog={blog} />
+      <BlogPage blog={blog as any} />
     </>
   );
 }

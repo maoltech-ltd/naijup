@@ -1,5 +1,5 @@
 "use client"
-import { useState, useRef, useEffect, Suspense } from "react"
+import { useState, useRef, useEffect } from "react"
 import Link from "next/link"
 import Logo from "./Logo"
 import {
@@ -13,31 +13,14 @@ import { useSelector } from "react-redux"
 import { categories } from "@/src/utils/props"
 import { usePathname } from "next/navigation"
 import dynamic from "next/dynamic"
-import { Moon, Sun } from "lucide-react"
+import { ChevronDown, Menu, Moon, Sun, X } from "lucide-react"
 
-// Lazy load FxSlider for better performance
 const FxSlider = dynamic(() => import("../markets/FxSlider"), {
   ssr: false,
   loading: () => (
     <div className="w-full h-10 bg-gray-100 dark:bg-gray-800 animate-pulse" />
   ),
 })
-
-// Skeleton for initial render
-const HeaderSkeleton = () => (
-  <div className="relative">
-    <div className="w-full items-center justify-around bg-black py-2">
-      <div className="text-2xl sm:text-4xl font-bold text-white text-center">
-        NaijUp
-      </div>
-    </div>
-    <div className="w-full h-10 bg-gray-100 animate-pulse" />
-    <header className="w-full p-4 px-5 sm:px-10 flex items-center justify-between">
-      <div className="h-8 w-32 bg-gray-200 rounded animate-pulse" />
-      <div className="h-8 w-24 bg-gray-200 rounded animate-pulse" />
-    </header>
-  </div>
-)
 
 const Header = () => {
   const user = useSelector((state: any) => state.user)
@@ -47,21 +30,18 @@ const Header = () => {
   const [mounted, setMounted] = useState(false)
 
   const categoriesRef = useRef<HTMLDivElement>(null)
-  const mobileCategoriesRef = useRef<HTMLDivElement>(null)
-
   const toggleMenu = () => {
-    setClick(!click)
+    setClick((isOpen) => !isOpen)
   }
 
   const toggleCategories = () => {
-    setShowCategories(!showCategories)
+    setShowCategories((isOpen) => !isOpen)
   }
 
   const handleThemeChange = () => {
     setMode(mode === "light" ? "dark" : "light")
   }
 
-  // Close dropdowns when clicking outside
   useEffect(() => {
     setMounted(true)
     const handleClickOutside = (event: MouseEvent) => {
@@ -79,7 +59,6 @@ const Header = () => {
     }
   }, [])
 
-  // Close mobile menu when resizing to desktop
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 640) {
@@ -96,8 +75,6 @@ const Header = () => {
   const pathname = usePathname()
   const isHome = pathname === "/"
 
-  // Show skeleton during SSR/hydration for theme-dependent content only
-  // But render static content immediately
   return (
     <div className="relative">
       <div className="w-full items-center justify-around bg-black dark:bg-white py-2">
@@ -114,26 +91,27 @@ const Header = () => {
         </Link>
       </div>
       
-      <Suspense fallback={<div className="w-full h-10 bg-gray-100 dark:bg-gray-800 animate-pulse" />}>
-        <FxSlider />
-      </Suspense>
+      <FxSlider />
 
-      {/* Theme toggle - render immediately with safe fallback */}
       <button
         onClick={handleThemeChange}
         aria-label={`Switch to ${mode === "light" ? "dark" : "light"} mode`}
         title={`Switch to ${mode === "light" ? "dark" : "light"} mode`}
         type="button"
-        className="fixed top-5 right-5 p-3 rounded-full bg-white dark:bg-gray-800 shadow-xl cursor-pointer z-50 transition-colors"
+        className="fixed top-5 right-5 p-3 rounded-full bg-light text-dark shadow-xl cursor-pointer z-50 transition-colors dark:bg-dark dark:text-light"
       >
         {mounted ? (
-          mode === "light" ? <Moon aria-hidden className="w-5 h-5" /> : <Sun aria-hidden className="w-5 h-5" />
+          mode === "light" ? (
+            <Moon aria-hidden className="w-5 h-5 text-dark" />
+          ) : (
+            <Sun aria-hidden className="w-5 h-5 text-light" />
+          )
         ) : (
           <div className="w-5 h-5" />
         )}
       </button>
 
-      <header className="w-full p-4 px-5 sm:px-10 flex items-center justify-between relative">
+      <header className="w-full px-4 py-4 sm:px-10 flex items-center justify-between relative">
         <div className="flex items-center">
           <Logo user={user} />
           {user?.isAuthor && (
@@ -145,151 +123,122 @@ const Header = () => {
           )}
         </div>
 
-        {/* Hamburger Menu for Small Screens */}
         <button
-          className="inline-block sm:hidden z-50 p-2"
+          className="inline-flex sm:hidden z-50 h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-900 shadow-sm transition-colors hover:border-accent hover:text-accent dark:border-slate-700 dark:bg-slate-900 dark:text-light"
           onClick={toggleMenu}
           aria-label="Toggle navigation menu"
+          aria-expanded={click}
+          type="button"
         >
-          <div className="w-6 cursor-pointer transition-all ease duration-300">
-            <div className="relative">
-              <span
-                className="absolute top-0 inline-block w-full h-0.5 bg-dark dark:bg-light rounded transition-all ease duration-200"
-                style={{
-                  transform: click
-                    ? "rotate(-45deg) translateY(0)"
-                    : "rotate(0deg) translateY(6px)",
-                }}
-              />
-              <span
-                className="absolute top-0 inline-block w-full h-0.5 bg-dark dark:bg-light rounded transition-all ease duration-200"
-                style={{
-                  opacity: click ? 0 : 1,
-                }}
-              />
-              <span
-                className="absolute top-0 inline-block w-full h-0.5 bg-dark dark:bg-light rounded transition-all ease duration-200"
-                style={{
-                  transform: click
-                    ? "rotate(45deg) translateY(0)"
-                    : "rotate(0deg) translateY(-6px)",
-                }}
-              />
-            </div>
-          </div>
+          {click ? (
+            <X aria-hidden className="h-5 w-5" />
+          ) : (
+            <Menu aria-hidden className="h-5 w-5" />
+          )}
         </button>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden sm:flex w-max py-3 px-8 border border-solid border-dark rounded-full font-medium capitalize items-center fixed top-24 right-1/2 translate-x-1/2 bg-light/80 dark:bg-dark/80 backdrop-blur-sm z-40">
-          <Link href="/market" className="mx-2 hover:text-blue-600 transition-colors">
+        <nav className="hidden sm:flex w-max items-center gap-1 rounded-full border border-slate-200 bg-white/90 px-3 py-2 font-medium capitalize shadow-soft backdrop-blur-md fixed top-24 right-1/2 translate-x-1/2 z-40 dark:border-slate-700 dark:bg-slate-900/90">
+          <Link href="/market" className="rounded-full px-4 py-2 text-sm text-slate-700 transition-colors hover:bg-slate-100 hover:text-accent dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-accentDark">
             Market
           </Link>
 
           <div className="relative" ref={categoriesRef}>
             <button
               onClick={toggleCategories}
-              className="mx-2 hover:text-blue-600 transition-colors"
+              className="inline-flex items-center gap-1 rounded-full px-4 py-2 text-sm text-slate-700 transition-colors hover:bg-slate-100 hover:text-accent dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-accentDark"
+              aria-expanded={showCategories}
+              aria-haspopup="menu"
+              type="button"
             >
               Category
+              <ChevronDown
+                aria-hidden
+                className={`h-4 w-4 transition-transform duration-200 ${showCategories ? "rotate-180" : ""}`}
+              />
             </button>
             {showCategories && (
-              <div className="absolute top-full left-0 mt-1 bg-dark text-light dark:bg-light dark:text-dark rounded-md shadow-md p-1 min-w-[120px] z-50">
+              <div className="absolute left-1/2 top-full z-50 mt-3 w-64 -translate-x-1/2 rounded-2xl border border-slate-200 bg-white p-2 text-slate-900 shadow-xl ring-1 ring-black/5 dark:border-slate-700 dark:bg-slate-900 dark:text-light">
+                <div className="px-3 py-2 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                  Explore Categories
+                </div>
                 {categories.map((category, index) => (
-                  <Link href={category.link} key={index}>
-                    <span
-                      onClick={() => setShowCategories(false)}
-                      className="block py-2 px-4 rounded-lg hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors"
-                    >
-                      {category.name}
-                    </span>
+                  <Link
+                    href={category.link}
+                    key={index}
+                    onClick={() => setShowCategories(false)}
+                    className="block rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-100 hover:text-accent dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-accentDark"
+                  >
+                    {category.name}
                   </Link>
                 ))}
               </div>
             )}
           </div>
 
-          <Link href="/about" className="mx-2 hover:text-blue-600 transition-colors">
+          <Link href="/about" className="rounded-full px-4 py-2 text-sm text-slate-700 transition-colors hover:bg-slate-100 hover:text-accent dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-accentDark">
             About
           </Link>
-          <Link href="/contact" className="mx-2 hover:text-blue-600 transition-colors">
+          <Link href="/contact" className="rounded-full px-4 py-2 text-sm text-slate-700 transition-colors hover:bg-slate-100 hover:text-accent dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-accentDark">
             Contacts
           </Link>
         </nav>
 
-        {/* Mobile Navigation */}
         {click && (
           <div
-            className="sm:hidden fixed inset-0 bg-black/50 z-40"
+            className="sm:hidden fixed inset-0 bg-slate-950/45 backdrop-blur-sm z-40"
             onClick={toggleMenu}
           >
             <nav
-              className="fixed right-2 top-16 w-2/4 bg-white dark:bg-dark shadow-lg z-50 rounded-lg overflow-hidden"
+              className="fixed left-4 right-4 top-24 z-50 overflow-hidden rounded-2xl border border-slate-200 bg-white text-slate-900 shadow-2xl dark:border-slate-700 dark:bg-slate-900 dark:text-light"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="p-6">
-                <div className="flex justify-between items-center mb-8">
+              <div className="p-4">
+                <div className="flex justify-between items-center border-b border-slate-200 pb-4 dark:border-slate-700">
                   <Logo user={user} />
                   <button
                     onClick={toggleMenu}
-                    className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-700 transition-colors hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
                     aria-label="Close menu"
+                    type="button"
                   >
-                    <svg
-                      className="w-6 h-6"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
+                    <X aria-hidden className="h-5 w-5" />
                   </button>
                 </div>
 
-                <div className="flex flex-col space-y-6 dark:text-light">
+                <div className="mt-4 flex flex-col gap-2">
                   <Link
                     href="/market"
-                    className="text-lg font-medium py-2 border-b border-gray-200 dark:border-gray-700"
+                    className="rounded-xl px-4 py-3 text-base font-semibold text-slate-800 transition-colors hover:bg-slate-100 hover:text-accent dark:text-slate-100 dark:hover:bg-slate-800 dark:hover:text-accentDark"
                     onClick={toggleMenu}
                   >
                     Market
                   </Link>
 
-                  <div className="relative">
+                  <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-2 dark:border-slate-700 dark:bg-slate-800/50">
                     <button
                       onClick={toggleCategories}
-                      className="text-lg font-medium py-2 border-b border-gray-200 dark:border-gray-700 w-full text-left flex justify-between items-center"
+                      className="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left text-base font-semibold text-slate-800 transition-colors hover:bg-white dark:text-slate-100 dark:hover:bg-slate-800"
+                      aria-expanded={showCategories}
+                      aria-haspopup="menu"
+                      type="button"
                     >
                       Category
-                      <svg
-                        className={`w-4 h-4 transition-transform ${showCategories ? "rotate-180" : ""}`}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
+                      <ChevronDown
+                        aria-hidden
+                        className={`h-5 w-5 transition-transform duration-200 ${showCategories ? "rotate-180" : ""}`}
+                      />
                     </button>
 
                     {showCategories && (
-                      <div ref={mobileCategoriesRef} className="pl-4 mt-2 space-y-3">
+                      <div className="mt-2 grid gap-1 border-t border-slate-200 pt-2 dark:border-slate-700">
                         {categories.map((category, index) => (
-                          <Link href={category.link} key={index}>
-                            <span
-                              onClick={toggleMenu}
-                              className="block py-1.5 px-2 text-gray-700 dark:text-light hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md transition-colors"
-                            >
-                              {category.name}
-                            </span>
+                          <Link
+                            href={category.link}
+                            key={index}
+                            onClick={toggleMenu}
+                            className="block rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-white hover:text-accent dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-accentDark"
+                          >
+                            {category.name}
                           </Link>
                         ))}
                       </div>
@@ -298,45 +247,44 @@ const Header = () => {
 
                   <Link
                     href="/about"
-                    className="text-lg font-medium py-2 border-b border-gray-200 dark:border-gray-700"
+                    className="rounded-xl px-4 py-3 text-base font-semibold text-slate-800 transition-colors hover:bg-slate-100 hover:text-accent dark:text-slate-100 dark:hover:bg-slate-800 dark:hover:text-accentDark"
                     onClick={toggleMenu}
                   >
                     About
                   </Link>
                   <Link
                     href="/contact"
-                    className="text-lg font-medium py-2 border-b border-gray-200 dark:border-gray-700"
+                    className="rounded-xl px-4 py-3 text-base font-semibold text-slate-800 transition-colors hover:bg-slate-100 hover:text-accent dark:text-slate-100 dark:hover:bg-slate-800 dark:hover:text-accentDark"
                     onClick={toggleMenu}
                   >
                     Contacts
                   </Link>
 
-                  {/* Social Links in Mobile Menu */}
-                  <div className="flex justify-center space-x-1 pt-4 border-t border-gray-200 dark:border-gray-700">
+                  <div className="mt-2 flex justify-center gap-2 border-t border-slate-200 pt-4 dark:border-slate-700">
                     <a
                       href="https://x.com/official_naijup"
-                      className="p-2 hover:scale-125 transition-transform"
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 transition-colors hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700"
                       aria-label="Follow us on Twitter"
                     >
                       <TwitterIcon className="w-6 h-6" />
                     </a>
                     <a
                       href="https://linkedin.com/in/naijup"
-                      className="p-2 hover:scale-125 transition-transform"
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 transition-colors hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700"
                       aria-label="Connect on LinkedIn"
                     >
                       <LinkedinIcon className="w-6 h-6" />
                     </a>
                     <a
                       href="https://facebook.com/naijup"
-                      className="p-2 hover:scale-125 transition-transform"
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 transition-colors hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700"
                       aria-label="Like us on Facebook"
                     >
                       <FacebookIcon className="w-6 h-6" />
                     </a>
                     <a
                       href="https://dribbble.com/naijup"
-                      className="p-2 hover:scale-125 transition-transform"
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 transition-colors hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700"
                       aria-label="Follow on Dribbble"
                     >
                       <DribbbleIcon className="w-6 h-6" />
@@ -348,7 +296,6 @@ const Header = () => {
           </div>
         )}
 
-        {/* Desktop Social Links */}
         <div className="hidden sm:flex items-center">
           <a
             href="https://x.com/official_naijup"

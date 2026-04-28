@@ -4,8 +4,11 @@ import siteMetadata from "@/src/utils/sitemetadata";
 
 
 export const metadata = {
-    title: "Contact Us",
-    description: `Contact us through the form available on this page or email me at ${siteMetadata.email}`,
+    title: "Contact NaijUp",
+    description: `Contact NaijUp for Nigerian finance news tips, business enquiries, advertising, partnerships, or editorial feedback at ${siteMetadata.email}.`,
+    alternates: {
+        canonical: `${siteMetadata.siteUrl}/contact`,
+    },
 };
 
 const Contact = () => {
@@ -13,7 +16,7 @@ const Contact = () => {
     <section className="w-full h-auto md:h-[75vh] border-b-2 border-solid border-dark dark:border-light flex  flex-col md:flex-row items-center justify-center text-dark dark:text-light">
         <div className="inline-block w-full sm:w-4/5 md:w-2/5 h-full md:border-r-2 border-solid border-dark dark:border-light">
         <div className='w-full md:w-1/2 h-full border-r-2 border-solid border-dark dark:border-light flex justify-center'> 
-            <Image src={profileCharacter} alt="CodeBucks" 
+            <Image src={profileCharacter} alt="Contact NaijUp" 
                 className='w-4/5  xs:w-3/4 md:w-full h-full object-contain object-center'
                 priority
                 sizes="(max-width: 768px) 100vw,(max-width: 1180px) 50vw, 50vw"
