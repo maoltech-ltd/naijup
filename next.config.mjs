@@ -33,9 +33,6 @@ const nextConfig = {
     removeConsole: process.env.NODE_ENV === 'production',
   },
 
-  // Enable React Compiler for better performance
-  reactCompiler: true,
-
   // Experimental features for better performance
   experimental: {
     // Optimize package imports

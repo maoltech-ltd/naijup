@@ -35,8 +35,8 @@ const config: Config = {
         },
       },
       fontFamily: {
-        mr: ["var(--font-mr)", "system-ui", "sans-serif"],
-        in: ["var(--font-in)", "system-ui", "sans-serif"],
+        mr: ["system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
+        in: ["system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
       },
       animation: {
         roll: "roll 24s linear infinite",

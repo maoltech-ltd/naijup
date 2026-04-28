@@ -1,38 +1,8 @@
 import siteMetadata from "../utils/sitemetadata"
 import type { Metadata, Viewport } from "next"
-import localFont from "next/font/local"
 import "./globals.css"
 import ClientWrapper from "./ClientWrapper"
 import Script from "next/script"
-
-// Local fonts with display swap for better performance
-const inter = localFont({
-  src: [
-    {
-      path: "../../public/fonts/inter/Inter-VariableFont_opsz,wght.ttf",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/inter/Inter-Italic-VariableFont_opsz,wght.ttf",
-      style: "italic",
-    },
-  ],
-  variable: "--font-in",
-  display: "swap",
-  preload: true,
-})
-
-const manrope = localFont({
-  src: [
-    {
-      path: "../../public/fonts/manrope/Manrope-VariableFont_wght.ttf",
-      style: "normal",
-    },
-  ],
-  variable: "--font-mr",
-  display: "swap",
-  preload: true,
-})
 
 // JSON-LD Organization Schema
 const jsonLdOrganization = {
@@ -201,7 +171,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body
-        className={`${inter.variable} ${manrope.variable} font-mr bg-light dark:bg-dark`}
+        className="font-mr bg-light dark:bg-dark"
       >
         <ClientWrapper>{children}</ClientWrapper>
 
