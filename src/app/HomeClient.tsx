@@ -32,6 +32,32 @@ const CategorySection = dynamic(
   }
 )
 
+const HeadlineTicker = dynamic(
+  () => import("../components/markets/HeadlineTicker"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-20 bg-gray-100 dark:bg-gray-800 animate-pulse" />
+    ),
+  }
+)
+
+const HomeMarketAnalysis = dynamic(
+  () => import("../components/Home/HomeMarketAnalysis"),
+  {
+    ssr: false,
+    loading: () => (
+      <section className="w-full mt-16 px-5 sm:px-10 md:px-24 sxl:px-32">
+        <div className="h-8 w-56 skeleton rounded mb-8" />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <CardSkeleton />
+          <CardSkeleton />
+        </div>
+      </section>
+    ),
+  }
+)
+
 const HomeClient: React.FC<HomeClientProps> = ({ blogs, error }) => {
   const [open, setOpen] = useState(!!error)
 
@@ -65,8 +91,14 @@ const HomeClient: React.FC<HomeClientProps> = ({ blogs, error }) => {
       {/* Hero Section - Critical for LCP */}
       <HomeCoverSection blog={blogs[0]} />
 
+      {/* Market headline ticker restored from the original home page */}
+      <HeadlineTicker />
+
       {/* Featured Posts */}
       <FeaturedPost blogs={blogs} />
+
+      {/* Market analysis */}
+      <HomeMarketAnalysis />
 
       {/* Recent Posts */}
       <RecentPost blogs={blogs} />

@@ -74,28 +74,22 @@
 import { useAppDispatch } from "@/src/redux/hooks/dispatch";
 import { fetchFxRates } from "@/src/redux/slice/marketSlice";
 import { RootState } from "@/src/redux/store";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Banknote } from "lucide-react";
 import MarketCard from "./MarketCard";
+import { CardSkeleton } from "../loading/loadingSpinner";
 
 const CurrencyFX = () => {
   const dispatch = useAppDispatch();
-  const [mounted, setMounted] = useState(false);
 
   const { data, status, error } = useSelector((state: RootState) => state.fx);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     if (status === "idle") dispatch(fetchFxRates());
   }, [dispatch, status]);
 
-  if (!mounted) return null;
-
-  if (status === "loading") return <p>Loading FX rates...</p>;
+  if (status === "loading" || status === "idle") return <CardSkeleton />;
   if (status === "failed") return <p className="text-red-500">{error}</p>;
 
   return (
@@ -109,13 +103,13 @@ const CurrencyFX = () => {
         ))}
       </div>
 
-      <h3 className="text-lg font-semibold text-dark dark:text-light mt-6 mb-2">Crypto (₦)</h3>
+      <h3 className="text-lg font-semibold text-dark dark:text-light mt-6 mb-2">Crypto (NGN)</h3>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {data?.crypto_rates_ngn &&
           Object.entries(data.crypto_rates_ngn).map(([symbol, rate]) => (
             <div key={symbol} className="bg-gray-50 dark:bg-dark rounded-lg p-4 text-center shadow-sm">
               <p className="text-sm text-gray-500 dark:text-light">{symbol}</p>
-              <p className="text-xl font-bold text-dark dark:text-light">₦{Number(rate).toLocaleString()}</p>
+              <p className="text-xl font-bold text-dark dark:text-light">NGN {Number(rate).toLocaleString()}</p>
             </div>
           ))}
       </div>

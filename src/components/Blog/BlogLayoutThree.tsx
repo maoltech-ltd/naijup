@@ -8,6 +8,8 @@ interface BlogLayoutThreeProps {
 }
 
 const BlogLayoutThree: React.FC<BlogLayoutThreeProps> = ({ blog, priority = false }) => {
+  if (!blog?.slug || !blog?.image_links || !blog?.title) return null
+
   return (
     <div className="group flex flex-col items-center text-dark dark:text-light">
       <Link href={`/blog/${blog.slug}`} className="h-full w-full rounded-xl overflow-hidden relative aspect-[4/3]">

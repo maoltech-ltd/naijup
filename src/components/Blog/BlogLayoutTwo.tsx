@@ -9,6 +9,8 @@ interface BlogLayoutTwoProps extends BlogProp {
 }
 
 const BlogLayoutTwo: React.FC<BlogLayoutTwoProps> = ({ blog, priority = false }) => {
+  if (!blog?.slug || !blog?.image_links || !blog?.title) return null
+
   return (
     <div className="group grid grid-cols-12 gap-4 items-center text-dark dark:text-light">
       <Link

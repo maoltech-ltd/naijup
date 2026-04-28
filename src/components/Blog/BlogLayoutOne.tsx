@@ -8,6 +8,8 @@ interface BlogLayoutOneProps extends BlogProp {
 }
 
 const BlogLayoutOne: React.FC<BlogLayoutOneProps> = ({ blog, priority = false }) => {
+  if (!blog?.slug || !blog?.image_links || !blog?.title) return null
+
   return (
     <div className="group relative inline-block overflow-hidden rounded-xl h-[400px] w-full">  
       <div

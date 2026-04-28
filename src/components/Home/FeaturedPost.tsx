@@ -8,6 +8,7 @@ import { useMemo } from "react"
 
 const FeaturedPost: React.FC<Props> = (blogs) => {
   const sortedBlogs = useMemo(() => sortBlogs(blogs), [blogs])
+  const secondaryPosts = sortedBlogs.slice(1, 4)
 
   return (
     <section className="w-full mt-16 sm:mt-24 md:mt-32 px-5 sm:px-10 md:px-24 sxl:px-32 flex flex-col items-center justify-center">
@@ -16,18 +17,24 @@ const FeaturedPost: React.FC<Props> = (blogs) => {
       </h2>
 
       <div className="grid grid-cols-2 grid-rows-2 gap-6 mt-10 sm:mt-16">
-        <article className="col-span-2 sxl:col-span-1 row-span-2 relative">
-          <BlogLayoutOne blog={sortedBlogs[1]} priority />
-        </article>
-        <article className="col-span-2 sm:col-span-1 row-span-1 relative">
-          <BlogLayoutTwo blog={sortedBlogs[2]} priority />
-        </article>
+        {secondaryPosts[0] && (
+          <article className="col-span-2 sxl:col-span-1 row-span-2 relative">
+            <BlogLayoutOne blog={secondaryPosts[0]} priority />
+          </article>
+        )}
+        {secondaryPosts[1] && (
+          <article className="col-span-2 sm:col-span-1 row-span-1 relative">
+            <BlogLayoutTwo blog={secondaryPosts[1]} priority />
+          </article>
+        )}
         <article className="col-span-2 sm:col-span-1 row-span-1 relative">
           <MarketSwiper />
         </article>
-        <article className="col-span-2 sm:col-span-1 row-span-1 relative">
-          <BlogLayoutThree blog={sortedBlogs[3]} />
-        </article>
+        {secondaryPosts[2] && (
+          <article className="col-span-2 sm:col-span-1 row-span-1 relative">
+            <BlogLayoutThree blog={secondaryPosts[2]} />
+          </article>
+        )}
       </div>
     </section>
   )

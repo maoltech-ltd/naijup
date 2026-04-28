@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { BarChart3 } from "lucide-react";
 import MarketCard from "./MarketCard";
 import StatCard from "./StatCard";
+import { CardSkeleton } from "../loading/loadingSpinner";
 
 const MarketSnapshot = () => {
   const dispatch = useAppDispatch();
@@ -17,7 +18,7 @@ const MarketSnapshot = () => {
     if (status === "idle") dispatch(fetchMarketSnapshot());
   }, [dispatch, status]);
 
-  if (status === "loading") return <p>Loading snapshot...</p>;
+  if (status === "loading" || status === "idle") return <CardSkeleton />;
   if (status === "failed") return <p className="text-red-500">{error}</p>;
 
   const filteredData = data ? Object.entries(data).filter(([key]) => 
