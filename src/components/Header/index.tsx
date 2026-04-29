@@ -14,6 +14,7 @@ import { categories } from "@/src/utils/props"
 import { usePathname } from "next/navigation"
 import dynamic from "next/dynamic"
 import { ChevronDown, Menu, Moon, Sun, X } from "lucide-react"
+import { canAccessAdminReports } from "@/src/utils/adminAccess"
 
 const FxSlider = dynamic(() => import("../markets/FxSlider"), {
   ssr: false,
@@ -74,6 +75,7 @@ const Header = () => {
 
   const pathname = usePathname()
   const isHome = pathname === "/"
+  const canViewAdminReports = canAccessAdminReports(user?.userEmail)
 
   return (
     <div className="relative">
@@ -181,6 +183,11 @@ const Header = () => {
           <Link href="/contact" className="rounded-full px-4 py-2 text-sm text-slate-700 transition-colors hover:bg-slate-100 hover:text-accent dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-accentDark">
             Contacts
           </Link>
+          {canViewAdminReports && (
+            <Link href="/admin/reports" className="rounded-full px-4 py-2 text-sm text-slate-700 transition-colors hover:bg-slate-100 hover:text-emerald-600 dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-emerald-400">
+              Admin Reports
+            </Link>
+          )}
         </nav>
 
         {click && (
@@ -259,6 +266,15 @@ const Header = () => {
                   >
                     Contacts
                   </Link>
+                  {canViewAdminReports && (
+                    <Link
+                      href="/admin/reports"
+                      className="rounded-xl px-4 py-3 text-base font-semibold text-slate-800 transition-colors hover:bg-slate-100 hover:text-emerald-600 dark:text-slate-100 dark:hover:bg-slate-800 dark:hover:text-emerald-400"
+                      onClick={toggleMenu}
+                    >
+                      Admin Reports
+                    </Link>
+                  )}
 
                   <div className="mt-2 flex justify-center gap-2 border-t border-slate-200 pt-4 dark:border-slate-700">
                     <a
