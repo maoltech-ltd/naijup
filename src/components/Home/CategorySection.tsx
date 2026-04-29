@@ -94,7 +94,7 @@ const CategorySection: React.FC<Props> = ({ category }) => {
         </h2>
         <Link
           href={`/categories/${category}`}
-          className="text-accent dark:text-accentDark text-sm md:text-base hover:underline"
+          className="text-accent dark:text-accentDark text-sm md:text-base underline underline-offset-4"
         >
           View all →
         </Link>
@@ -130,7 +130,7 @@ const CategorySection: React.FC<Props> = ({ category }) => {
               </div>
               <div className="p-4">
                 <Link href={`/blog/${blog.slug}`}>
-                  <h3 className="font-semibold text-lg md:text-xl text-dark dark:text-light line-clamp-2 hover:text-accent transition-colors">
+                  <h3 className="font-semibold text-lg md:text-xl text-dark dark:text-light line-clamp-2 underline-offset-4 hover:text-accent hover:underline transition-colors">
                     {blog.title}
                   </h3>
                 </Link>

@@ -131,7 +131,7 @@ export default function AuthorDashboardClient() {
 
                     <Link
                       href={`/blog/${post.slug}`}
-                      className="text-blue-600 dark:text-blue-400 mt-2 inline-block hover:underline"
+                      className="text-blue-700 dark:text-blue-300 mt-2 inline-block underline underline-offset-4"
                     >
                       View Post →
                     </Link>

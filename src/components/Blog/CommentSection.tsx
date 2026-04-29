@@ -88,7 +88,7 @@ export default function CommentSection({ postId }: Props) {
             <p className="mt-2">{comment.content}</p>
             <button
               onClick={() => handleDelete(comment.id)}
-              className="mt-2 text-sm text-red-500 hover:underline"
+              className="mt-2 text-sm text-red-600 underline underline-offset-4"
             >
               Delete
             </button>

@@ -17,7 +17,7 @@ const config: Config = {
         light: "#ffffff",
         
         // Finance-themed accent colors
-        accent: "#0ea5e9", // Sky blue - professional finance color
+        accent: "#0369a1", // Darker sky blue for accessible light-mode text and buttons
         accentDark: "#38bdf8", // Lighter sky for dark mode
         
         // Neutral
@@ -74,9 +74,12 @@ const config: Config = {
           css: {
             maxWidth: "100%",
             a: {
-              color: "#0ea5e9",
+              color: "#0369a1",
+              textDecoration: "underline",
+              textUnderlineOffset: "0.18em",
+              textDecorationThickness: "0.08em",
               "&:hover": {
-                color: "#0284c7",
+                color: "#075985",
               },
             },
           },

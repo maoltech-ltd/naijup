@@ -16,7 +16,7 @@ const MarketCard = ({ title, icon, children, subtitle }: MarketCardProps) => {
         <h2 className="text-xl font-bold text-dark flex items-center gap-2 dark:text-light">
           {icon} {title}
         </h2>
-        {subtitle && <span className="text-xs text-gray-400 dark:text-light">{subtitle}</span>}
+        {subtitle && <span className="text-xs text-gray-600 dark:text-light">{subtitle}</span>}
       </div>
       {children}
     </section>

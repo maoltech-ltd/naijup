@@ -18,7 +18,7 @@ const MarketEquity = () => {
   }, [dispatch, status]);
 
   if (status === "loading") return <p>Loading equities...</p>;
-  if (status === "failed") return <p className="text-red-500">{error}</p>;
+  if (status === "failed") return <p className="text-red-600">{error}</p>;
 
   return (
     <MarketCard title="Equities" icon={<TrendingUp className="w-5 h-5 text-green-600" />}>
@@ -41,7 +41,7 @@ const MarketEquity = () => {
                 )}
               
                 {item.Volume && (
-                  <span className="text-sm text-gray-400 truncate max-w-[90px] sm:max-w-none">
+                  <span className="text-sm text-gray-600 truncate max-w-[90px] sm:max-w-none">
                     {item.Volume.toLocaleString()}
                   </span>
                 )}

@@ -13,6 +13,10 @@
     @apply text-dark dark:text-light;
   }
 
+  .prose a {
+    @apply underline underline-offset-4 decoration-2;
+  }
+
   /* Prevent CLS from font loading */
   @font-face {
     font-display: swap;
@@ -193,7 +197,7 @@ code[data-line-numbers-max-digits="3"] > [data-line]::before {
 
   /* Focus styles for accessibility */
   .focus-ring {
-    @apply focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 dark:focus:ring-offset-dark;
+    @apply focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 dark:focus:ring-accentDark dark:focus:ring-offset-dark;
   }
 }
 

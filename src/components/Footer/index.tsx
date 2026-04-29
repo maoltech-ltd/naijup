@@ -104,32 +104,32 @@ const Footer = () => {
       </div>
 
       {/* Quick Links */}
-      <div className="flex flex-wrap justify-center gap-6 mt-10 text-sm text-gray-400">
-        <Link href="/about" className="hover:text-white transition-colors">
+      <div className="flex flex-wrap justify-center gap-6 mt-10 text-sm text-gray-300">
+        <Link href="/about" className="underline underline-offset-4 hover:text-white transition-colors">
           About
         </Link>
-        <Link href="/contact" className="hover:text-white transition-colors">
+        <Link href="/contact" className="underline underline-offset-4 hover:text-white transition-colors">
           Contact
         </Link>
-        <Link href="/market" className="hover:text-white transition-colors">
+        <Link href="/market" className="underline underline-offset-4 hover:text-white transition-colors">
           Market Data
         </Link>
-        <Link href="/categories/all" className="hover:text-white transition-colors">
+        <Link href="/categories/all" className="underline underline-offset-4 hover:text-white transition-colors">
           All Articles
         </Link>
       </div>
 
       {/* Bottom Bar */}
       <div className="w-full mt-12 border-t border-white/10 py-6 px-6">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-400">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-300">
           <span>
             &copy; {currentYear} NaijUp. All rights reserved.
           </span>
           <div className="flex items-center gap-6">
-            <Link href="/sitemap.xml" className="hover:text-white transition-colors">
+            <Link href="/sitemap.xml" className="underline underline-offset-4 hover:text-white transition-colors">
               Sitemap
             </Link>
-            <Link href="/privacy-policy" className="hover:text-white transition-colors">
+            <Link href="/privacy-policy" className="underline underline-offset-4 hover:text-white transition-colors">
               Privacy Policy
             </Link>
           </div>
@@ -137,7 +137,7 @@ const Footer = () => {
             Made with care by{" "}
             <a
               href="https://github.com/maoltech"
-              className="text-accent hover:underline"
+              className="text-accent underline underline-offset-4"
               target="_blank"
               rel="noopener noreferrer"
             >

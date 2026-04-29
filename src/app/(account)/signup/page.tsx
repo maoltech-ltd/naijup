@@ -73,13 +73,13 @@ const SignUp = () => {
                     <div className="flex justify-between items-center">
                         <button
                             disabled={isSubmitting}
-                            className="btn btn-primary w-full bg-gradient-to-r from-blue-500 to-teal-400 text-white py-2 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
+                            className="btn btn-primary w-full bg-gradient-to-r from-blue-700 to-teal-700 text-white py-2 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
                         >
                             {isSubmitting ? <span className="spinner-border spinner-border-sm mr-1"></span> : "Register"}
                         </button>
                     </div>
                     <div className="flex justify-center mt-4">
-                        <Link href="/signin" className="text-blue-500 hover:underline dark:text-blue-400">
+                        <Link href="/signin" className="text-blue-700 underline underline-offset-4 dark:text-blue-300">
                             Already have an account? Login
                         </Link>
                     </div>
