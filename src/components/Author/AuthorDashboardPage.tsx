@@ -10,12 +10,37 @@ import { fetchAuthorMe, fetchAuthorPosts } from "@/src/redux/slice/authorSlice";
 import Link from "next/link";
 import { RootState } from "@/src/redux/store";
 import { motion } from "framer-motion";
+import { canAccessAdminReports } from "@/src/utils/adminAccess";
+
+const formatCurrency = (amount: number) =>
+  new Intl.NumberFormat("en-NG", {
+    style: "currency",
+    currency: "NGN",
+    maximumFractionDigits: 0,
+  }).format(amount);
+
+const formatPeriodLabel = (start?: string, end?: string) => {
+  if (!start || !end) return "";
+  const startDate = new Date(start);
+  const endDate = new Date(end);
+  return `${startDate.toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  })} - ${endDate.toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  })}`;
+};
 
 export default function AuthorDashboardClient() {
   const dispatch = useAppDispatch();
 
   const { stats, posts, status } = useSelector((state: RootState) => state.author);
   const user = useSelector((state: RootState) => state.user);
+  const canViewAdminReports = canAccessAdminReports(user?.userEmail);
+  const monthlyStats = stats?.monthly_stats;
 
   // const [hoveredPost, setHoveredPost] = useState<any>(null);
   const [hoveredId, setHoveredId] = useState<number | string | null>(null);
@@ -60,6 +85,19 @@ export default function AuthorDashboardClient() {
                     <p>Total Posts: {stats.total_posts}</p>
                     <p>Total Views: {stats.total_views}</p>
                     <p>Avg Views/Post: {stats.average_views_per_post?.toFixed(1)}</p>
+                    {monthlyStats && (
+                      <>
+                        <p className="pt-2 text-sm font-semibold text-gray-900 dark:text-light">
+                          Current 28th cycle
+                        </p>
+                        <p className="text-sm">{formatPeriodLabel(monthlyStats.period_start, monthlyStats.period_end)}</p>
+                        <p>Monthly Posts: {monthlyStats.monthly_total_posts}</p>
+                        <p>Monthly Views: {monthlyStats.monthly_total_views}</p>
+                        <p className="font-semibold text-green-700 dark:text-green-400">
+                          Amount Due: {formatCurrency(monthlyStats.monthly_amount_due)}
+                        </p>
+                      </>
+                    )}
                   </div>
                 )}
               </motion.div>
@@ -84,6 +122,14 @@ export default function AuthorDashboardClient() {
                   >
                     Manage Posts
                   </Link>
+                  {canViewAdminReports && (
+                    <Link
+                      href="/admin/reports"
+                      className="px-4 py-2 bg-emerald-600 text-white rounded-lg text-center hover:bg-emerald-700 transition"
+                    >
+                      Open Admin Reports
+                    </Link>
+                  )}
                 </div>
               </motion.div>
 
@@ -109,6 +155,12 @@ export default function AuthorDashboardClient() {
               <h2 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-light">
                 Your Posts
               </h2>
+              {monthlyStats && (
+                <div className="mb-5 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900 dark:border-emerald-900/60 dark:bg-emerald-950/30 dark:text-emerald-100">
+                  Monthly payout for {formatPeriodLabel(monthlyStats.period_start, monthlyStats.period_end)}:{" "}
+                  <span className="font-semibold">{formatCurrency(monthlyStats.monthly_amount_due)}</span>
+                </div>
+              )}
 
               {status === "loading" && (
                 <p className="text-gray-600 dark:text-light">Loading posts...</p>

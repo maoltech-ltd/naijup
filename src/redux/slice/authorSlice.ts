@@ -114,6 +114,14 @@ export interface AuthorStats {
         created_at: string;
         updated_at: string;
     };
+    monthly_stats?: {
+        period_start: string;
+        period_end: string;
+        rate_per_post: number;
+        monthly_total_posts: number;
+        monthly_total_views: number;
+        monthly_amount_due: number;
+    };
 }
 
 // Single Post (used inside pagination results)
