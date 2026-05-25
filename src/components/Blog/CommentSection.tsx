@@ -31,6 +31,17 @@ type LikeState = {
 const authHeaders = (token?: string) =>
   token ? { Authorization: `Bearer ${token}` } : undefined;
 
+const isNotFound = (error: unknown) =>
+  (error as { response?: { status?: number } })?.response?.status === 404;
+
+const normalizeComments = (data: unknown): Comment[] => {
+  if (Array.isArray(data)) return data;
+  if (Array.isArray((data as { results?: unknown })?.results)) {
+    return (data as { results: Comment[] }).results;
+  }
+  return [];
+};
+
 export default function CommentSection({
   postId,
   initialLikesCount = 0,
@@ -55,29 +66,48 @@ export default function CommentSection({
     async function loadEngagement() {
       setStatus("loading");
       try {
-        const [commentsRes, likesRes] = await Promise.all([
-          api.get(`v1/blog/${postId}/comments/`),
-          api.get(`v1/blog/${postId}/likes/`, {
-            headers: authHeaders(token),
-          }),
-        ]);
+        const commentsRes = await api.get(`v1/blog/${postId}/comments/`);
 
         if (!mounted) return;
-        setComments(commentsRes.data);
-        setLikeState({
-          liked: Boolean(likesRes.data?.liked),
-          like_id: likesRes.data?.like_id ?? null,
-          likes_count: Number(likesRes.data?.likes_count ?? initialLikesCount),
-        });
+        setComments(normalizeComments(commentsRes.data));
         setStatus("idle");
-      } catch {
+      } catch (error) {
         if (!mounted) return;
+
+        if (isNotFound(error)) {
+          setComments([]);
+          setStatus("idle");
+          return;
+        }
+
         setStatus("failed");
         setError("Unable to load comments right now.");
       }
     }
 
+    async function loadLikes() {
+      try {
+        const likesRes = await api.get(`v1/blog/${postId}/likes/`, {
+          headers: authHeaders(token),
+        });
+
+        if (!mounted) return;
+        setLikeState({
+          liked: Boolean(likesRes.data?.liked),
+          like_id: likesRes.data?.like_id ?? null,
+          likes_count: Number(likesRes.data?.likes_count ?? initialLikesCount),
+        });
+      } catch {
+        if (!mounted) return;
+        setLikeState((current) => ({
+          ...current,
+          likes_count: initialLikesCount,
+        }));
+      }
+    }
+
     loadEngagement();
+    loadLikes();
 
     return () => {
       mounted = false;
