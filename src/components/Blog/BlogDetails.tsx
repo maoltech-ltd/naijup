@@ -12,13 +12,15 @@ const BlogDetails: React.FC<blogDetailsProp> = ({blog, slug}) => {
     second: 'numeric',
     timeZoneName: 'short',
   }).format(new Date(blog.publication_date));
+  const primaryTag = blog.tags?.[0] || blog.category;
+
   return (
-    <div className="px-2  md:px-10 bg-accent dark:bg-accentDark text-light dark:text-dark py-2 flex items-center justify-around flex-wrap text-lg sm:text-xl font-medium mx-5  md:mx-10 rounded-lg">
+    <div className="mx-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 border-y border-dark/10 px-2 py-3 text-sm font-medium text-dark/70 dark:border-light/10 dark:text-light/70 md:mx-10 md:px-10">
       <time className="m-3">
         {formattedDate}
       </time>
       <Link href={`/categories/${blog.category}`} className="m-3">
-        #{blog.tags[0]}
+        #{primaryTag}
       </Link>
     </div>
   )

@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { RootState } from "../redux/store";
+import { canAccessAdminReports } from "../utils/adminAccess";
 
 interface AuthorProtectedRouteProps {
   children: any;
@@ -21,7 +22,7 @@ const AuthorProtectedRoute = ({ children }: AuthorProtectedRouteProps) => {
     }
 
     // Logged in but not author → redirect home
-    if (!user.isAuthor) {
+    if (!user.isAuthor && !canAccessAdminReports(user.userEmail)) {
       router.push("/");
       return;
     }

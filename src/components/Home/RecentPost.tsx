@@ -2,27 +2,30 @@ import { Props } from "@/src/utils/props";
 import { sortBlogs } from "@/src/utils";
 import Link from "next/link";
 import BlogLayoutThree from "../Blog/BlogLayoutThree";
-import { useMemo } from "react";
 
 const RecentPost: React.FC<Props> = (blogs: any) => {
-  // const sortedBlogs = sortBlogs(blogs);
-  const sortedBlogs = useMemo(() => sortBlogs(blogs), [blogs]);
+  const sortedBlogs = sortBlogs(blogs);
 
   return (
-    <section className="w-full  mt-16 sm:mt-24  md:mt-32 px-5 sm:px-10 md:px-24  sxl:px-32 flex flex-col items-center justify-center">
-    <div className="w-full flex  justify-between">
-      <h2 className="w-fit inline-block font-bold capitalize text-2xl md:text-4xl text-dark dark:text-light">
-        Recent Posts
-      </h2>
+    <section className="w-full px-5 pt-16 sm:px-10 md:px-24 md:pt-24 sxl:px-32">
+    <div className="flex w-full items-end justify-between border-b border-dark/10 pb-4 dark:border-light/10">
+      <div>
+        <p className="text-xs font-semibold uppercase tracking-widest text-accent dark:text-accentDark">
+          Latest
+        </p>
+        <h2 className="mt-1 w-fit text-2xl font-bold capitalize text-dark dark:text-light md:text-4xl">
+          Recent Posts
+        </h2>
+      </div>
       <Link
         href="/categories/all"
-        className="inline-block font-medium text-accent dark:text-accentDark underline underline-offset-2      text-base md:text-lg"
+        className="inline-block text-sm font-semibold text-accent underline underline-offset-4 dark:text-accentDark md:text-base"
       >
-        view all
+        View all
       </Link>
     </div>
 
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 grid-rows-2 gap-16 mt-16">
+    <div className="mt-8 grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
       {sortedBlogs.slice(4, 10).map((blog: any, index: any) => {
         return (
           <article key={index} className="col-span-1 row-span-1 relative">
@@ -36,4 +39,3 @@ const RecentPost: React.FC<Props> = (blogs: any) => {
 }
 
 export default RecentPost
-

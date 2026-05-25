@@ -53,7 +53,7 @@ function route(
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const postsResponse = await fetchJson<{ results?: BlogPost[] }>("v1/blog/latest-posts/");
+  const postsResponse = await fetchJson<{ results?: BlogPost[] }>("v1/blog/latest-posts/?page_size=100");
   const posts = postsResponse?.results || [];
 
   const staticRoutes: MetadataRoute.Sitemap = [

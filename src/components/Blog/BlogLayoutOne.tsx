@@ -23,7 +23,7 @@ const BlogLayoutOne: React.FC<BlogLayoutOneProps> = ({ blog, priority = false })
         fill
         priority={priority}
         loading={priority ? "eager" : "lazy"}
-        quality={75}
+        quality={65}
         className="object-center object-cover rounded-xl group-hover:scale-105 transition-all ease duration-300"
         sizes="(max-width: 640px) 100vw, (max-width: 1180px) 50vw, 600px"
       />

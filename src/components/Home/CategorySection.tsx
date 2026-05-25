@@ -1,153 +1,113 @@
-"use client";
-import React, { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useAppDispatch } from "@/src/redux/hooks/dispatch";
-import { useSelector } from "react-redux";
-import LoadingSpinner from "@/src/components/loading/loadingSpinner";
 import { sortBlogs } from "@/src/utils";
-import { fetchBulkCategories } from "@/src/redux/slice/bulkCategorySlice";
-// import { RootState } from "@/src/redux/store";
-import { makeSelectBulkCategory } from "@/src/redux/hooks/bulkCategorySelectors";
+import formatDate from "@/src/utils/dateFormatter";
 
 type Props = {
   category: string;
+  posts?: any[];
 };
 
-const CategorySection: React.FC<Props> = ({ category }) => {
-  const dispatch = useAppDispatch();
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-  const [loaded, setLoaded] = useState(false);
+const excerptFromContent = (content: any) => {
+  const blocks = Array.isArray(content) ? content : content?.blocks;
+  const text = Array.isArray(blocks)
+    ? blocks.map((block: any) => block.data?.text || "").join(" ")
+    : String(content || "");
 
+  return text.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim().slice(0, 140);
+};
 
-   const selectCategoryData = useMemo(
-    () => makeSelectBulkCategory(category),
-    [category]
-  );
-
-  const { categories, status, error } = useSelector(selectCategoryData);
-
-  // useEffect(() => {
-  //   const element = ref.current;
-  //   if (!element) return;
-  //   const observer = new IntersectionObserver(
-  //     (entries) => {
-  //       const entry = entries[0];
-  //       if (entry.isIntersecting) {
-  //         setVisible(true);
-  //       }
-  //     },
-  //     { threshold: 0.3 }
-  //   );
-  //   if (element) observer.observe(element);
-  //   return () => {
-  //     if (element) observer.unobserve(element);
-  //   };
-  // }, []);
-
-  useEffect(() => {
-    const element = ref.current;
-    if (!element) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-        }
-      },
-      { threshold: 0.3 }
-    );
-
-    observer.observe(element);
-
-    return () => {
-      observer.unobserve(element);
-    };
-  }, []);
-
-
-  useEffect(() => {
-    if (visible && !loaded) {
-      dispatch(fetchBulkCategories(category))
-        .unwrap()
-        .then(() => setLoaded(true))
-        .catch(() => setLoaded(true));
-    }
-  }, [visible, loaded, dispatch, category]);
-
-
-  let sorted: any[] = [];
-  if (status === "succeeded" && categories?.results) {
-    sorted = sortBlogs({ blogs: categories.results });
-  }
+const CategorySection: React.FC<Props> = ({ category, posts = [] }) => {
+  const sorted = sortBlogs({ blogs: posts }).slice(0, 3);
+  if (!sorted.length) return null;
 
   return (
-    <section
-      ref={ref}
-      className="w-full mt-12 sm:mt-20 md:mt-28 px-5 sm:px-10 md:px-24 sxl:px-32"
-    >
-      {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="font-bold text-2xl md:text-3xl capitalize text-dark dark:text-light">
-          {category}
-        </h2>
+    <section className="w-full px-5 pt-16 sm:px-10 md:px-24 md:pt-24 sxl:px-32">
+      <div className="mb-6 flex items-end justify-between border-b border-dark/10 pb-4 dark:border-light/10">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-widest text-accent dark:text-accentDark">
+            Desk
+          </p>
+          <h2 className="mt-1 text-2xl font-bold capitalize text-dark dark:text-light md:text-3xl">
+            {category}
+          </h2>
+        </div>
         <Link
           href={`/categories/${category}`}
-          className="text-accent dark:text-accentDark text-sm md:text-base underline underline-offset-4"
+          className="text-sm font-semibold text-accent underline underline-offset-4 dark:text-accentDark md:text-base"
         >
-          View all →
+          View all
         </Link>
       </div>
 
-      {/* Content */}
-      {!visible ? (
-        <div className="text-center text-gray-500">Scroll to load {category}...</div>
-      ) : status === "loading" ? (
-        <LoadingSpinner />
-      ) : status === "failed" ? (
-        <div className="text-center text-red-500">Error: {error}</div>
-      ) : sorted.length === 0 ? (
-        <div className="text-center text-gray-500">No posts found.</div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {sorted.slice(0, 3).map((blog: any, index: number) => (
-            <article
-              key={index}
-              className="rounded-2xl overflow-hidden bg-light dark:bg-dark shadow-md hover:shadow-lg transition-shadow duration-300"
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+        {sorted[0] && (
+          <article className="group border-b border-dark/10 pb-6 dark:border-light/10 lg:border-b-0 lg:border-r lg:pr-6">
+            <Link
+              href={`/blog/${sorted[0].slug}`}
+              className="relative block aspect-[16/9] overflow-hidden rounded-md bg-dark/5 dark:bg-light/5"
             >
-              <div className="relative w-full h-56">
+              {sorted[0].image_links && (
                 <Image
-                  src={blog.image_links}
-                  alt={blog.title}
+                  src={sorted[0].image_links}
+                  alt={sorted[0].title}
                   fill
                   loading="lazy"
-                  sizes="(max-width: 640px) 100vw,
-                          (max-width: 1024px) 50vw,
-                          33vw"
-                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover transition duration-300 group-hover:scale-105"
                 />
-              </div>
-              <div className="p-4">
+              )}
+            </Link>
+            <Link href={`/blog/${sorted[0].slug}`} className="mt-4 block">
+              <h3 className="text-2xl font-bold leading-tight text-dark transition group-hover:text-accent dark:text-light dark:group-hover:text-accentDark">
+                {sorted[0].title}
+              </h3>
+            </Link>
+            <p className="mt-3 text-sm leading-6 text-gray dark:text-light/60">
+              {excerptFromContent(sorted[0].content)}
+            </p>
+            {sorted[0].publication_date && (
+              <p className="mt-4 text-xs font-medium text-dark/50 dark:text-light/50">
+                {formatDate(sorted[0].publication_date)}
+              </p>
+            )}
+          </article>
+        )}
+
+        <div className="divide-y divide-dark/10 dark:divide-light/10">
+          {sorted.slice(1).map((blog: any) => (
+            <article key={blog.id || blog.slug} className="group grid grid-cols-[104px_1fr] gap-4 py-4 first:pt-0">
+              <Link
+                href={`/blog/${blog.slug}`}
+                className="relative aspect-square overflow-hidden rounded-md bg-dark/5 dark:bg-light/5"
+              >
+                {blog.image_links && (
+                  <Image
+                    src={blog.image_links}
+                    alt={blog.title}
+                    fill
+                    loading="lazy"
+                    sizes="104px"
+                    className="object-cover transition duration-300 group-hover:scale-105"
+                  />
+                )}
+              </Link>
+              <div>
                 <Link href={`/blog/${blog.slug}`}>
-                  <h3 className="font-semibold text-lg md:text-xl text-dark dark:text-light line-clamp-2 underline-offset-4 hover:text-accent hover:underline transition-colors">
+                  <h3 className="line-clamp-3 text-base font-semibold leading-snug text-dark transition group-hover:text-accent dark:text-light dark:group-hover:text-accentDark">
                     {blog.title}
                   </h3>
                 </Link>
-                <p className="text-sm mt-2 text-gray-600 dark:text-light line-clamp-3">
-                  {Array.isArray(blog.content)
-                    ? blog.content
-                        .map((block: any) => block.data?.text || "")
-                        .join(" ")        // join paragraphs
-                        .replace(/<[^>]+>/g, "") // remove any HTML tags like <b>
-                        .slice(0, 150) + "..."
-                    : String(blog.content || "").slice(0, 150) + "..."}
-                </p>
+                {blog.publication_date && (
+                  <p className="mt-2 text-xs text-gray dark:text-light/50">
+                    {formatDate(blog.publication_date)}
+                  </p>
+                )}
               </div>
             </article>
           ))}
         </div>
-      )}
+      </div>
     </section>
   );
 };

@@ -4,19 +4,25 @@ import BlogLayoutOne from "../Blog/BlogLayoutOne"
 import BlogLayoutTwo from "../Blog/BlogLayoutTwo"
 import BlogLayoutThree from "../Blog/BlogLayoutThree"
 import MarketSwiper from "../markets/MarketSwiper"
-import { useMemo } from "react"
 
 const FeaturedPost: React.FC<Props> = (blogs) => {
-  const sortedBlogs = useMemo(() => sortBlogs(blogs), [blogs])
+  const sortedBlogs = sortBlogs(blogs)
   const secondaryPosts = sortedBlogs.slice(1, 4)
 
   return (
-    <section className="w-full mt-16 sm:mt-24 md:mt-32 px-5 sm:px-10 md:px-24 sxl:px-32 flex flex-col items-center justify-center">
-      <h2 className="w-full inline-block font-bold capitalize text-2xl md:text-4xl text-dark dark:text-light">
-        Featured Posts
-      </h2>
+    <section className="w-full px-5 pt-12 sm:px-10 md:px-24 md:pt-20 sxl:px-32">
+      <div className="mb-8 flex items-end justify-between border-b border-dark/10 pb-4 dark:border-light/10">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-widest text-accent dark:text-accentDark">
+            Editor's desk
+          </p>
+          <h2 className="mt-1 text-2xl font-bold text-dark dark:text-light md:text-4xl">
+            Featured Stories
+          </h2>
+        </div>
+      </div>
 
-      <div className="grid grid-cols-2 grid-rows-2 gap-6 mt-10 sm:mt-16">
+      <div className="grid grid-cols-2 grid-rows-2 gap-6">
         {secondaryPosts[0] && (
           <article className="col-span-2 sxl:col-span-1 row-span-2 relative">
             <BlogLayoutOne blog={secondaryPosts[0]} priority />

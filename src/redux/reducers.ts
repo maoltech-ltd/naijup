@@ -1,7 +1,5 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { 
-    categoryReducer, 
-    commentReducer, 
     imageReducer, 
     postsReducer, 
     secondUserReducer, 
@@ -13,7 +11,6 @@ import {
     bondReducer,
     etfReducer, 
     headlinesReducer,
-    bulkCategoryReducer,
     authorReducer,
 } from "./slice";
 
@@ -21,8 +18,6 @@ import {
 const rootReducer = combineReducers({
     user: userReducer,
     posts: postsReducer,
-    comment: commentReducer,
-    category: categoryReducer,
     image: imageReducer,
     secondUser: secondUserReducer,
     post: postReducer,
@@ -32,7 +27,6 @@ const rootReducer = combineReducers({
     bond: bondReducer,
     etf: etfReducer,
     headlines: headlinesReducer,
-    bulkCategory: bulkCategoryReducer,
     author: authorReducer,
 })
 

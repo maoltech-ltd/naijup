@@ -45,6 +45,21 @@ async function getBlog(slug: string): Promise<BlogPost | null> {
   }
 }
 
+async function getRelatedPosts(slug: string) {
+  try {
+    const res = await fetch(`${apiBaseUrl}v1/blog/post/slug/${slug}/related/`, {
+      next: { revalidate: 300 },
+    });
+
+    if (!res.ok) return [];
+
+    return await res.json();
+  } catch (error) {
+    console.error("Error fetching related posts:", error);
+    return [];
+  }
+}
+
 function stripHtml(value = "") {
   return value
     .replace(/<[^>]*>/g, " ")
@@ -97,6 +112,15 @@ function blogDescription(blog: BlogPost) {
 function blogKeywords(blog: BlogPost) {
   if (blog.tags?.length) return blog.tags;
   return [blog.category, ...siteMetadata.keywords].filter(Boolean) as string[];
+}
+
+function plainContent(content: any) {
+  return contentBlocks(content)
+    .map((block: any) => block.data?.text || "")
+    .join(" ")
+    .replace(/<[^>]*>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
@@ -164,30 +188,61 @@ function BlogStructuredData({ blog, slug }: { blog: BlogPost; slug: string }) {
 
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "NewsArticle",
-    headline: blog.title,
-    image: [image],
-    author: {
-      "@type": "Person",
-      name: author,
-    },
-    publisher: {
-      "@type": "Organization",
-      name: siteMetadata.siteName,
-      logo: {
-        "@type": "ImageObject",
-        url: absoluteUrl(siteMetadata.siteLogo),
+    "@graph": [
+      {
+        "@type": "NewsArticle",
+        "@id": `${url}#article`,
+        headline: blog.title,
+        image: [image],
+        author: {
+          "@type": "Person",
+          name: author,
+        },
+        publisher: {
+          "@type": "Organization",
+          name: siteMetadata.siteName,
+          logo: {
+            "@type": "ImageObject",
+            url: absoluteUrl(siteMetadata.siteLogo),
+          },
+        },
+        datePublished: blog.publication_date,
+        dateModified: blog.updatedAt || blog.updated_at || blog.publication_date,
+        mainEntityOfPage: {
+          "@type": "WebPage",
+          "@id": url,
+        },
+        articleSection: blog.category,
+        keywords: blog.tags?.join(", "),
+        description,
+        isAccessibleForFree: true,
+        wordCount: plainContent(blog.content).split(" ").filter(Boolean).length || undefined,
       },
-    },
-    datePublished: blog.publication_date,
-    dateModified: blog.updatedAt || blog.updated_at || blog.publication_date,
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": url,
-    },
-    articleSection: blog.category,
-    keywords: blog.tags?.join(", "),
-    description,
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${url}#breadcrumb`,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: baseUrl,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: blog.category || "Blog",
+            item: `${baseUrl}/categories/${blog.category}`,
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: blog.title,
+            item: url,
+          },
+        ],
+      },
+    ],
   };
 
   return (
@@ -199,7 +254,10 @@ function BlogStructuredData({ blog, slug }: { blog: BlogPost; slug: string }) {
 }
 
 export default async function BlogSEOPage({ params }: { params: { slug: string } }) {
-  const blog = await getBlog(params.slug);
+  const [blog, relatedPosts] = await Promise.all([
+    getBlog(params.slug),
+    getRelatedPosts(params.slug),
+  ]);
 
   if (!blog) {
     notFound();
@@ -208,7 +266,7 @@ export default async function BlogSEOPage({ params }: { params: { slug: string }
   return (
     <>
       <BlogStructuredData blog={blog} slug={params.slug} />
-      <BlogPage blog={blog as any} />
+      <BlogPage blog={blog as any} relatedPosts={relatedPosts} />
     </>
   );
 }

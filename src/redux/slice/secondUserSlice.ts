@@ -9,6 +9,13 @@ interface SecondUserState {
     lastName?: string;
     profilePicture?: string;
     bio?: string[];
+    createdAt?: string;
+    totalPosts?: number;
+    totalViews?: number;
+    totalLikes?: number;
+    totalComments?: number;
+    latestPosts?: any[];
+    topCategories?: { category: string; posts: number }[];
     status: 'idle' | 'pending' | 'fulfilled' | 'rejected';
 }
 
@@ -21,6 +28,13 @@ const  secondUserInitialState: SecondUserState = {
     lastName: "",
     profilePicture: "",
     bio: [],
+    createdAt: "",
+    totalPosts: 0,
+    totalViews: 0,
+    totalLikes: 0,
+    totalComments: 0,
+    latestPosts: [],
+    topCategories: [],
     status: "idle"
 };
 
@@ -50,6 +64,13 @@ const secondUserSlice = createSlice({
             state.lastName = "";
             state.profilePicture = "";
             state.bio = [];
+            state.createdAt = "";
+            state.totalPosts = 0;
+            state.totalViews = 0;
+            state.totalLikes = 0;
+            state.totalComments = 0;
+            state.latestPosts = [];
+            state.topCategories = [];
             state.status = "idle";
         }
     },
@@ -63,6 +84,7 @@ const secondUserSlice = createSlice({
                 state.lastName = action.payload.last_name;
                 state.profilePicture = action.payload.profile_picture;
                 state.bio = action.payload.bio;
+                state.createdAt = action.payload.created_at;
                 state.status = "fulfilled";
             })
             .addCase(getUserDetails.pending, (state) => {
@@ -79,6 +101,13 @@ const secondUserSlice = createSlice({
                 state.lastName = action.payload.last_name;
                 state.profilePicture = action.payload.profile_picture;
                 state.bio = action.payload.bio;
+                state.createdAt = action.payload.created_at;
+                state.totalPosts = action.payload.total_posts ?? 0;
+                state.totalViews = action.payload.total_views ?? 0;
+                state.totalLikes = action.payload.total_likes ?? 0;
+                state.totalComments = action.payload.total_comments ?? 0;
+                state.latestPosts = action.payload.latest_posts ?? [];
+                state.topCategories = action.payload.top_categories ?? [];
                 state.status = "fulfilled";
             })
             .addCase(getUserById.pending, (state) => {

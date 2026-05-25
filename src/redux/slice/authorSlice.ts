@@ -1,95 +1,5 @@
-// import api from "@/src/api";
-// import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-// export interface Author {
-//     id: string;
-//     title: string;
-//     category: string;
-//     content: any;
-//     author: string;
-//     createdAt: string;
-//     updatedAt: string;
-//     image_links: string;
-//     tags?: string[];
-//     slug: string;
-// }
-
-// interface AuthorState {
-//     post:   Author | null;
-//     status: "idle" | "loading" | "succeeded" | "failed";
-//     error: string | null;
-// }
-
-// const initialState: AuthorState = {
-//     post: null ,
-//     status: "idle",
-//     error: null
-// };
-
-// export const fetchAuthorMe = createAsyncThunk('posts/fetchAuthorMe', async (token: string) => {
-//     const headers = {
-//         Authorization: "Bearer " + token
-//     };
-//     const response = await api.get(`v1/admin/author/stats/author/me/`, { headers });
-//     return response.data;
-// })
-
-// export const fetchAuthorPosts = createAsyncThunk('posts/fetchAuthorPosts', async (token: string) => {
-//     const headers = {
-//         Authorization: "Bearer " + token
-//     };
-//     const response = await api.get(`v1/blog/post/slug/${slug}/`, { headers });
-//     return response.data;
-// })
-
-// const authorSlice = createSlice({
-//     name: "author",
-//     initialState,
-//     reducers: {
-//         setPost: (state, action: PayloadAction<Author>) => {
-//           state.post = action.payload;
-//           state.status = "succeeded";
-//           state.error = null;
-//         },
-//         clearPost: (state) => {
-//             state.post = null;
-//             state.status = "idle";
-//             state.error = null;
-//         },
-//     },
-//     extraReducers: (builder) => {
-//         builder
-//             .addCase(fetchAuthorMe.rejected, (state: any, action) => {
-//                 state.status = "failed";
-//                 state.error = action.error.message || "Failed to fetch post.";
-//             })
-//             .addCase(fetchAuthorMe.pending, (state: any) => {
-//                 state.status = "loading";
-//             })
-//             .addCase(fetchAuthorMe.fulfilled, (state: any, action) => {
-//                 state.status = "succeeded";
-//                 state.posts = action.payload;
-//             })
-
-//         builder
-//             .addCase(fetchPostBySlug.pending, (state) => {
-//               state.status = "loading";
-//             })
-//             .addCase(fetchPostBySlug.fulfilled, (state, action: PayloadAction<Post>) => {
-//               state.status = "succeeded";
-//               state.post = action.payload;
-//             })
-//             .addCase(fetchPostBySlug.rejected, (state, action: any) => {
-//               state.status = "failed";
-//               state.error = action.payload || "Failed to fetch post by slug.";
-//             });
-//     },
-// });
-
-// export const { setPost, clearPost } = authorSlice.actions;
-// export default authorSlice.reducer;
 import api from "@/src/api";
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 /* ---------------------------------------------------
    Types
@@ -147,19 +57,97 @@ export interface AuthorPostsResponse {
     results: AuthorPost[];
 }
 
+export interface SuperAuthorWriter {
+    author_id: number;
+    username: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    is_author: boolean;
+    total_posts: number;
+    total_views: number;
+    average_views_per_post: number;
+    monthly_total_posts: number;
+    monthly_total_views: number;
+    amount_due: number;
+    period_start: string;
+    period_end: string;
+}
+
+export interface SuperAuthorCandidate {
+    id: number;
+    username: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    is_author: boolean;
+    posts_count: number;
+}
+
+export interface SuperAuthorOverview {
+    totals: {
+        writers: number;
+        posts: number;
+        views: number;
+        monthly_posts: number;
+        monthly_views: number;
+        amount_due: number;
+        period_start: string;
+        period_end: string;
+        rate_per_post: number;
+    };
+    writers: SuperAuthorWriter[];
+    candidates: SuperAuthorCandidate[];
+}
+
+export interface SuperAuthorPost {
+    id: number;
+    title: string;
+    slug: string;
+    category: string;
+    publication_date: string;
+    total_views: number;
+    monthly_views: number;
+}
+
+export interface SuperAuthorPostsResponse {
+    count: number;
+    next: string | null;
+    previous: string | null;
+    author: {
+        id: number;
+        username: string;
+        first_name: string;
+        last_name: string;
+        email: string;
+    };
+    period_start: string;
+    period_end: string;
+    rate_per_post: number;
+    results: SuperAuthorPost[];
+}
+
 // State
 interface AuthorState {
     stats: AuthorStats | null;
     posts: AuthorPostsResponse | null;
+    superOverview: SuperAuthorOverview | null;
+    superPosts: SuperAuthorPostsResponse | null;
     status: "idle" | "loading" | "succeeded" | "failed";
+    superStatus: "idle" | "loading" | "succeeded" | "failed";
     error: string | null;
+    superError: string | null;
 }
 
 const initialState: AuthorState = {
     stats: null,
     posts: null,
+    superOverview: null,
+    superPosts: null,
     status: "idle",
+    superStatus: "idle",
     error: null,
+    superError: null,
 };
 
 /* --------------------------------------------------------
@@ -202,6 +190,39 @@ export const fetchAuthorPosts = createAsyncThunk(
     }
 );
 
+export const fetchSuperAuthorOverview = createAsyncThunk(
+    "author/fetchSuperAuthorOverview",
+    async (token: string) => {
+        const response = await api.get("v1/admin/author/super/overview/", {
+            headers: { Authorization: "Bearer " + token },
+        });
+        return response.data as SuperAuthorOverview;
+    }
+);
+
+export const fetchSuperAuthorPosts = createAsyncThunk(
+    "author/fetchSuperAuthorPosts",
+    async ({ token, authorId, page = 1 }: { token: string; authorId: number; page?: number }) => {
+        const response = await api.get(
+            `v1/admin/author/super/writers/${authorId}/posts/?page=${page}`,
+            { headers: { Authorization: "Bearer " + token } }
+        );
+        return response.data as SuperAuthorPostsResponse;
+    }
+);
+
+export const updateWriterPermission = createAsyncThunk(
+    "author/updateWriterPermission",
+    async ({ token, userId, isAuthor }: { token: string; userId: number; isAuthor: boolean }) => {
+        const response = await api.patch(
+            `v1/admin/author/super/writers/${userId}/permission/`,
+            { is_author: isAuthor },
+            { headers: { Authorization: "Bearer " + token } }
+        );
+        return response.data as { id: number; username: string; email: string; is_author: boolean };
+    }
+);
+
 /* --------------------------------------------------------
    SLICE
 --------------------------------------------------------- */
@@ -212,8 +233,12 @@ const authorSlice = createSlice({
         clearAuthorData: (state) => {
             state.stats = null;
             state.posts = null;
+            state.superOverview = null;
+            state.superPosts = null;
             state.status = "idle";
+            state.superStatus = "idle";
             state.error = null;
+            state.superError = null;
         },
     },
     extraReducers: (builder) => {
@@ -245,6 +270,39 @@ const authorSlice = createSlice({
                 state.status = "failed";
                 state.error =
                     action.error.message || "Failed to fetch author posts.";
+            });
+
+        builder
+            .addCase(fetchSuperAuthorOverview.pending, (state) => {
+                state.superStatus = "loading";
+            })
+            .addCase(fetchSuperAuthorOverview.fulfilled, (state, action) => {
+                state.superStatus = "succeeded";
+                state.superOverview = action.payload;
+            })
+            .addCase(fetchSuperAuthorOverview.rejected, (state, action) => {
+                state.superStatus = "failed";
+                state.superError = action.error.message || "Failed to fetch master author overview.";
+            })
+            .addCase(fetchSuperAuthorPosts.pending, (state) => {
+                state.superStatus = "loading";
+                state.superPosts = null;
+            })
+            .addCase(fetchSuperAuthorPosts.fulfilled, (state, action) => {
+                state.superStatus = "succeeded";
+                state.superPosts = action.payload;
+            })
+            .addCase(fetchSuperAuthorPosts.rejected, (state, action) => {
+                state.superStatus = "failed";
+                state.superError = action.error.message || "Failed to fetch writer posts.";
+            })
+            .addCase(updateWriterPermission.fulfilled, (state, action) => {
+                if (!state.superOverview) return;
+                state.superOverview.candidates = state.superOverview.candidates.map((candidate) =>
+                    candidate.id === action.payload.id
+                        ? { ...candidate, is_author: action.payload.is_author }
+                        : candidate
+                );
             });
     },
 });

@@ -1,56 +1,29 @@
-"use client"
-
-import { useState } from "react"
 import HomeCoverSection from "../components/Home/HomeCoverSection"
 import FeaturedPost from "../components/Home/FeaturedPost"
 import RecentPost from "../components/Home/RecentPost"
+import MostReadPosts from "../components/Home/MostReadPosts"
 import { categories } from "../utils/props"
-import ErrorModal from "../components/Modal/ErrorModal"
-import dynamic from "next/dynamic"
-import { CardSkeleton } from "../components/loading/loadingSpinner"
+import CategorySection from "../components/Home/CategorySection"
 
 type HomeClientProps = {
   blogs?: any
+  mostRead?: any[]
+  categorySections?: Record<string, any[]>
   error?: string
 }
 
-const CategorySection = dynamic(
-  () => import("../components/Home/CategorySection"),
-  {
-    ssr: false,
-    loading: () => (
-      <section className="w-full mt-16 px-5 sm:px-10 md:px-24 sxl:px-32">
-        <div className="h-8 w-48 skeleton rounded mb-8" />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {Array.from({ length: 3 }).map((_, i) => (
-            <CardSkeleton key={i} />
-          ))}
-        </div>
-      </section>
-    ),
-  }
-)
-
-const HeadlineTicker = dynamic(
-  () => import("../components/markets/HeadlineTicker"),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="w-full h-20 bg-gray-100 dark:bg-gray-800 animate-pulse" />
-    ),
-  }
-)
-
-const HomeClient: React.FC<HomeClientProps> = ({ blogs, error }) => {
-  const [open, setOpen] = useState(!!error)
-
+const HomeClient: React.FC<HomeClientProps> = ({
+  blogs,
+  mostRead = [],
+  categorySections = {},
+  error,
+}) => {
   if (error) {
     return (
-      <ErrorModal
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        message={error}
-      />
+      <main className="flex min-h-[50vh] flex-col items-center justify-center px-5 text-center">
+        <h1 className="text-2xl font-bold text-dark dark:text-light">No Posts Found</h1>
+        <p className="mt-3 max-w-md text-gray dark:text-light/60">{error}</p>
+      </main>
     )
   }
 
@@ -75,10 +48,16 @@ const HomeClient: React.FC<HomeClientProps> = ({ blogs, error }) => {
 
       <FeaturedPost blogs={blogs} />
 
+      <MostReadPosts posts={mostRead} />
+
       <RecentPost blogs={blogs} />
 
-      {categories.map((cat) => (
-        <CategorySection key={cat.name} category={cat.name} />
+      {categories.slice(0, 6).map((cat) => (
+        <CategorySection
+          key={cat.name}
+          category={cat.name}
+          posts={categorySections[cat.name] ?? []}
+        />
       ))}
     </main>
   )

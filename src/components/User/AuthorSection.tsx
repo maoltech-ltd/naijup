@@ -2,7 +2,8 @@
 
 import { useEffect } from "react";
 import Image from "next/image";
-import { Mail, PenLine, UserRound } from "lucide-react";
+import Link from "next/link";
+import { BarChart3, Eye, Mail, MessageCircle, PenLine, ThumbsUp, UserRound } from "lucide-react";
 import { useAppDispatch } from "@/src/redux/hooks/dispatch";
 import { useSelector } from "react-redux";
 import { getUserById } from "@/src/redux/slice/secondUserSlice";
@@ -22,6 +23,12 @@ const AuthorSection = ({ authorId }: AuthorSectionProps) => {
     lastName,
     profilePicture,
     bio,
+    totalPosts,
+    totalViews,
+    totalLikes,
+    totalComments,
+    latestPosts,
+    topCategories,
     status,
   } = useSelector((state: any) => state.secondUser);
 
@@ -118,17 +125,89 @@ const AuthorSection = ({ authorId }: AuthorSectionProps) => {
                 )}
               </div>
 
+              <div className="mt-5 flex flex-wrap gap-3">
+              {userName && (
+                <Link
+                  href={`/user/${userName}`}
+                  className="inline-flex items-center gap-2 rounded-md bg-dark px-4 py-2 text-sm font-semibold text-light transition-colors hover:bg-dark/85 dark:bg-light dark:text-dark dark:hover:bg-light/85"
+                >
+                  View author page
+                </Link>
+              )}
               {userEmail && (
                 <a
                   href={`mailto:${userEmail}`}
-                  className="mt-5 inline-flex items-center gap-2 rounded-md border border-gray-200 px-4 py-2 text-sm font-semibold text-dark transition-colors hover:border-accent hover:text-accent dark:border-neutral-800 dark:text-light dark:hover:border-accentDark dark:hover:text-accentDark"
+                  className="inline-flex items-center gap-2 rounded-md border border-gray-200 px-4 py-2 text-sm font-semibold text-dark transition-colors hover:border-accent hover:text-accent dark:border-neutral-800 dark:text-light dark:hover:border-accentDark dark:hover:text-accentDark"
                 >
                   <Mail className="h-4 w-4" aria-hidden="true" />
                   Contact author
                 </a>
               )}
+              </div>
             </div>
           </div>
+
+          <div className="mt-8 grid grid-cols-2 gap-3 border-t border-gray-200 pt-6 dark:border-neutral-800 md:grid-cols-4">
+            {[
+              { label: "Stories", value: totalPosts ?? 0, icon: PenLine },
+              { label: "Reads", value: totalViews ?? 0, icon: Eye },
+              { label: "Likes", value: totalLikes ?? 0, icon: ThumbsUp },
+              { label: "Comments", value: totalComments ?? 0, icon: MessageCircle },
+            ].map((item) => {
+              const Icon = item.icon;
+              return (
+                <div key={item.label} className="rounded-md bg-surface-light p-4 dark:bg-surface-dark">
+                  <Icon className="h-4 w-4 text-accent dark:text-accentDark" aria-hidden="true" />
+                  <p className="mt-2 text-2xl font-bold text-dark dark:text-light">{item.value}</p>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-gray dark:text-neutral-400">
+                    {item.label}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+
+          {!!topCategories?.length && (
+            <div className="mt-6">
+              <div className="flex items-center gap-2 text-sm font-semibold text-dark dark:text-light">
+                <BarChart3 className="h-4 w-4 text-accent dark:text-accentDark" aria-hidden="true" />
+                Main desks
+              </div>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {topCategories.map((item: any) => (
+                  <Link
+                    key={item.category}
+                    href={`/categories/${item.category}`}
+                    className="rounded-full border border-gray-200 px-3 py-1 text-xs font-semibold text-dark/70 hover:border-accent hover:text-accent dark:border-neutral-800 dark:text-light/70 dark:hover:border-accentDark dark:hover:text-accentDark"
+                  >
+                    {item.category} ({item.posts})
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {!!latestPosts?.length && (
+            <div className="mt-6 border-t border-gray-200 pt-6 dark:border-neutral-800">
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-gray dark:text-neutral-400">
+                Latest by {displayName}
+              </h3>
+              <div className="mt-4 space-y-3">
+                {latestPosts.map((post: any) => (
+                  <Link
+                    key={post.id}
+                    href={`/blog/${post.slug}`}
+                    className="block rounded-md border border-gray-200 p-3 transition hover:border-accent hover:text-accent dark:border-neutral-800 dark:hover:border-accentDark dark:hover:text-accentDark"
+                  >
+                    <p className="font-semibold text-dark dark:text-light">{post.title}</p>
+                    <p className="mt-1 text-xs uppercase tracking-wide text-gray dark:text-neutral-400">
+                      {post.category}
+                    </p>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </section>

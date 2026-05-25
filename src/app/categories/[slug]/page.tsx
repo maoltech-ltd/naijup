@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import siteMetadata from "@/src/utils/sitemetadata";
-import CategoryClient from "./CategoryClient";
+import { sortBlogs } from "@/src/utils";
+import Categories from "@/src/components/Blog/Categories";
+import BlogLayoutThree from "@/src/components/Blog/BlogLayoutThree";
+
+export const revalidate = 300;
+
+const apiBaseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://api.naijup.ng/api/";
 
 const categoryDescriptions: Record<string, string> = {
   general: "Read the latest Nigerian finance and business updates from NaijUp.",
@@ -18,6 +24,26 @@ function titleCase(value: string) {
   return value
     .replace(/-/g, " ")
     .replace(/\b\w/g, (char) => char.toUpperCase());
+}
+
+async function fetchCategoryPosts(slug: string) {
+  const path =
+    slug === "all"
+      ? "v1/blog/latest-posts/?page_size=30"
+      : `v1/blog/latest-posts/category/${slug}/?page_size=30`;
+
+  try {
+    const res = await fetch(`${apiBaseUrl}${path}`, {
+      next: { revalidate },
+    });
+
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data?.results ?? [];
+  } catch (error) {
+    console.error(`Category fetch error for ${slug}:`, error);
+    return [];
+  }
 }
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
@@ -64,8 +90,87 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-const CategoryPage = ({ params }: { params: { slug: string } }) => {
-  return <CategoryClient slug={params.slug} />;
+function CategoryStructuredData({
+  slug,
+  posts,
+}: {
+  slug: string;
+  posts: any[];
+}) {
+  const url = `${siteMetadata.siteUrl}/categories/${slug}`;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: `${titleCase(slug)} News`,
+    url,
+    isPartOf: {
+      "@type": "WebSite",
+      name: siteMetadata.siteName,
+      url: siteMetadata.siteUrl,
+    },
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: posts.slice(0, 20).map((post, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        url: `${siteMetadata.siteUrl}/blog/${post.slug}`,
+        name: post.title,
+      })),
+    },
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
+}
+
+const CategoryPage = async ({ params }: { params: { slug: string } }) => {
+  const posts = await fetchCategoryPosts(params.slug);
+  const sortedBlogs = sortBlogs({ blogs: posts });
+
+  const allCategories = Array.from(
+    new Set(sortedBlogs.map((blog: any) => blog.category).filter(Boolean))
+  ) as string[];
+
+  return (
+    <>
+      <CategoryStructuredData slug={params.slug} posts={sortedBlogs} />
+      <main className="mt-12 flex flex-col text-dark dark:text-light">
+        <div className="px-5 sm:px-10 md:px-24 sxl:px-32">
+          <p className="text-xs font-semibold uppercase tracking-widest text-accent dark:text-accentDark">
+            Archive
+          </p>
+          <h1 className="mt-3 text-3xl font-bold capitalize md:text-5xl">
+            {params.slug === "all" ? "All Stories" : `${titleCase(params.slug)} News`}
+          </h1>
+          <p className="mt-3 max-w-2xl text-gray dark:text-light/60">
+            Discover Nigerian finance, business, economy, market, startup, and opportunity coverage.
+          </p>
+        </div>
+
+        {!!allCategories.length && (
+          <Categories categories={allCategories} currentSlug={params.slug} />
+        )}
+
+        {sortedBlogs.length ? (
+          <div className="grid grid-cols-1 gap-x-8 gap-y-12 px-5 pt-10 sm:grid-cols-2 sm:px-10 md:px-24 lg:grid-cols-3 sxl:px-32">
+            {sortedBlogs.map((blog: any) => (
+              <article key={blog.id || blog.slug} className="relative">
+                <BlogLayoutThree blog={blog} />
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div className="px-5 py-16 text-gray dark:text-light/60 sm:px-10 md:px-24 sxl:px-32">
+            No posts found.
+          </div>
+        )}
+      </main>
+    </>
+  );
 };
 
 export default CategoryPage;

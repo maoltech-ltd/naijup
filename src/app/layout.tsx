@@ -41,6 +41,11 @@ const jsonLdWebSite = {
   publisher: {
     "@id": `${siteUrl}/#organization`,
   },
+  potentialAction: {
+    "@type": "SearchAction",
+    target: `${siteUrl}/categories/all?q={search_term_string}`,
+    "query-input": "required name=search_term_string",
+  },
 }
 
 // JSON-LD finance entity
@@ -86,6 +91,7 @@ export const metadata: Metadata = {
   authors: [{ name: siteMetadata.author, url: `${siteUrl}/about` }],
   creator: "NaijUp",
   publisher: "NaijUp",
+  referrer: "origin-when-cross-origin",
   formatDetection: {
     email: false,
     address: false,
@@ -140,7 +146,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" suppressHydrationWarning className="bg-light dark:bg-dark">
       <head>
         {/* Preconnect to external domains for faster loading */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
         

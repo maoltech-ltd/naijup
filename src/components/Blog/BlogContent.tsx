@@ -1,10 +1,11 @@
-"use client";
 import Image from "next/image";
 
 const BlogContent = ({ content }: any) => {
+  const blocks = Array.isArray(content) ? content : content?.blocks || [];
+
   return (
     <div className="prose max-w-none text-black dark:text-white">
-      {content.map((item: any, index: any) => {
+      {blocks.map((item: any, index: any) => {
         // Handle paragraphs
         if (item.type === "paragraph") {
           return (
