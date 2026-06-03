@@ -7,6 +7,9 @@
 //   crypto_rates_usd: Record<string, number>;
 //   crypto_rates_ngn: Record<string, number>;
 //   base_usd_rate: number;
+  daily_prices?: Record<string, { date: string; opening_price: number; closing_price: number; low_price: number; high_price: number; source?: string }>;
+  highlights?: any[];
+  highlight_headlines?: string[];
 // }
 
 // interface MarketState {
@@ -90,6 +93,9 @@ export interface FxRates {
   crypto_rates_usd: Record<string, number>;
   crypto_rates_ngn: Record<string, number>;
   base_usd_rate: number;
+  daily_prices?: Record<string, { date: string; opening_price: number; closing_price: number; low_price: number; high_price: number; source?: string }>;
+  highlights?: any[];
+  highlight_headlines?: string[];
 }
 
 // --- Initial States ---

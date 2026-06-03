@@ -22,6 +22,17 @@ const MarketEquity = () => {
 
   return (
     <MarketCard title="Equities" icon={<TrendingUp className="w-5 h-5 text-green-600" />}>
+      {!!data?.highlight_headlines?.length && (
+        <div className="mb-5 rounded-lg border border-green-100 bg-green-50 p-4 text-sm text-green-900 dark:border-green-900/50 dark:bg-green-950/30 dark:text-green-100">
+          <h3 className="mb-2 font-semibold">Stock Highlights</h3>
+          <ul className="space-y-1">
+            {data.highlight_headlines.slice(0, 5).map((headline: string) => (
+              <li key={headline}>{headline}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {["top_gainers", "top_losers", "top_trades"].map((category, idx) => (
           <div key={idx}>
@@ -31,21 +42,21 @@ const MarketEquity = () => {
             <ul className="space-y-2">
               {data?.[category]?.map((item:any, i:number) => (
                 <li
-                key={i}
-                className="flex items-center justify-between bg-gray-50 dark:bg-dark px-3 py-2 rounded-lg shadow-sm dark:text-light"
-              >
-                <span className="truncate max-w-[80px]">{item.SYMBOL || item.Symbol}</span>
-              
-                {item.PERCENTAGE_CHANGE && (
-                  <PerformanceBadge value={item.PERCENTAGE_CHANGE} />
-                )}
-              
-                {item.Volume && (
-                  <span className="text-sm text-gray-600 truncate max-w-[90px] sm:max-w-none">
-                    {item.Volume.toLocaleString()}
-                  </span>
-                )}
-              </li>              
+                  key={i}
+                  className="flex items-center justify-between bg-gray-50 dark:bg-dark px-3 py-2 rounded-lg shadow-sm dark:text-light"
+                >
+                  <span className="truncate max-w-[80px]">{item.SYMBOL || item.Symbol}</span>
+
+                  {item.PERCENTAGE_CHANGE && (
+                    <PerformanceBadge value={item.PERCENTAGE_CHANGE} />
+                  )}
+
+                  {item.Volume && (
+                    <span className="text-sm text-gray-600 truncate max-w-[90px] sm:max-w-none">
+                      {item.Volume.toLocaleString()}
+                    </span>
+                  )}
+                </li>
               ))}
             </ul>
           </div>

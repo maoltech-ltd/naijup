@@ -57,6 +57,8 @@ export const categories = [
   { name: "startup", link: "/categories/startup" },
   { name: "investment", link: "/categories/investment" },
   { name: "crypto", link: "/categories/crypto" },
+  { name: "job", link: "/categories/job" },
+  { name: "travels", link: "/categories/travels" },
   { name: "opportunity", link: "/categories/opportunity" },
   { name: "business", link: "/categories/business" },
   { name: "economy", link: "/categories/economy" },

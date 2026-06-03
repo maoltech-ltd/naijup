@@ -10,6 +10,7 @@ const MarketEquity = dynamic(() => import("@/src/components/markets/MarketEquity
 const MarketBond = dynamic(() => import("@/src/components/markets/MarketBond"));
 const MarketETF = dynamic(() => import("@/src/components/markets/MarketETF"));
 const MarketIntroSEOSection = dynamic(() => import("@/src/components/markets/MarketIntroSection"));
+const MarketHighlightTicker = dynamic(() => import("@/src/components/markets/MarketHighlightTicker"));
 const WhatWeTrackSection = dynamic(() => import("@/src/components/markets/WhatWeTrackSection"));
 const MarketFAQSection = dynamic(() => import("@/src/components/markets/MarketFAQSection"));
 
@@ -96,6 +97,7 @@ const Market = () => {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(marketJsonLd) }}
       />
       <MarketCoverSection />
+      <MarketHighlightTicker title="Market highlight watch" />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-8 space-y-12">
         <MarketIntroSEOSection />
         <WhatWeTrackSection />

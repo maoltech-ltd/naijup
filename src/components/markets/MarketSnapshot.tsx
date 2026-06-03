@@ -21,12 +21,23 @@ const MarketSnapshot = () => {
   if (status === "loading" || status === "idle") return <CardSkeleton />;
   if (status === "failed") return <p className="text-red-500">{error}</p>;
 
-  const filteredData = data ? Object.entries(data).filter(([key]) => 
-    key !== "$id" && key !== "Id"
+  const filteredData = data ? Object.entries(data).filter(([key]) =>
+    !["$id", "Id", "daily_prices", "highlights", "highlight_headlines"].includes(key)
   ) : [];
 
   return (
     <MarketCard title="NGX Snapshot" icon={<BarChart3 className="w-5 h-5 text-indigo-600" />} subtitle="Market Overview">
+      {!!data?.highlight_headlines?.length && (
+        <div className="mb-4 rounded-lg border border-indigo-100 bg-indigo-50 p-4 text-sm text-indigo-900 dark:border-indigo-900/50 dark:bg-indigo-950/30 dark:text-indigo-100">
+          <h3 className="mb-2 font-semibold">NGX Highlights</h3>
+          <ul className="space-y-1">
+            {data.highlight_headlines.slice(0, 3).map((headline: string) => (
+              <li key={headline}>{headline}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 dark:text-light">
         {filteredData.map(([key, value]) => (
           <StatCard

@@ -72,6 +72,8 @@ const siteMetadata = {
     "Crypto",
     "Startups",
     "Economy",
+    "Job",
+    "Travels",
     "Opportunity",
     "Business",
     "Markets",

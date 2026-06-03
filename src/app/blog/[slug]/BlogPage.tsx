@@ -9,6 +9,7 @@ import EditPostButton from "@/src/components/Post/EditPostButton";
 import CommentSection from "@/src/components/Blog/CommentSection";
 import RelatedPosts from "@/src/components/Blog/RelatedPosts";
 import AuthorSection from "@/src/components/User/AuthorSection";
+import MarketHighlightTicker from "@/src/components/markets/MarketHighlightTicker";
 
 export interface Blog {
   id: string;
@@ -67,6 +68,7 @@ export default function BlogPage({  blog, relatedPosts = [] }: {  blog: Blog; re
             <div className="absolute inset-0 bg-dark/15" />
           </div>
         </div>
+        <MarketHighlightTicker className="mb-8" />
         <BlogDetails blog={blog} slug={blog.slug} />
         <div className="px-5 md:px-10">
           <ShareButtons

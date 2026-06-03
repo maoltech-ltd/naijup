@@ -4,6 +4,7 @@ import RecentPost from "../components/Home/RecentPost"
 import MostReadPosts from "../components/Home/MostReadPosts"
 import { categories } from "../utils/props"
 import CategorySection from "../components/Home/CategorySection"
+import MarketHighlightTicker from "../components/markets/MarketHighlightTicker"
 
 type HomeClientProps = {
   blogs?: any
@@ -45,6 +46,8 @@ const HomeClient: React.FC<HomeClientProps> = ({
   return (
     <main className="flex flex-col items-center justify-center">
       <HomeCoverSection blog={blogs[0]} />
+
+      <MarketHighlightTicker className="mt-4" />
 
       <FeaturedPost blogs={blogs} />
 
