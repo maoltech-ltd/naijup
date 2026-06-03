@@ -31,8 +31,8 @@ function titleCase(value: string) {
 async function fetchCategoryPosts(slug: string) {
   const path =
     slug === "all"
-      ? "v1/blog/latest-posts/?page_size=30"
-      : `v1/blog/latest-posts/category/${slug}/?page_size=30`;
+      ? "v1/blog/latest-posts/?page_size=10"
+      : `v1/blog/latest-posts/category/${slug}/?page_size=10`;
 
   try {
     const res = await fetch(`${apiBaseUrl}${path}`, {

@@ -5,6 +5,19 @@ import siteMetadata from "../utils/sitemetadata";
 import { categories } from "../utils/props";
 
 const apiBaseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://api.naijup.ng/api/";
+const homepageExcludedCategories = new Set(["blog", "travel", "travels"]);
+
+function normalizeCategory(category?: string) {
+    return category?.trim().toLowerCase() ?? "";
+}
+
+function isHomepagePost(post: any) {
+    return !homepageExcludedCategories.has(normalizeCategory(post?.category));
+}
+
+const homepageCategories = categories
+    .filter((category) => !homepageExcludedCategories.has(normalizeCategory(category.name)))
+    .slice(0, 6);
 
 export const metadata: Metadata = {
     title: "NaijUp Magazine",
@@ -42,14 +55,17 @@ export const metadata: Metadata = {
 
 async function fetchPosts() {
         try {
-            const res = await fetch(`${apiBaseUrl}v1/blog/latest-posts/`, {
+            const res = await fetch(`${apiBaseUrl}v1/blog/latest-posts/?page_size=10`, {
             next: { revalidate: 60 },
             });
             if (!res.ok) throw new Error(`Failed to fetch blog: ${res.status}`);
 
             const blogs = await res.json();
 
-            return blogs;
+            return {
+                ...blogs,
+                results: (blogs?.results ?? []).filter(isHomepagePost),
+            };
         } catch (error) {
             console.error('Error fetching blog:', error);
             return null;
@@ -137,7 +153,7 @@ const Home = async() => {
         fetchPosts(),
         fetchMostReadPosts(),
         Promise.all(
-            categories.slice(0, 6).map(async (category) => [
+            homepageCategories.map(async (category) => [
                 category.name,
                 await fetchCategoryPosts(category.name),
             ] as const)
