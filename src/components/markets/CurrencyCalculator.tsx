@@ -1,103 +1,9 @@
-// "use client";
-
-// import { useState, useMemo } from "react";
-// import { useSelector } from "react-redux";
-// import { RootState } from "@/src/redux/store";
-
-// const CurrencyCalculator = () => {
-//   const fxRates = useSelector((state: RootState) => state.fx.data?.fx_rates);
-
-//   const [amount, setAmount] = useState("");
-//   const [from, setFrom] = useState("NGN");
-//   const [to, setTo] = useState("USD");
-
-//   const currencies = useMemo(() => {
-//     if (!fxRates) return [];
-//     return ["NGN", ...Object.keys(fxRates).map(k => k.replace("_to_NGN", ""))];
-//   }, [fxRates]);
-
-//   const convertedAmount = useMemo(() => {
-//     if (!fxRates || !amount) return "0";
-
-//     const amt = Number(amount);
-//     if (isNaN(amt)) return "0";
-
-//     if (from === to) return amt.toLocaleString();
-
-//     // NGN → Currency
-//     if (from === "NGN") {
-//       const rate = fxRates[`${to}_to_NGN`];
-//       return rate ? (amt / rate).toLocaleString() : "0";
-//     }
-
-//     // Currency → NGN
-//     if (to === "NGN") {
-//       const rate = fxRates[`${from}_to_NGN`];
-//       return rate ? (amt * rate).toLocaleString() : "0";
-//     }
-
-//     // Currency → Currency (via NGN)
-//     const fromRate = fxRates[`${from}_to_NGN`];
-//     const toRate = fxRates[`${to}_to_NGN`];
-
-//     if (!fromRate || !toRate) return "0";
-
-//     const nairaValue = amt * fromRate;
-//     return (nairaValue / toRate).toLocaleString();
-//   }, [amount, from, to, fxRates]);
-
-//   if (!fxRates) return null;
-
-//   return (
-//     <div className="bg-gray-50 dark:bg-dark rounded-xl p-5 mt-6">
-//       <h3 className="text-lg font-semibold mb-4">Currency Calculator</h3>
-
-//       <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
-
-//         <input
-//           type="number"
-//           placeholder="Amount"
-//           value={amount}
-//           onChange={(e) => setAmount(e.target.value)}
-//           className="border rounded-lg px-3 py-2 bg-white dark:bg-dark"
-//         />
-
-//         <select
-//           value={from}
-//           onChange={(e) => setFrom(e.target.value)}
-//           className="border rounded-lg px-3 py-2 bg-white dark:bg-dark"
-//         >
-//           {currencies.map((c) => (
-//             <option key={c}>{c}</option>
-//           ))}
-//         </select>
-
-//         <select
-//           value={to}
-//           onChange={(e) => setTo(e.target.value)}
-//           className="border rounded-lg px-3 py-2 bg-white dark:bg-dark"
-//         >
-//           {currencies.map((c) => (
-//             <option key={c}>{c}</option>
-//           ))}
-//         </select>
-
-//         <div className="border rounded-lg px-3 py-2 bg-white dark:bg-dark font-bold flex items-center">
-//           {convertedAmount}
-//         </div>
-
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default CurrencyCalculator;
 "use client";
 
-import { useState, useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "@/src/redux/store";
 import { ArrowLeftRight } from "lucide-react";
+import { RootState } from "@/src/redux/store";
 
 const CurrencyCalculator = () => {
   const fxRates = useSelector((state: RootState) => state.fx.data?.fx_rates);
@@ -109,65 +15,37 @@ const CurrencyCalculator = () => {
   const [from, setFrom] = useState("NGN");
   const [to, setTo] = useState("USD");
 
-  // ----------------------------
-  // Combine fiat + crypto
-  // ----------------------------
   const currencies = useMemo(() => {
     const fiat = fxRates
-      ? Object.keys(fxRates).map((k) => k.replace("_to_NGN", ""))
+      ? Object.keys(fxRates).map((key) => key.replace("_to_NGN", ""))
       : [];
-
     const crypto = cryptoRates ? Object.keys(cryptoRates) : [];
 
-    return ["NGN", ...fiat, ...crypto];
+    return Array.from(new Set(["NGN", ...fiat, ...crypto]));
   }, [fxRates, cryptoRates]);
 
-  // ----------------------------
-  // Conversion Logic
-  // ----------------------------
   const convertedAmount = useMemo(() => {
     if (!amount) return "0";
 
-    const amt = Number(amount);
-    if (isNaN(amt)) return "0";
+    const parsedAmount = Number(amount);
+    if (Number.isNaN(parsedAmount)) return "0";
+    if (from === to) return parsedAmount.toLocaleString();
 
-    // Same currency
-    if (from === to) return amt.toLocaleString();
-
-    // Helper: Get NGN value
     const toNGN = (value: number, currency: string) => {
       if (currency === "NGN") return value;
-
-      if (fxRates?.[`${currency}_to_NGN`]) {
-        return value * fxRates[`${currency}_to_NGN`];
-      }
-
-      if (cryptoRates?.[currency]) {
-        return value * cryptoRates[currency];
-      }
-
+      if (fxRates?.[`${currency}_to_NGN`]) return value * fxRates[`${currency}_to_NGN`];
+      if (cryptoRates?.[currency]) return value * cryptoRates[currency];
       return 0;
     };
 
-    // Helper: From NGN to target
     const fromNGN = (value: number, currency: string) => {
       if (currency === "NGN") return value;
-
-      if (fxRates?.[`${currency}_to_NGN`]) {
-        return value / fxRates[`${currency}_to_NGN`];
-      }
-
-      if (cryptoRates?.[currency]) {
-        return value / cryptoRates[currency];
-      }
-
+      if (fxRates?.[`${currency}_to_NGN`]) return value / fxRates[`${currency}_to_NGN`];
+      if (cryptoRates?.[currency]) return value / cryptoRates[currency];
       return 0;
     };
 
-    const nairaValue = toNGN(amt, from);
-    const result = fromNGN(nairaValue, to);
-
-    return result.toLocaleString(undefined, {
+    return fromNGN(toNGN(parsedAmount, from), to).toLocaleString(undefined, {
       maximumFractionDigits: 6,
     });
   }, [amount, from, to, fxRates, cryptoRates]);
@@ -180,68 +58,64 @@ const CurrencyCalculator = () => {
   if (!fxRates && !cryptoRates) return null;
 
   return (
-    <section className="bg-white dark:bg-dark rounded-2xl shadow-lg p-6">
-
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-bold text-dark dark:text-light">
-          Currency & Crypto Calculator
-        </h2>
-        <span className="text-xs text-gray-400 dark:text-light">Live Rates</span>
+    <section className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950">
+      <div className="mb-4 flex items-start justify-between gap-4">
+        <div>
+          <h2 className="text-xl font-bold text-dark dark:text-light">
+            Currency & Crypto Calculator
+          </h2>
+          <p className="mt-1 text-sm text-gray-500 dark:text-light/70">
+            Convert fiat, crypto, NGN, and cross-currency values.
+          </p>
+        </div>
+        <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-200">
+          Live Rates
+        </span>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-3 items-center">
-
-        {/* Amount */}
+      <div className="grid grid-cols-1 items-center gap-3 md:grid-cols-5">
         <input
           type="number"
           inputMode="decimal"
           placeholder="Enter amount"
           value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-          className="border rounded-xl px-4 py-3 bg-gray-50 dark:bg-dark dark:text-light focus:ring-2 focus:ring-emerald-500 outline-none"
+          onChange={(event) => setAmount(event.target.value)}
+          className="rounded-lg border border-slate-200 bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-emerald-500 dark:border-slate-800 dark:bg-dark dark:text-light"
         />
 
-        {/* From */}
         <select
           value={from}
-          onChange={(e) => setFrom(e.target.value)}
-          className="border rounded-xl px-3 py-3 bg-gray-50 dark:bg-dark dark:text-light"
+          onChange={(event) => setFrom(event.target.value)}
+          className="rounded-lg border border-slate-200 bg-gray-50 px-3 py-3 dark:border-slate-800 dark:bg-dark dark:text-light"
         >
-          {currencies.map((c) => (
-            <option key={c}>{c}</option>
+          {currencies.map((currency) => (
+            <option key={currency}>{currency}</option>
           ))}
         </select>
 
-        {/* Swap Button */}
         <button
           onClick={swapCurrencies}
-          className="flex justify-center items-center bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl p-3 transition"
+          className="flex items-center justify-center rounded-lg bg-emerald-600 p-3 text-white transition hover:bg-emerald-700"
           aria-label="Swap currencies"
+          type="button"
         >
-          <ArrowLeftRight size={18} />
+          <ArrowLeftRight aria-hidden className="h-5 w-5" />
         </button>
 
-        {/* To */}
         <select
           value={to}
-          onChange={(e) => setTo(e.target.value)}
-          className="border rounded-xl px-3 py-3 bg-gray-50 dark:bg-dark dark:text-light"
+          onChange={(event) => setTo(event.target.value)}
+          className="rounded-lg border border-slate-200 bg-gray-50 px-3 py-3 dark:border-slate-800 dark:bg-dark dark:text-light"
         >
-          {currencies.map((c) => (
-            <option key={c}>{c}</option>
+          {currencies.map((currency) => (
+            <option key={currency}>{currency}</option>
           ))}
         </select>
 
-        {/* Result */}
-        <div className="bg-gray-100 dark:bg-dark rounded-xl px-4 py-3 font-bold text-lg text-emerald-600 flex items-center">
+        <div className="flex items-center rounded-lg bg-gray-100 px-4 py-3 text-lg font-bold text-emerald-600 dark:bg-dark">
           {convertedAmount}
         </div>
       </div>
-
-      {/* Hint */}
-      <p className="text-xs text-gray-400 mt-3 dark:text-light">
-        Supports Fiat → Crypto → NGN → Cross Currency conversion
-      </p>
     </section>
   );
 };

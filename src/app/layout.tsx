@@ -123,6 +123,9 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: siteUrl,
+    types: {
+      "application/rss+xml": siteMetadata.feed,
+    },
   },
   robots: {
     index: true,
@@ -149,6 +152,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title={`${siteMetadata.siteName} latest finance news`}
+          href={siteMetadata.feed}
+        />
         
         {/* JSON-LD Organization */}
         <script

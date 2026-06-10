@@ -98,15 +98,57 @@ const Market = () => {
       />
       <MarketCoverSection />
       <MarketHighlightTicker title="Market highlight watch" />
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-8 space-y-12">
-        <MarketIntroSEOSection />
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-8 space-y-10">
+        <nav
+          aria-label="Market sections"
+          className="flex gap-2 overflow-x-auto rounded-lg border border-slate-200 bg-white p-2 text-sm font-semibold shadow-sm dark:border-slate-800 dark:bg-slate-950"
+        >
+          {[
+            ["Converter", "#converter"],
+            ["FX", "#fx"],
+            ["NGX", "#ngx"],
+            ["Equities", "#equities"],
+            ["Bonds", "#bonds"],
+            ["ETFs", "#etfs"],
+          ].map(([label, href]) => (
+            <a
+              key={href}
+              href={href}
+              className="whitespace-nowrap rounded-md px-4 py-2 text-slate-700 transition-colors hover:bg-slate-100 hover:text-accent dark:text-slate-200 dark:hover:bg-slate-900"
+            >
+              {label}
+            </a>
+          ))}
+        </nav>
+
+        <div id="converter" className="scroll-mt-28">
+          <CurrencyCalculator />
+        </div>
+
+        <div className="grid gap-8 xl:grid-cols-[minmax(0,1.1fr)_minmax(380px,0.9fr)]">
+          <div id="fx" className="scroll-mt-28">
+            <CurrencyFX />
+          </div>
+          <div id="ngx" className="scroll-mt-28">
+            <MarketSnapshot />
+          </div>
+        </div>
+
+        <div id="equities" className="scroll-mt-28">
+          <MarketEquity />
+        </div>
+
+        <div className="grid gap-8 lg:grid-cols-2">
+          <div id="bonds" className="scroll-mt-28">
+            <MarketBond />
+          </div>
+          <div id="etfs" className="scroll-mt-28">
+            <MarketETF />
+          </div>
+        </div>
+
         <WhatWeTrackSection />
-        <CurrencyCalculator />
-        <CurrencyFX />
-        <MarketSnapshot />
-        <MarketEquity />
-        <MarketBond />
-        <MarketETF />
+        <MarketIntroSEOSection />
         <MarketFAQSection />
       </div>
     </>

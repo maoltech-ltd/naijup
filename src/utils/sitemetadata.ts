@@ -17,6 +17,8 @@ const siteMetadata = {
   youtube: "https://youtube.com/@maoltech",
   linkedin: "https://www.linkedin.com/company/naijup/",
   dribbble: "https://dribbble.com/maoltech",
+  feed: "https://naijup.ng/feed.xml",
+  googleDiscover: "https://www.google.com/search?q=NaijUp",
   locale: "en-NG",
   
   // Enhanced SEO keywords for finance

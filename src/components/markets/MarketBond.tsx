@@ -1,11 +1,11 @@
 "use client";
 
-import { useAppDispatch } from "@/src/redux/hooks/dispatch";
-import { fetchMarketBond } from "@/src/redux/slice/marketSlice";
-import { RootState } from "@/src/redux/store";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Banknote } from "lucide-react";
+import { useAppDispatch } from "@/src/redux/hooks/dispatch";
+import { fetchMarketBond } from "@/src/redux/slice/marketSlice";
+import { RootState } from "@/src/redux/store";
 import MarketCard from "./MarketCard";
 
 const MarketBond = () => {
@@ -13,9 +13,7 @@ const MarketBond = () => {
   const { data, status, error } = useSelector((state: RootState) => state.bond);
 
   useEffect(() => {
-    if (status === "idle") {
-      dispatch(fetchMarketBond());
-    }
+    if (status === "idle") dispatch(fetchMarketBond());
   }, [dispatch, status]);
 
   if (status === "loading") {
@@ -42,14 +40,14 @@ const MarketBond = () => {
       icon={<Banknote />}
       subtitle="Government & Corporate Bonds"
     >
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {data.map((bond: any, idx: number) => (
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        {data.map((bond: any, index: number) => (
           <div
-            key={idx}
-            className="p-4 rounded-xl shadow-md bg-white dark:bg-dark dark:text-light"
+            key={`${bond.SYMBOL}-${index}`}
+            className="rounded-lg border border-slate-200 bg-slate-50 p-4 shadow-sm dark:border-slate-800 dark:bg-dark dark:text-light"
           >
-            <p className="text-dark font-medium dark:text-light">
-              {bond.SYMBOL} – ₦
+            <p className="font-medium text-dark dark:text-light">
+              {bond.SYMBOL} - NGN{" "}
               {bond.TODAYS_CLOSE.toLocaleString("en-NG", {
                 maximumFractionDigits: 2,
               })}
@@ -59,8 +57,8 @@ const MarketBond = () => {
                 bond.PERCENTAGE_CHANGE > 0
                   ? "text-green-600"
                   : bond.PERCENTAGE_CHANGE < 0
-                  ? "text-red-600"
-                  : "text-gray-500"
+                    ? "text-red-600"
+                    : "text-gray-500"
               }`}
             >
               {bond.PERCENTAGE_CHANGE.toFixed(2)}%

@@ -52,6 +52,9 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: siteMetadata.siteUrl,
+    types: {
+      "application/rss+xml": siteMetadata.feed,
+    },
   },
   category: "finance",
 };

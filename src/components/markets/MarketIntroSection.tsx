@@ -1,8 +1,8 @@
 const MarketIntroSEOSection = () => {
   return (
-    <section className="mt-10 bg-white dark:bg-dark p-8 rounded-xl shadow-sm">
-      <h2 className="text-2xl font-bold mb-4 dark:text-light">Nigeria Market Overview</h2>
-      <p className="text-gray-700 dark:text-light leading-relaxed">
+    <section className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950">
+      <h2 className="text-2xl font-bold mb-4 text-slate-950 dark:text-light">Nigeria Market Overview</h2>
+      <p className="max-w-4xl text-gray-700 dark:text-light leading-relaxed">
         Nigeria&rsquo;s financial markets move quickly, and NaijUp Market Watch keeps
         you updated with accurate, real-time insights. Whether you&rsquo;re tracking
         today&rsquo;s Dollar to Naira rate, monitoring NGX stock performance, or
@@ -26,10 +26,10 @@ const MarketIntroSEOSection = () => {
         clear financial insights across multiple asset classes.
       </p>
 
-      <div className="mt-6 text-blue-600 dark:text-blue-400 underline">
-        <a href="/categories/economy">Explore Economic Updates</a> &bull;
-        <a className="ml-2" href="/categories/finance"> Finance Insights</a> &bull;
-        <a className="ml-2" href="/market/stocks"> Stock Market News</a>
+      <div className="mt-6 flex flex-wrap gap-3 text-sm font-semibold text-blue-600 dark:text-blue-400">
+        <a className="rounded-md bg-blue-50 px-3 py-2 hover:bg-blue-100 dark:bg-blue-950/30" href="/categories/economy">Explore Economic Updates</a>
+        <a className="rounded-md bg-blue-50 px-3 py-2 hover:bg-blue-100 dark:bg-blue-950/30" href="/categories/finance">Finance Insights</a>
+        <a className="rounded-md bg-blue-50 px-3 py-2 hover:bg-blue-100 dark:bg-blue-950/30" href="/market/stocks">Stock Market News</a>
       </div>
     </section>
   );

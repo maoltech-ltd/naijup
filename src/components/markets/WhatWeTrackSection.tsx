@@ -1,16 +1,46 @@
+import {
+  Activity,
+  BarChart3,
+  Bitcoin,
+  BriefcaseBusiness,
+  Landmark,
+  LineChart,
+  Newspaper,
+} from "lucide-react";
+
+const trackedItems = [
+  { icon: Activity, text: "Real-time NGN FX rates across major currencies" },
+  {
+    icon: BarChart3,
+    text: "Live NGX overview, including ASI, deals, volume, and market value",
+  },
+  { icon: LineChart, text: "Top gainers, top losers, and most traded stocks" },
+  { icon: Bitcoin, text: "Crypto-to-naira prices for BTC, ETH, BNB, SOL, and ADA" },
+  {
+    icon: Landmark,
+    text: "Government and corporate bonds, including FGN bonds and Sukuk",
+  },
+  { icon: BriefcaseBusiness, text: "ETF performance and daily price movement" },
+  { icon: Newspaper, text: "Daily financial trends, market stories, and insight" },
+];
+
 const WhatWeTrackSection = () => {
   return (
-    <section className="mt-12 bg-gray-50 dark:bg-dark p-8 rounded-xl shadow-sm">
-      <h2 className="text-2xl font-bold mb-4 dark:text-light">What We Track on NaijUp Market</h2>
+    <section className="rounded-lg bg-slate-50 p-6 dark:bg-slate-950">
+      <h2 className="text-2xl font-bold mb-5 text-slate-950 dark:text-light">
+        What We Track on NaijUp Market
+      </h2>
 
-      <ul className="space-y-3 text-gray-700 dark:text-light">
-        <li>📌 Real-time NGN FX rates (USD, EUR, GBP, INR, PHP, MXN etc.)</li>
-        <li>📌 Live NGX market overview — ASI, deals, volume & market value</li>
-        <li>📌 Top gainers, top losers & most traded stocks</li>
-        <li>📌 Crypto-to-naira prices for BTC, ETH, BNB, SOL & ADA</li>
-        <li>📌 Government & corporate bonds (FGN bonds, Sukuk, corporate notes)</li>
-        <li>📌 ETF performance and daily price movements</li>
-        <li>📌 Daily financial trends, market stories & insights</li>
+      <ul className="grid gap-3 md:grid-cols-2">
+        {trackedItems.map(({ icon: Icon, text }) => (
+          <li
+            key={text}
+            className="flex items-start gap-3 rounded-lg border border-slate-200 bg-white p-4 text-gray-700 shadow-sm dark:border-slate-800 dark:bg-dark dark:text-light"
+          >
+            <Icon aria-hidden className="mt-0.5 h-5 w-5 flex-none text-emerald-600" />
+            <span>{text}</span>
+          </li>
+        ))}
       </ul>
     </section>
   );
