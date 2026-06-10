@@ -33,8 +33,26 @@ const FxTicker = memo(function FxTicker() {
     )
   }
 
+  const comparison = data.rate_comparison
+  const officialRate = comparison?.official ?? data.official_rate ?? data.official_rates?.USD_to_NGN
+  const parallelRate = comparison?.parallel ?? data.parallel_rate ?? data.market_rate ?? data.base_usd_rate
+
   // Merge FX and crypto rates
   const items = [
+    ...(typeof officialRate === "number"
+      ? [{
+          label: "USD/NGN official (CBN)",
+          value: officialRate.toFixed(2),
+          type: "forex" as const,
+        }]
+      : []),
+    ...(typeof parallelRate === "number"
+      ? [{
+          label: "USD/NGN parallel",
+          value: parallelRate.toFixed(2),
+          type: "forex" as const,
+        }]
+      : []),
     ...Object.entries(data.fx_rates || {}).map(([pair, val]) => ({
       label: pair,
       value: typeof val === "number" ? val.toFixed(2) : String(val),

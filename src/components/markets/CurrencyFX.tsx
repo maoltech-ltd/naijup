@@ -14,6 +14,11 @@ const formatNumber = (value?: number) => {
   return value.toLocaleString("en-NG", { maximumFractionDigits: 2 });
 };
 
+const formatCurrency = (value?: number | null) => {
+  if (typeof value !== "number") return "-";
+  return `NGN ${value.toLocaleString("en-NG", { maximumFractionDigits: 2 })}`;
+};
+
 const CurrencyFX = () => {
   const dispatch = useAppDispatch();
 
@@ -26,8 +31,43 @@ const CurrencyFX = () => {
   if (status === "loading" || status === "idle") return <CardSkeleton />;
   if (status === "failed") return <p className="text-red-500">{error}</p>;
 
+  const comparison = data?.rate_comparison;
+  const officialRate = comparison?.official ?? data?.official_rate ?? data?.official_rates?.USD_to_NGN;
+  const parallelRate = comparison?.parallel ?? data?.parallel_rate ?? data?.market_rate ?? data?.base_usd_rate;
+  const spread = comparison?.spread;
+  const spreadPercent = comparison?.spread_percent;
+
   return (
     <MarketCard title="Currency FX" icon={<Banknote className="w-5 h-5 text-emerald-600" />} subtitle="NGN Rates">
+      {(officialRate || parallelRate) && (
+        <div className="mb-5 grid grid-cols-1 gap-4 md:grid-cols-3">
+          <div className="rounded-lg border border-emerald-100 bg-emerald-50 p-4 shadow-sm dark:border-emerald-900/50 dark:bg-emerald-950/30">
+            <p className="text-sm text-emerald-700 dark:text-emerald-200">
+              Official USD/NGN {comparison?.official_source ? `(${comparison.official_source})` : "(CBN)"}
+            </p>
+            <p className="mt-1 text-2xl font-bold text-dark dark:text-light">{formatCurrency(officialRate)}</p>
+            {comparison?.official_date && (
+              <p className="mt-2 text-xs text-gray-500 dark:text-light/70">Date: {comparison.official_date}</p>
+            )}
+          </div>
+
+          <div className="rounded-lg bg-gray-50 p-4 shadow-sm dark:bg-dark">
+            <p className="text-sm text-gray-500 dark:text-light">
+              Parallel USD/NGN {comparison?.market_source ? `(${comparison.market_source})` : ""}
+            </p>
+            <p className="mt-1 text-2xl font-bold text-dark dark:text-light">{formatCurrency(parallelRate)}</p>
+          </div>
+
+          <div className="rounded-lg bg-gray-50 p-4 shadow-sm dark:bg-dark">
+            <p className="text-sm text-gray-500 dark:text-light">Official vs Parallel Spread</p>
+            <p className="mt-1 text-2xl font-bold text-dark dark:text-light">{formatCurrency(spread)}</p>
+            {typeof spreadPercent === "number" && (
+              <p className="mt-2 text-xs text-gray-500 dark:text-light/70">{spreadPercent.toFixed(2)}%</p>
+            )}
+          </div>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {data && Object.entries(data.fx_rates).map(([currency, rate]) => {
           const daily = data.daily_prices?.[currency.toUpperCase()] || data.daily_prices?.[currency];
