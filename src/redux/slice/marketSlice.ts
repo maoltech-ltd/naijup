@@ -28,6 +28,22 @@ interface MarketDataState<T> {
 }
 
 // --- Types ---
+export interface RateComparison {
+  currency: string;
+  official: number | null;
+  market: number | null;
+  parallel: number | null;
+  spread: number | null;
+  spread_percent: number | null;
+  previous_spread?: number | null;
+  spread_change?: number | null;
+  spread_change_percent?: number | null;
+  spread_trend?: string | null;
+  official_source: string | null;
+  market_source: string | null;
+  official_date: string | null;
+}
+
 export interface FxRates {
   fx_rates: Record<string, number>;
   market_rates?: Record<string, number>;
@@ -38,17 +54,8 @@ export interface FxRates {
   official_rate?: number;
   market_rate?: number;
   parallel_rate?: number;
-  rate_comparison?: {
-    currency: string;
-    official: number | null;
-    market: number | null;
-    parallel: number | null;
-    spread: number | null;
-    spread_percent: number | null;
-    official_source: string | null;
-    market_source: string | null;
-    official_date: string | null;
-  };
+  rate_comparison?: RateComparison;
+  rate_comparisons?: Record<string, RateComparison>;
   daily_prices?: Record<string, { date: string; opening_price: number; closing_price: number; low_price: number; high_price: number; source?: string }>;
   highlights?: any[];
   highlight_headlines?: string[];

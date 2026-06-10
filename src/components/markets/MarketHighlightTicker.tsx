@@ -17,8 +17,8 @@ type MarketHighlightTickerProps = {
 
 const getTone = (headline: string) => {
   const text = headline.toLowerCase()
-  if (text.includes(" high") || text.includes(" up ") || text.includes("reached")) return "up"
-  if (text.includes(" low") || text.includes(" down ") || text.includes("touched")) return "down"
+  if (text.includes(" high") || text.includes(" up ") || text.includes("reached") || text.includes("widened")) return "up"
+  if (text.includes(" low") || text.includes(" down ") || text.includes("touched") || text.includes("narrowed")) return "down"
   return "neutral"
 }
 

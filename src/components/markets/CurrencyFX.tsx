@@ -36,6 +36,7 @@ const CurrencyFX = () => {
   const parallelRate = comparison?.parallel ?? data?.parallel_rate ?? data?.market_rate ?? data?.base_usd_rate;
   const spread = comparison?.spread;
   const spreadPercent = comparison?.spread_percent;
+  const officialEntries = Object.entries(data?.official_rates || {});
 
   return (
     <MarketCard title="Currency FX" icon={<Banknote className="w-5 h-5 text-emerald-600" />} subtitle="NGN Rates">
@@ -64,8 +65,41 @@ const CurrencyFX = () => {
             {typeof spreadPercent === "number" && (
               <p className="mt-2 text-xs text-gray-500 dark:text-light/70">{spreadPercent.toFixed(2)}%</p>
             )}
+            {comparison?.spread_trend && comparison.spread_trend !== "unchanged" && typeof comparison.spread_change === "number" && (
+              <p className="mt-2 text-xs text-gray-500 dark:text-light/70">
+                Spread {comparison.spread_trend} by {formatCurrency(Math.abs(comparison.spread_change))}
+                {typeof comparison.spread_change_percent === "number" ? ` (${Math.abs(comparison.spread_change_percent).toFixed(2)}%)` : ""}
+              </p>
+            )}
           </div>
         </div>
+      )}
+
+      {officialEntries.length > 0 && (
+        <>
+          <h3 className="mb-2 mt-6 text-lg font-semibold text-dark dark:text-light">Official Rates (CBN)</h3>
+          <div className="mb-5 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            {officialEntries.map(([currency, rate]) => {
+              const pair = currency.replace("_to_NGN", "/NGN");
+              const daily = data?.daily_prices?.[`${currency.replace("_to_NGN", "")}_OFFICIAL_TO_NGN`.toUpperCase()];
+
+              return (
+                <div key={currency} className="rounded-lg border border-emerald-100 bg-emerald-50 p-4 text-center shadow-sm dark:border-emerald-900/50 dark:bg-emerald-950/30">
+                  <p className="text-sm text-emerald-700 dark:text-emerald-200">{pair}</p>
+                  <p className="text-xl font-bold text-dark dark:text-light">{formatCurrency(Number(rate))}</p>
+                  {daily && (
+                    <div className="mt-3 grid grid-cols-2 gap-2 border-t border-emerald-200 pt-3 text-xs text-emerald-800 dark:border-emerald-900 dark:text-emerald-100">
+                      <span>Open: {formatNumber(daily.opening_price)}</span>
+                      <span>Close: {formatNumber(daily.closing_price)}</span>
+                      <span>Low: {formatNumber(daily.low_price)}</span>
+                      <span>High: {formatNumber(daily.high_price)}</span>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </>
       )}
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
