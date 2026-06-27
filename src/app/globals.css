@@ -133,7 +133,7 @@ code[data-line-numbers-max-digits="3"] > [data-line]::before {
   .animate-marquee {
     display: inline-flex;
     min-width: 200%;
-    animation: marquee 25s linear infinite;
+    animation: marquee 75s linear infinite;
     animation-play-state: running;
   }
 
