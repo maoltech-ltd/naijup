@@ -144,6 +144,10 @@ const Header = () => {
             Market
           </Link>
 
+          <Link href="/calculators" className="rounded-full px-4 py-2 text-sm text-slate-700 transition-colors hover:bg-slate-100 hover:text-accent dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-accentDark">
+            Calculators
+          </Link>
+
           <div className="relative" ref={categoriesRef}>
             <button
               onClick={toggleCategories}
@@ -219,6 +223,14 @@ const Header = () => {
                     onClick={toggleMenu}
                   >
                     Market
+                  </Link>
+
+                  <Link
+                    href="/calculators"
+                    className="rounded-xl px-4 py-3 text-base font-semibold text-slate-800 transition-colors hover:bg-slate-100 hover:text-accent dark:text-slate-100 dark:hover:bg-slate-800 dark:hover:text-accentDark"
+                    onClick={toggleMenu}
+                  >
+                    Calculators
                   </Link>
 
                   <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-2 dark:border-slate-700 dark:bg-slate-800/50">

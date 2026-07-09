@@ -56,9 +56,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const postsResponse = await fetchJson<{ results?: BlogPost[] }>("v1/blog/latest-posts/?page_size=100");
   const posts = postsResponse?.results || [];
 
+  const calculatorSlugs = [
+    "savings",
+    "pension",
+    "stock-return",
+    "dividend",
+    "investment-comparison",
+    "treasury-bill",
+    "mutual-fund-return",
+  ];
+
   const staticRoutes: MetadataRoute.Sitemap = [
     route(baseUrl, "daily", 1),
     route(`${baseUrl}/market`, "hourly", 0.9),
+    route(`${baseUrl}/calculators`, "weekly", 0.8),
+    ...calculatorSlugs.map((slug) => route(`${baseUrl}/calculators/${slug}`, "weekly", 0.7)),
     route(`${baseUrl}/about`, "monthly", 0.5),
     route(`${baseUrl}/contact`, "monthly", 0.5),
     route(`${baseUrl}/privacy-policy`, "yearly", 0.3),
