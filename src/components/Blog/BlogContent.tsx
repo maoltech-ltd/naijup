@@ -4,7 +4,7 @@ const BlogContent = ({ content }: any) => {
   const blocks = Array.isArray(content) ? content : content?.blocks || [];
 
   return (
-    <div className="prose max-w-none text-black dark:text-white">
+    <div className="prose dark:prose-invert max-w-none text-black dark:text-white">
       {blocks.map((item: any, index: any) => {
         // Handle paragraphs
         if (item.type === "paragraph") {
@@ -17,13 +17,20 @@ const BlogContent = ({ content }: any) => {
 
         // Handle headers
         if (item.type === "header") {
-          const Tag = `h${item.data.level}` as keyof JSX.IntrinsicElements;
+          const level = Number(item.data?.level) || 2;
+          const Tag = `h${level}` as keyof JSX.IntrinsicElements;
+          const sizeClass =
+            {
+              2: "text-2xl",
+              3: "text-xl",
+              4: "text-lg",
+              5: "text-base",
+              6: "text-sm uppercase tracking-wide",
+            }[level] || "text-lg";
           return (
             <Tag
               key={index}
-              className={`mt-6 mb-3 font-bold ${
-                item.data.level === 2 ? "text-2xl" : item.data.level === 3 ? "text-xl" : "text-lg"
-              }`}
+              className={`mt-6 mb-3 font-bold text-black dark:text-white ${sizeClass}`}
               dangerouslySetInnerHTML={{ __html: item.data.text }}
             />
           );

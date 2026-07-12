@@ -38,6 +38,17 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
   const [isMounted, setIsMounted] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState("");
+  const [postKind, setPostKind] = useState<"article" | "analysis">(
+    post?.post_type === "analysis" ? "analysis" : "article"
+  );
+  const [analysisRating, setAnalysisRating] = useState(post?.analysis_meta?.rating || "");
+  const [analysisTargetPrice, setAnalysisTargetPrice] = useState(
+    post?.analysis_meta?.target_price != null ? String(post.analysis_meta.target_price) : ""
+  );
+  const [analysisTickers, setAnalysisTickers] = useState<string[]>(
+    post?.analysis_meta?.tickers || []
+  );
+  const [tickerInput, setTickerInput] = useState("");
   const [errorModalOpen, setErrorModalOpen] = useState(false);
   const [successModalOpen, setSuccessModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -117,6 +128,15 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
         category: data.category,
         author: user.userId,
         tags: tags,
+        post_type: postKind,
+        analysis_meta:
+          postKind === "analysis"
+            ? {
+                rating: analysisRating || undefined,
+                target_price: analysisTargetPrice ? Number(analysisTargetPrice) : undefined,
+                tickers: analysisTickers,
+              }
+            : {},
       };
       let result;
       if (post) {
@@ -173,6 +193,18 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
 
   const handleRemoveTag = (tag: string) => {
     setTags(tags.filter((t) => t !== tag));
+  };
+
+  const handleAddTicker = () => {
+    const ticker = tickerInput.trim().toUpperCase();
+    if (ticker && !analysisTickers.includes(ticker)) {
+      setAnalysisTickers([...analysisTickers, ticker]);
+    }
+    setTickerInput("");
+  };
+
+  const handleRemoveTicker = (ticker: string) => {
+    setAnalysisTickers(analysisTickers.filter((t) => t !== ticker));
   };
 
   const initEditor = useCallback(async () => {
@@ -384,6 +416,113 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
             ))}
           </select>
 
+          <div className="mt-4">
+            <label className="font-semibold dark:text-white">Post Type</label>
+            <div className="mt-2 flex gap-2">
+              <button
+                type="button"
+                onClick={() => setPostKind("article")}
+                className={`rounded-md px-4 py-2 text-sm font-medium border ${
+                  postKind === "article"
+                    ? "bg-blue-600 text-white border-blue-600"
+                    : "bg-white text-black border-gray-300 dark:bg-[#1e1e1e] dark:text-white dark:border-gray-700"
+                }`}
+              >
+                Article
+              </button>
+              <button
+                type="button"
+                onClick={() => setPostKind("analysis")}
+                className={`rounded-md px-4 py-2 text-sm font-medium border ${
+                  postKind === "analysis"
+                    ? "bg-blue-600 text-white border-blue-600"
+                    : "bg-white text-black border-gray-300 dark:bg-[#1e1e1e] dark:text-white dark:border-gray-700"
+                }`}
+              >
+                Investment Analysis
+              </button>
+            </div>
+          </div>
+
+          {postKind === "analysis" && (
+            <div className="mt-4 grid grid-cols-1 gap-4 rounded-md border border-gray-300 p-4 dark:border-gray-700 sm:grid-cols-2">
+              <div>
+                <label htmlFor="analysisRating" className="font-semibold dark:text-white">
+                  Rating
+                </label>
+                <select
+                  id="analysisRating"
+                  value={analysisRating}
+                  onChange={(e) => setAnalysisRating(e.target.value)}
+                  className="w-full mt-2 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-[#1e1e1e] dark:text-white dark:border-gray-700"
+                >
+                  <option value="">Select rating</option>
+                  <option value="buy">Buy</option>
+                  <option value="accumulate">Accumulate</option>
+                  <option value="hold">Hold</option>
+                  <option value="sell">Sell</option>
+                </select>
+              </div>
+              <div>
+                <label htmlFor="analysisTargetPrice" className="font-semibold dark:text-white">
+                  Target Price
+                </label>
+                <input
+                  id="analysisTargetPrice"
+                  type="number"
+                  step="0.01"
+                  value={analysisTargetPrice}
+                  onChange={(e) => setAnalysisTargetPrice(e.target.value)}
+                  placeholder="e.g. 320.00"
+                  className="w-full mt-2 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-[#1e1e1e] dark:text-white dark:border-gray-700"
+                />
+              </div>
+              <div className="sm:col-span-2">
+                <label htmlFor="tickerInput" className="font-semibold dark:text-white">
+                  Linked Tickers
+                </label>
+                <div className="mt-2 flex gap-2">
+                  <input
+                    id="tickerInput"
+                    type="text"
+                    value={tickerInput}
+                    onChange={(e) => setTickerInput(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        handleAddTicker();
+                      }
+                    }}
+                    placeholder="e.g. DANGCEM"
+                    className="flex-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-[#1e1e1e] dark:text-white dark:border-gray-700"
+                  />
+                  <Button type="button" onPress={handleAddTicker}>
+                    Add
+                  </Button>
+                </div>
+                {!!analysisTickers.length && (
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {analysisTickers.map((ticker) => (
+                      <span
+                        key={ticker}
+                        className="inline-flex items-center gap-1 rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700 dark:bg-blue-900/40 dark:text-blue-300"
+                      >
+                        {ticker}
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveTicker(ticker)}
+                          className="ml-1 text-blue-500 hover:text-blue-800"
+                        >
+                          ×
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
           <TextareaAutosize
             id="title"
             {...register("title", { required: true })}
@@ -412,6 +551,7 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
               dark:text-white
               dark:focus-within:ring-blue-400
               prose
+              dark:prose-invert
               prose-lg
               max-w-none
             "

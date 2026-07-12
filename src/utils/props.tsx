@@ -56,11 +56,12 @@ export const categories = [
   { name: "general", link: "/categories/general" },
   { name: "startup", link: "/categories/startup" },
   { name: "investment", link: "/categories/investment" },
+  { name: "finance", link: "/categories/finance" },
   { name: "crypto", link: "/categories/crypto" },
   { name: "job", link: "/categories/job" },
   { name: "travels", link: "/categories/travels" },
   { name: "opportunity", link: "/categories/opportunity" },
   { name: "business", link: "/categories/business" },
   { name: "economy", link: "/categories/economy" },
-  { name: "others", link: "/categories/others" }, 
+  { name: "others", link: "/categories/others" },
 ];

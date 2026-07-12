@@ -138,6 +138,18 @@ const Footer = () => {
         <Link href="/market" className="underline underline-offset-4 hover:text-white transition-colors">
           Market Data
         </Link>
+        <Link href="/company" className="underline underline-offset-4 hover:text-white transition-colors">
+          Companies
+        </Link>
+        <Link href="/investment-analysis" className="underline underline-offset-4 hover:text-white transition-colors">
+          Investment Analysis
+        </Link>
+        <Link href="/portfolio" className="underline underline-offset-4 hover:text-white transition-colors">
+          Portfolio
+        </Link>
+        <Link href="/forum" className="underline underline-offset-4 hover:text-white transition-colors">
+          Forum
+        </Link>
         <Link href="/categories/all" className="underline underline-offset-4 hover:text-white transition-colors">
           All Articles
         </Link>

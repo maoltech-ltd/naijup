@@ -25,6 +25,56 @@ export interface Blog {
   likes_count?: number;
   comments_count?: number;
   views_count?: number;
+  post_type?: "article" | "analysis";
+  analysis_meta?: {
+    rating?: "buy" | "hold" | "sell" | "accumulate" | "";
+    target_price?: number | null;
+    tickers?: string[];
+  };
+}
+
+const RATING_STYLES: Record<string, string> = {
+  buy: "bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-400",
+  accumulate: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400",
+  hold: "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-400",
+  sell: "bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400",
+};
+
+function AnalysisSummary({ analysisMeta }: { analysisMeta?: Blog["analysis_meta"] }) {
+  if (!analysisMeta) return null;
+  const { rating, target_price, tickers } = analysisMeta;
+  if (!rating && !target_price && !tickers?.length) return null;
+
+  return (
+    <div className="mb-8 flex flex-wrap items-center gap-3 rounded-xl border border-dark/10 bg-dark/[0.02] p-4 dark:border-light/10 dark:bg-light/[0.03]">
+      {rating && (
+        <span
+          className={`rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wide ${
+            RATING_STYLES[rating] || RATING_STYLES.hold
+          }`}
+        >
+          {rating}
+        </span>
+      )}
+      {target_price != null && (
+        <span className="text-sm font-semibold text-dark dark:text-light">
+          Target: {target_price}
+        </span>
+      )}
+      {!!tickers?.length && (
+        <div className="flex flex-wrap gap-2">
+          {tickers.map((ticker) => (
+            <span
+              key={ticker}
+              className="rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold text-accent dark:bg-accentDark/20 dark:text-accentDark"
+            >
+              {ticker}
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
+  );
 }
 export default function BlogPage({  blog, relatedPosts = [] }: {  blog: Blog; relatedPosts?: any[]  }) {
 
@@ -97,6 +147,9 @@ export default function BlogPage({  blog, relatedPosts = [] }: {  blog: Blog; re
             </aside>
           </div>
           <div className="col-span-12 lg:col-span-9">
+            {blog.post_type === "analysis" && (
+              <AnalysisSummary analysisMeta={blog.analysis_meta} />
+            )}
             <BlogContent content={blog.content} />
           </div>
           {/* <RenderMdx blog={blog} /> */}

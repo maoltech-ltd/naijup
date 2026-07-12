@@ -1,6 +1,12 @@
 import api from "@/src/api";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+export interface AnalysisMeta {
+    rating?: "buy" | "hold" | "sell" | "accumulate" | "";
+    target_price?: number | null;
+    tickers?: string[];
+}
+
 export interface Post {
     id: string;
     title: string;
@@ -12,6 +18,8 @@ export interface Post {
     image_links: string;
     tags?: string[];
     slug: string;
+    post_type?: "article" | "analysis";
+    analysis_meta?: AnalysisMeta;
 }
 
 interface PostState {
