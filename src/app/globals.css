@@ -23,162 +23,6 @@
   }
 }
 
-/* EditorJS dark-theme overrides — EditorJS's own toolbar/popover/tool chrome
-   is hardcoded light in its bundled CSS and ignores the site's dark theme. */
-.dark .codex-editor {
-  color: #ffffff;
-}
-
-.dark .codex-editor__redactor {
-  color: #ffffff;
-}
-
-.dark .ce-paragraph[data-placeholder]:empty::before,
-.dark .cdx-block[data-placeholder]:empty::before {
-  color: #6b7280;
-}
-
-.dark .ce-toolbar__plus,
-.dark .ce-toolbar__settings-btn {
-  color: #d1d5db;
-  background: transparent;
-}
-
-.dark .ce-toolbar__plus:hover,
-.dark .ce-toolbar__settings-btn:hover {
-  background: #2a2a2a;
-  color: #ffffff;
-}
-
-.dark .ce-inline-toolbar,
-.dark .ce-conversion-toolbar,
-.dark .ce-settings,
-.dark .ce-popover,
-.dark .ce-popover__container,
-.dark .ce-popover__items {
-  background: #1e1e1e;
-  border-color: #374151;
-  color: #ffffff;
-  box-shadow: 0 3px 15px -3px rgba(0, 0, 0, 0.5);
-}
-
-.dark .ce-inline-tool,
-.dark .ce-conversion-tool,
-.dark .ce-popover-item,
-.dark .ce-popover-item__title,
-.dark .ce-popover-item__icon {
-  color: #e5e7eb;
-  background: transparent;
-  fill: #e5e7eb;
-}
-
-.dark .ce-inline-tool:hover,
-.dark .ce-conversion-tool:hover,
-.dark .ce-popover-item:hover {
-  background: #2a2a2a;
-  color: #ffffff;
-}
-
-.dark .ce-popover-item--active,
-.dark .ce-popover-item--focused {
-  background: #2a2a2a;
-}
-
-.dark .ce-popover__search,
-.dark .cdx-search-field,
-.dark .cdx-search-field__input {
-  background: #262626;
-  border-color: #374151;
-  color: #ffffff;
-}
-
-.dark .ce-conversion-toolbar__label,
-.dark .ce-conversion-tool__icon {
-  color: #e5e7eb;
-  background: #2a2a2a;
-}
-
-.dark .ce-block--selected .ce-block__content {
-  background: rgba(59, 130, 246, 0.12);
-}
-
-/* Table tool */
-.dark .tc-table,
-.dark .tc-row,
-.dark .tc-cell,
-.dark .tc-wrap {
-  border-color: #374151;
-  color: #ffffff;
-  background: transparent;
-}
-
-.dark .tc-toolbox,
-.dark .tc-popover {
-  background: #1e1e1e;
-  border-color: #374151;
-  color: #ffffff;
-}
-
-.dark .tc-add-row,
-.dark .tc-add-column {
-  color: #9ca3af;
-}
-
-.dark .tc-add-row:hover,
-.dark .tc-add-column:hover {
-  background: #2a2a2a;
-  color: #ffffff;
-}
-
-/* Link tool */
-.dark .link-tool,
-.dark .link-tool__content {
-  background: #1e1e1e;
-  border-color: #374151;
-  color: #ffffff;
-}
-
-.dark .link-tool__title,
-.dark .link-tool__description,
-.dark .link-tool__anchor {
-  color: #e5e7eb;
-}
-
-/* Embed tool */
-.dark .embed-tool__caption,
-.dark .embed-tool__content {
-  background: #1e1e1e;
-  color: #ffffff;
-}
-
-/* Code / raw tool */
-.dark .ce-code__textarea,
-.dark .ce-rawtool__textarea {
-  background: #171717;
-  color: #f9fafb;
-  border-color: #374151;
-}
-
-/* Checklist / quote */
-.dark .cdx-checklist__item-text,
-.dark .cdx-quote__text,
-.dark .cdx-quote__caption {
-  color: #ffffff;
-}
-
-/* Heading anchor links */
-h1 > a > .icon.icon-link:before,
-h2 > a > .icon.icon-link:before,
-h3 > a > .icon.icon-link:before {
-  content: "#";
-  font-size: 0.8rem;
-}
-
-h2 > a,
-h3 > a {
-  text-decoration: none !important;
-}
-
 /* Headline ticker animation */
 @keyframes headline-ticker {
   0% {
@@ -199,67 +43,6 @@ h3 > a {
 
 .animate-pause {
   animation-play-state: paused;
-}
-
-/* Code block styling */
-code {
-  counter-reset: line;
-}
-
-code > [data-line]::before {
-  counter-increment: line;
-  content: counter(line);
-  display: inline-block;
-  width: 1rem;
-  margin-right: 2rem;
-  text-align: right;
-  color: gray;
-}
-
-code[data-line-numbers-max-digits="2"] > [data-line]::before {
-  width: 2rem;
-}
-
-code[data-line-numbers-max-digits="3"] > [data-line]::before {
-  width: 3rem;
-}
-
-[data-highlighted-line] {
-  background-color: rgba(255, 255, 255, 0.1) !important;
-  padding: 2px;
-  padding-left: 0;
-  padding-right: 4px;
-  border-radius: 2px;
-  border-left: 2px solid #0ea5e9;
-}
-
-[data-highlighted-chars] {
-  background-color: rgba(255, 255, 255, 0.2) !important;
-  padding: 2px;
-  border-radius: 2px;
-}
-
-[data-rehype-pretty-code-fragment] {
-  position: relative;
-}
-
-[data-rehype-pretty-code-title] {
-  position: absolute;
-  right: 0;
-  background-color: #0ea5e9;
-  color: #fff;
-  padding: 4px 8px;
-  font-size: 1rem;
-  border-end-start-radius: 4px;
-}
-
-[data-rehype-pretty-code-caption] {
-  position: absolute;
-  top: 100%;
-  width: 100%;
-  text-align: center;
-  font-size: 1rem;
-  color: #747474;
 }
 
 @layer utilities {
@@ -284,35 +67,46 @@ code[data-line-numbers-max-digits="3"] > [data-line]::before {
     animation-play-state: paused;
   }
 
-  /* Skeleton loading animation */
-  @keyframes shimmer {
-    0% {
-      background-position: -200% 0;
-    }
-    100% {
-      background-position: 200% 0;
-    }
+  /* Skeleton loading animation — a composited sweep (transform + opacity only)
+     instead of animating background-position, which forces paint every frame. */
+  .skeleton {
+    position: relative;
+    overflow: hidden;
+    background: #e0e0e0;
   }
 
-  .skeleton {
+  .skeleton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
     background: linear-gradient(
       90deg,
-      #f0f0f0 25%,
-      #e0e0e0 50%,
-      #f0f0f0 75%
+      transparent,
+      rgba(255, 255, 255, 0.5),
+      transparent
     );
-    background-size: 200% 100%;
-    animation: shimmer 1.5s ease-in-out infinite;
+    animation: shimmer-sweep 1.5s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  @keyframes shimmer-sweep {
+    100% {
+      transform: translateX(100%);
+    }
   }
 
   .dark .skeleton {
+    background: #2a2a2a;
+  }
+
+  .dark .skeleton::after {
     background: linear-gradient(
       90deg,
-      #2a2a2a 25%,
-      #3a3a3a 50%,
-      #2a2a2a 75%
+      transparent,
+      rgba(255, 255, 255, 0.08),
+      transparent
     );
-    background-size: 200% 100%;
   }
 
   /* Finance-specific utility classes */

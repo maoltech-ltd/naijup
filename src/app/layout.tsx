@@ -148,8 +148,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning className="bg-light dark:bg-dark">
       <head>
-        {/* Preconnect to external domains for faster loading */}
-        <link rel="preconnect" href="https://res.cloudinary.com" />
+        {/* Preconnect to external domains for faster loading.
+            Cloudinary is fetched server-side only (via /_next/image), never
+            directly by the browser, so no client preconnect is needed there. */}
+        <link rel="preconnect" href="https://api.naijup.ng" />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
         <link

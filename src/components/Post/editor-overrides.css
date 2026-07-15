@@ -1,0 +1,143 @@
+/* EditorJS dark-theme overrides — EditorJS's own toolbar/popover/tool chrome
+   is hardcoded light in its bundled CSS and ignores the site's dark theme.
+   Scoped to the post editor bundle only (createpost/editpost), not shipped globally. */
+.dark .codex-editor {
+  color: #ffffff;
+}
+
+.dark .codex-editor__redactor {
+  color: #ffffff;
+}
+
+.dark .ce-paragraph[data-placeholder]:empty::before,
+.dark .cdx-block[data-placeholder]:empty::before {
+  color: #6b7280;
+}
+
+.dark .ce-toolbar__plus,
+.dark .ce-toolbar__settings-btn {
+  color: #d1d5db;
+  background: transparent;
+}
+
+.dark .ce-toolbar__plus:hover,
+.dark .ce-toolbar__settings-btn:hover {
+  background: #2a2a2a;
+  color: #ffffff;
+}
+
+.dark .ce-inline-toolbar,
+.dark .ce-conversion-toolbar,
+.dark .ce-settings,
+.dark .ce-popover,
+.dark .ce-popover__container,
+.dark .ce-popover__items {
+  background: #1e1e1e;
+  border-color: #374151;
+  color: #ffffff;
+  box-shadow: 0 3px 15px -3px rgba(0, 0, 0, 0.5);
+}
+
+.dark .ce-inline-tool,
+.dark .ce-conversion-tool,
+.dark .ce-popover-item,
+.dark .ce-popover-item__title,
+.dark .ce-popover-item__icon {
+  color: #e5e7eb;
+  background: transparent;
+  fill: #e5e7eb;
+}
+
+.dark .ce-inline-tool:hover,
+.dark .ce-conversion-tool:hover,
+.dark .ce-popover-item:hover {
+  background: #2a2a2a;
+  color: #ffffff;
+}
+
+.dark .ce-popover-item--active,
+.dark .ce-popover-item--focused {
+  background: #2a2a2a;
+}
+
+.dark .ce-popover__search,
+.dark .cdx-search-field,
+.dark .cdx-search-field__input {
+  background: #262626;
+  border-color: #374151;
+  color: #ffffff;
+}
+
+.dark .ce-conversion-toolbar__label,
+.dark .ce-conversion-tool__icon {
+  color: #e5e7eb;
+  background: #2a2a2a;
+}
+
+.dark .ce-block--selected .ce-block__content {
+  background: rgba(59, 130, 246, 0.12);
+}
+
+/* Table tool */
+.dark .tc-table,
+.dark .tc-row,
+.dark .tc-cell,
+.dark .tc-wrap {
+  border-color: #374151;
+  color: #ffffff;
+  background: transparent;
+}
+
+.dark .tc-toolbox,
+.dark .tc-popover {
+  background: #1e1e1e;
+  border-color: #374151;
+  color: #ffffff;
+}
+
+.dark .tc-add-row,
+.dark .tc-add-column {
+  color: #9ca3af;
+}
+
+.dark .tc-add-row:hover,
+.dark .tc-add-column:hover {
+  background: #2a2a2a;
+  color: #ffffff;
+}
+
+/* Link tool */
+.dark .link-tool,
+.dark .link-tool__content {
+  background: #1e1e1e;
+  border-color: #374151;
+  color: #ffffff;
+}
+
+.dark .link-tool__title,
+.dark .link-tool__description,
+.dark .link-tool__anchor {
+  color: #e5e7eb;
+}
+
+/* Embed tool */
+.dark .embed-tool__caption,
+.dark .embed-tool__content {
+  background: #1e1e1e;
+  color: #ffffff;
+}
+
+/* Code / raw tool */
+.dark .ce-code__textarea,
+.dark .ce-rawtool__textarea {
+  background: #171717;
+  color: #f9fafb;
+  border-color: #374151;
+}
+
+/* Checklist / quote */
+.dark .cdx-checklist__item-text,
+.dark .cdx-quote__text,
+.dark .cdx-quote__caption {
+  color: #ffffff;
+}

@@ -19,7 +19,7 @@ import { canAccessAdminReports } from "@/src/utils/adminAccess"
 const FxSlider = dynamic(() => import("../markets/FxSlider"), {
   ssr: false,
   loading: () => (
-    <div className="w-full h-10 bg-gray-100 dark:bg-gray-800 animate-pulse" />
+    <div className="w-full h-[50px] bg-gray-100 dark:bg-gray-800 animate-pulse" />
   ),
 })
 
@@ -93,7 +93,11 @@ const Header = () => {
         </Link>
       </div>
       
-      <FxSlider />
+      {/* min-height reserves the ticker's footprint in the server-rendered HTML
+          so the ssr:false FxSlider mounting in later doesn't shift the hero below it */}
+      <div className="min-h-[50px]">
+        <FxSlider />
+      </div>
 
       <button
         onClick={handleThemeChange}

@@ -1,5 +1,6 @@
 import { BlogProp } from "@/src/utils/props"
 import Image from "next/image"
+import "./code-block.css"
 
 const RenderMdx: React.FC<BlogProp> = ({blog}) => {
   return (
