@@ -22,19 +22,29 @@ const MarketSwiper = () => {
   }, [dispatch, fx.status, snapshot.status, equity.status]);
 
   if(fx.status == "loading" || snapshot.status == "loading" || equity.status == "loading"){
-    return (<p>Loading stats...</p>)
+    return (
+      <div className="col-span-2 sm:col-span-1 row-span-1 min-h-[190px] rounded-xl bg-dark/5 dark:bg-light/5 skeleton" />
+    )
   }
 
   if(fx.status == "failed" || snapshot.status === "failed" || equity.status == "failed"){
-    return (<p>Failed: {`fx: ${fx.error}` || `snapshot: ${snapshot.error}` || `equity: ${equity.error}`}</p>)
+    return (
+      <div className="col-span-2 sm:col-span-1 row-span-1 min-h-[190px] rounded-xl border border-dashed border-dark/10 p-4 text-sm text-gray-500 dark:border-light/10 dark:text-light/50">
+        Market stats are temporarily unavailable.
+      </div>
+    )
   }
+
+  // Every slide shares the same min-height so autoplay never reflows the
+  // surrounding grid as it cycles between differently-sized slide content.
+  const slideClass = "min-h-[190px] p-4 rounded-xl shadow bg-white dark:bg-dark dark:text-light"
 
   return (
     <div className="col-span-2 sm:col-span-1 row-span-1 relative">
       <Swiper spaceBetween={16} slidesPerView={1} modules={[Autoplay]} autoplay={{ delay: 4000 }}>
         {/* --- FX Rates --- */}
         <SwiperSlide>
-          <div className="p-4 rounded-xl shadow bg-white dark:bg-dark dark:text-light">
+          <div className={slideClass}>
             <h3 className="font-bold text-lg mb-2">Currency FX (₦)</h3>
             <div className="grid grid-cols-2 gap-2">
               {fx.data &&
@@ -52,7 +62,7 @@ const MarketSwiper = () => {
 
         {/* --- NGX Snapshot --- */}
         <SwiperSlide>
-          <div className="p-4 rounded-xl shadow bg-white dark:bg-dark dark:text-light">
+          <div className={slideClass}>
             <h3 className="font-bold text-lg mb-2">NGX Snapshot</h3>
             {snapshot.data && (
               <ul className="text-sm space-y-1">
@@ -68,7 +78,7 @@ const MarketSwiper = () => {
 
         {/* --- Top Gainers --- */}
         <SwiperSlide>
-          <div className="p-4 rounded-xl shadow bg-white dark:bg-dark dark:text-light">
+          <div className={slideClass}>
             <h3 className="font-bold text-lg mb-2">Top Gainers</h3>
             <ul className="text-sm space-y-1">
               {equity.data?.top_gainers?.slice(0, 5).map((g: any) => (
@@ -83,7 +93,7 @@ const MarketSwiper = () => {
 
         {/* --- Top Losers --- */}
         <SwiperSlide>
-          <div className="p-4 rounded-xl shadow bg-white dark:bg-dark dark:text-light">
+          <div className={slideClass}>
             <h3 className="font-bold text-lg mb-2">Top Losers</h3>
             <ul className="text-sm space-y-1">
               {equity.data?.top_losers?.slice(0, 5).map((l: any) => (
@@ -98,7 +108,7 @@ const MarketSwiper = () => {
 
         {/* --- Top Trades --- */}
         <SwiperSlide>
-          <div className="p-4 rounded-xl shadow bg-white dark:bg-dark dark:text-light">
+          <div className={slideClass}>
             <h3 className="font-bold text-lg mb-2">Top Trades</h3>
             <ul className="text-sm space-y-1">
               {equity.data?.top_trades?.slice(0, 5).map((t: any) => (

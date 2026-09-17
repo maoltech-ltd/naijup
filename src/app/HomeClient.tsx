@@ -1,24 +1,49 @@
+import { Suspense } from "react"
 import HomeCoverSection from "../components/Home/HomeCoverSection"
 import FeaturedPost from "../components/Home/FeaturedPost"
 import RecentPost from "../components/Home/RecentPost"
-import MostReadPosts from "../components/Home/MostReadPosts"
-import { categories } from "../utils/props"
-import CategorySection from "../components/Home/CategorySection"
+import MostReadSection from "../components/Home/MostReadSection"
+import CategorySectionAsync from "../components/Home/CategorySectionAsync"
 import MarketHighlightTicker from "../components/markets/MarketHighlightTicker"
+import { homepageCategories } from "./homeData"
 
 type HomeClientProps = {
   blogs?: any
-  mostRead?: any[]
-  categorySections?: Record<string, any[]>
   error?: string
 }
 
-const HomeClient: React.FC<HomeClientProps> = ({
-  blogs,
-  mostRead = [],
-  categorySections = {},
-  error,
-}) => {
+function MostReadSkeleton() {
+  return (
+    <section className="w-full px-5 pt-16 sm:px-10 md:px-24 md:pt-24 sxl:px-32">
+      <div className="grid gap-8 border-y border-dark/10 py-8 dark:border-light/10 lg:grid-cols-[1.2fr_0.8fr]">
+        <div className="skeleton aspect-[16/10] w-full rounded-md" />
+        <div className="space-y-4">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="skeleton h-16 w-full rounded-md" />
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function CategorySkeleton() {
+  return (
+    <section className="w-full px-5 pt-16 sm:px-10 md:px-24 md:pt-24 sxl:px-32">
+      <div className="mb-6 h-8 w-48 skeleton rounded-md" />
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+        <div className="skeleton aspect-[16/9] w-full rounded-md" />
+        <div className="space-y-4">
+          {Array.from({ length: 2 }).map((_, i) => (
+            <div key={i} className="skeleton h-24 w-full rounded-md" />
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+const HomeClient: React.FC<HomeClientProps> = ({ blogs, error }) => {
   if (error) {
     return (
       <main className="flex min-h-[50vh] flex-col items-center justify-center px-5 text-center">
@@ -51,16 +76,16 @@ const HomeClient: React.FC<HomeClientProps> = ({
 
       <FeaturedPost blogs={blogs} />
 
-      <MostReadPosts posts={mostRead} />
+      <Suspense fallback={<MostReadSkeleton />}>
+        <MostReadSection />
+      </Suspense>
 
       <RecentPost blogs={blogs} />
 
-      {categories.slice(0, 6).map((cat) => (
-        <CategorySection
-          key={cat.name}
-          category={cat.name}
-          posts={categorySections[cat.name] ?? []}
-        />
+      {homepageCategories.map((category) => (
+        <Suspense key={category.name} fallback={<CategorySkeleton />}>
+          <CategorySectionAsync category={category.name} />
+        </Suspense>
       ))}
     </main>
   )

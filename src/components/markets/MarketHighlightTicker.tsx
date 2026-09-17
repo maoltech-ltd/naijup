@@ -61,6 +61,13 @@ export default function MarketHighlightTicker({
   if (status !== "done") {
     return (
       <div className={`w-full overflow-hidden border-y border-gray-100 bg-surface-light py-2 dark:border-gray-800 dark:bg-surface-dark ${className}`}>
+        <div className="mb-2 flex items-center justify-between px-4">
+          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-accent dark:text-accentDark">
+            <Newspaper aria-hidden className="h-4 w-4" />
+            <span>{title}</span>
+          </div>
+          <div className="skeleton h-3 w-16 rounded" />
+        </div>
         <div className="flex gap-3 px-4">
           {Array.from({ length: 5 }).map((_, index) => (
             <div key={index} className="skeleton h-8 w-52 flex-shrink-0 rounded-lg" />

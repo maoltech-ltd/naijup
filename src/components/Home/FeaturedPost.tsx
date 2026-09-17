@@ -1,9 +1,19 @@
+import dynamic from "next/dynamic"
 import { Props } from "@/src/utils/props"
 import { sortBlogs } from "@/src/utils"
 import BlogLayoutOne from "../Blog/BlogLayoutOne"
 import BlogLayoutTwo from "../Blog/BlogLayoutTwo"
 import BlogLayoutThree from "../Blog/BlogLayoutThree"
-import MarketSwiper from "../markets/MarketSwiper"
+
+// Pulls in the swiper runtime + CSS, so it's kept out of the initial page
+// bundle and only loaded client-side. The min-height fallback matches the
+// loaded card's footprint to avoid a layout shift when it mounts.
+const MarketSwiper = dynamic(() => import("../markets/MarketSwiper"), {
+  ssr: false,
+  loading: () => (
+    <div className="col-span-2 sm:col-span-1 row-span-1 min-h-[190px] rounded-xl bg-dark/5 dark:bg-light/5 skeleton" />
+  ),
+})
 
 const FeaturedPost: React.FC<Props> = (blogs) => {
   const sortedBlogs = sortBlogs(blogs)
@@ -25,12 +35,12 @@ const FeaturedPost: React.FC<Props> = (blogs) => {
       <div className="grid grid-cols-2 grid-rows-2 gap-6">
         {secondaryPosts[0] && (
           <article className="col-span-2 sxl:col-span-1 row-span-2 relative">
-            <BlogLayoutOne blog={secondaryPosts[0]} priority />
+            <BlogLayoutOne blog={secondaryPosts[0]} />
           </article>
         )}
         {secondaryPosts[1] && (
           <article className="col-span-2 sm:col-span-1 row-span-1 relative">
-            <BlogLayoutTwo blog={secondaryPosts[1]} priority />
+            <BlogLayoutTwo blog={secondaryPosts[1]} />
           </article>
         )}
         <article className="col-span-2 sm:col-span-1 row-span-1 relative">
