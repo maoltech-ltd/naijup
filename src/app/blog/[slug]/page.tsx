@@ -60,6 +60,23 @@ async function getRelatedPosts(slug: string) {
   }
 }
 
+async function getAuthorProfile(authorId?: string) {
+  if (!authorId) return null;
+
+  try {
+    const res = await fetch(`${apiBaseUrl}v1/user/id/${authorId}`, {
+      next: { revalidate: 300 },
+    });
+
+    if (!res.ok) return null;
+
+    return await res.json();
+  } catch (error) {
+    console.error("Error fetching author profile:", error);
+    return null;
+  }
+}
+
 function stripHtml(value = "") {
   return value
     .replace(/<[^>]*>/g, " ")
@@ -254,19 +271,21 @@ function BlogStructuredData({ blog, slug }: { blog: BlogPost; slug: string }) {
 }
 
 export default async function BlogSEOPage({ params }: { params: { slug: string } }) {
-  const [blog, relatedPosts] = await Promise.all([
-    getBlog(params.slug),
-    getRelatedPosts(params.slug),
-  ]);
+  const blog = await getBlog(params.slug);
 
   if (!blog) {
     notFound();
   }
 
+  const [relatedPosts, author] = await Promise.all([
+    getRelatedPosts(params.slug),
+    getAuthorProfile(blog.author as unknown as string),
+  ]);
+
   return (
     <>
       <BlogStructuredData blog={blog} slug={params.slug} />
-      <BlogPage blog={blog as any} relatedPosts={relatedPosts} />
+      <BlogPage blog={blog as any} relatedPosts={relatedPosts} author={author} />
     </>
   );
 }

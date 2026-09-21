@@ -1,7 +1,7 @@
 import { categories } from "../utils/props"
 
 export const apiBaseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://api.naijup.ng/api/"
-export const homepageExcludedCategories = new Set(["blog", "travel", "travels"])
+export const homepageExcludedCategories = new Set(["blog", "travel", "travels", "job"])
 
 export function normalizeCategory(category?: string) {
     return category?.trim().toLowerCase() ?? ""

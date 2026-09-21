@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Suspense } from "react";
 import Category from "@/src/components/Elements/Category";
 import BlogDetails from "@/src/components/Blog/BlogDetails";
 import BlogContent from "@/src/components/Blog/BlogContent";
@@ -8,7 +7,7 @@ import ShareButtons from "@/src/components/Elements/ShareButtons";
 import EditPostButton from "@/src/components/Post/EditPostButton";
 import CommentSection from "@/src/components/Blog/CommentSection";
 import RelatedPosts from "@/src/components/Blog/RelatedPosts";
-import AuthorSection from "@/src/components/User/AuthorSection";
+import AuthorSection, { AuthorProfile } from "@/src/components/User/AuthorSection";
 import MarketHighlightTicker from "@/src/components/markets/MarketHighlightTicker";
 
 export interface Blog {
@@ -76,7 +75,15 @@ function AnalysisSummary({ analysisMeta }: { analysisMeta?: Blog["analysis_meta"
     </div>
   );
 }
-export default function BlogPage({  blog, relatedPosts = [] }: {  blog: Blog; relatedPosts?: any[]  }) {
+export default function BlogPage({
+  blog,
+  relatedPosts = [],
+  author = null,
+}: {
+  blog: Blog;
+  relatedPosts?: any[];
+  author?: AuthorProfile | null;
+}) {
 
   if (!blog) {
     return <div>No blog found</div>;
@@ -163,9 +170,7 @@ export default function BlogPage({  blog, relatedPosts = [] }: {  blog: Blog; re
         {/* Edit button is client-only, doesn’t delay render */}
         <EditPostButton slug={blog.slug} blog={blog} />
         <div className="px-5 md:px-10 mt-10">
-            <Suspense fallback={<div>Loading author...</div>}>
-              <AuthorSection authorId={blog.author} />
-            </Suspense>
+          <AuthorSection author={author} />
         </div>
       </article>
     </>

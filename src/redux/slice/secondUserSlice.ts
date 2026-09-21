@@ -47,11 +47,6 @@ export const getUserDetails = createAsyncThunk('user/getUserDetails', async (dat
     return response.data;
 });
 
-export const getUserById = createAsyncThunk('user/getUserById', async (userId: string ) => {
-    const response = await api.get(`v1/user/id/${userId}`);
-    return response.data;
-});
-
 const secondUserSlice = createSlice({
     name: "secondUser",
     initialState: secondUserInitialState,
@@ -91,29 +86,6 @@ const secondUserSlice = createSlice({
                 state.status = "pending";
             })
             .addCase(getUserDetails.rejected, (state) => {
-                state.status = "rejected";
-            })
-            .addCase(getUserById.fulfilled, (state, action) => {
-                state.userId = action.payload.id;
-                state.userName = action.payload.username;
-                state.userEmail = action.payload.email;
-                state.firstName = action.payload.first_name;
-                state.lastName = action.payload.last_name;
-                state.profilePicture = action.payload.profile_picture;
-                state.bio = action.payload.bio;
-                state.createdAt = action.payload.created_at;
-                state.totalPosts = action.payload.total_posts ?? 0;
-                state.totalViews = action.payload.total_views ?? 0;
-                state.totalLikes = action.payload.total_likes ?? 0;
-                state.totalComments = action.payload.total_comments ?? 0;
-                state.latestPosts = action.payload.latest_posts ?? [];
-                state.topCategories = action.payload.top_categories ?? [];
-                state.status = "fulfilled";
-            })
-            .addCase(getUserById.pending, (state) => {
-                state.status = "pending";
-            })
-            .addCase(getUserById.rejected, (state) => {
                 state.status = "rejected";
             });
     }
