@@ -29,6 +29,14 @@ const MarketFAQSection = () => {
         </div>
 
         <div>
+          <h3 className="font-semibold text-lg dark:text-light">Where do the inflation and fuel price figures come from?</h3>
+          <p className="text-gray-700 dark:text-light">
+            Inflation (CPI) and average petroleum product prices are taken from the
+            latest monthly releases published by the National Bureau of Statistics (NBS).
+          </p>
+        </div>
+
+        <div>
           <h3 className="font-semibold text-lg dark:text-light">Can I use NaijUp for investment decisions?</h3>
           <p className="text-gray-700 dark:text-light">
             NaijUp provides market context and financial information that can support

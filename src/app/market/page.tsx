@@ -9,14 +9,15 @@ const MarketSnapshot = dynamic(() => import("@/src/components/markets/MarketSnap
 const MarketEquity = dynamic(() => import("@/src/components/markets/MarketEquity"));
 const MarketBond = dynamic(() => import("@/src/components/markets/MarketBond"));
 const MarketETF = dynamic(() => import("@/src/components/markets/MarketETF"));
+const NBSIndicators = dynamic(() => import("@/src/components/markets/NBSIndicators"));
 const MarketIntroSEOSection = dynamic(() => import("@/src/components/markets/MarketIntroSection"));
 const MarketHighlightTicker = dynamic(() => import("@/src/components/markets/MarketHighlightTicker"));
 const WhatWeTrackSection = dynamic(() => import("@/src/components/markets/WhatWeTrackSection"));
 const MarketFAQSection = dynamic(() => import("@/src/components/markets/MarketFAQSection"));
 
-const title = "Nigeria Market Insights | NGN FX, NGX Stocks, Bonds & ETFs";
+const title = "Nigeria Market Insights | NGN FX, NGX Stocks, Inflation & Fuel Prices";
 const description =
-  "Get updates on Nigeria's financial markets, including NGN exchange rates, NGX stock performance, FGN bond yields, ETF prices, and crypto market data.";
+  "Get updates on Nigeria's financial markets and economy, including NGN exchange rates, NGX stock performance, FGN bond yields, ETF prices, crypto market data, NBS inflation and petrol prices.";
 const marketUrl = `${siteMetadata.siteUrl}/market`;
 const imageUrl = `${siteMetadata.siteUrl}${siteMetadata.socialBanner}`;
 
@@ -38,6 +39,12 @@ export const metadata: Metadata = {
     "BTCNGN",
     "Dollar to Naira",
     "Naira to Dollar",
+    "Nigeria inflation rate",
+    "NBS CPI",
+    "Food inflation Nigeria",
+    "Petrol price Nigeria",
+    "Diesel price Nigeria",
+    "Cooking gas price Nigeria",
   ],
   alternates: {
     canonical: marketUrl,
@@ -81,6 +88,8 @@ const marketJsonLd = {
     "FGN bonds",
     "Nigerian ETFs",
     "Cryptocurrency prices in Nigeria",
+    "Nigeria inflation rate",
+    "Petroleum product prices in Nigeria",
   ],
   isPartOf: {
     "@type": "WebSite",
@@ -107,6 +116,7 @@ const Market = () => {
             ["Converter", "#converter"],
             ["FX", "#fx"],
             ["NGX", "#ngx"],
+            ["Economy", "#economy"],
             ["Equities", "#equities"],
             ["Bonds", "#bonds"],
             ["ETFs", "#etfs"],
@@ -132,6 +142,10 @@ const Market = () => {
           <div id="ngx" className="scroll-mt-28">
             <MarketSnapshot />
           </div>
+        </div>
+
+        <div id="economy" className="scroll-mt-28">
+          <NBSIndicators />
         </div>
 
         <div id="equities" className="scroll-mt-28">

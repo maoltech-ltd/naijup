@@ -5,6 +5,7 @@ import api from "@/src/api";
 import CalculatorField from "./CalculatorField";
 import ResultRow from "./ResultRow";
 import { formatNaira, formatPercent, toNumber, treasuryBillPricing } from "@/src/utils/calculators";
+import { useNbsIndicators } from "../Hooks/useNbsIndicators";
 
 interface TenorData {
   tenor_days: number;
@@ -28,6 +29,8 @@ const TreasuryBillCalculator = () => {
   const [faceValue, setFaceValue] = useState("1000000");
   const [tenorDays, setTenorDays] = useState("364");
   const [discountRate, setDiscountRate] = useState("");
+  const { data: nbs } = useNbsIndicators();
+  const inflation = nbs?.inflation?.headline;
 
   useEffect(() => {
     let isMounted = true;
@@ -110,9 +113,16 @@ const TreasuryBillCalculator = () => {
           label="True yield"
           value={result.trueYield !== null ? formatPercent(result.trueYield) : "N/A"}
         />
+        {inflation && result.trueYield !== null && (
+          <ResultRow
+            label={`Real yield vs ${inflation.value.toFixed(2)}% inflation`}
+            value={formatPercent(result.trueYield - inflation.value)}
+          />
+        )}
       </div>
       <p className="mt-3 text-xs text-gray-400">
         Interest earned on Nigerian Treasury Bills is exempt from withholding tax.
+        {inflation && ` Real yield subtracts NBS headline inflation (${inflation.period ?? "latest"}) from the true yield.`}
       </p>
     </div>
   );

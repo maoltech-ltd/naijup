@@ -3,6 +3,8 @@ import {
   BarChart3,
   Bitcoin,
   BriefcaseBusiness,
+  Fuel,
+  Gauge,
   Landmark,
   LineChart,
   Newspaper,
@@ -21,6 +23,8 @@ const trackedItems = [
     text: "Government and corporate bonds, including FGN bonds and Sukuk",
   },
   { icon: BriefcaseBusiness, text: "ETF performance and daily price movement" },
+  { icon: Gauge, text: "NBS headline, core, and food inflation (CPI)" },
+  { icon: Fuel, text: "Average petrol, diesel, kerosene, and cooking gas prices from NBS" },
   { icon: Newspaper, text: "Daily financial trends, market stories, and insight" },
 ];
 

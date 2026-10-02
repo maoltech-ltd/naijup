@@ -16,6 +16,7 @@ import { UserState } from "@/src/redux/slice/userSlice";
 import { Post } from "@/src/redux/slice/postSlice";
 import ErrorModal from "../Modal/ErrorModal";
 import SuccessModal from "../Modal/SuccessModal";
+import { looksLikeMarkdown, markdownToBlocks } from "@/src/utils/markdownToBlocks";
 
 
 const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
@@ -287,6 +288,53 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
       });
     }
   }, [post, dispatch]);
+
+  // Editor.js has no markdown support, so pasted markdown would keep its ## and **.
+  // Convert it to blocks ourselves before Editor.js sees the paste.
+  const handleMarkdownPaste = useCallback(
+    async (e: ClipboardEvent) => {
+      const text = e.clipboardData?.getData("text/plain") || "";
+      const editor = ref.current;
+      if (!editor || !looksLikeMarkdown(text)) return;
+      e.preventDefault();
+      e.stopPropagation();
+
+      const { meta, blocks } = markdownToBlocks(text);
+      if (meta.title && !watch("title")) setValue("title", meta.title);
+      const category = meta.category?.toLowerCase();
+      if (category && categories.some((c) => c.name === category)) {
+        setValue("category", category);
+      }
+      if (meta.tags?.length) {
+        setTags((prev) => Array.from(new Set([...prev, ...meta.tags!])));
+      }
+      if (!blocks.length) return;
+
+      const saved = await editor.save();
+      if (!saved.blocks.length) {
+        await editor.render({ blocks });
+        return;
+      }
+      let index = editor.blocks.getCurrentBlockIndex();
+      index = index < 0 ? editor.blocks.getBlocksCount() : index + 1;
+      blocks.forEach((block, n) => {
+        editor.blocks.insert(block.type, block.data, undefined, index + n, false);
+      });
+    },
+    [setValue, watch]
+  );
+
+  useEffect(() => {
+    if (!isMounted) return;
+    const holder = document.getElementById("editor");
+    if (!holder) return;
+    const listener = (e: ClipboardEvent) => {
+      handleMarkdownPaste(e);
+    };
+    // Capture phase, so this runs before Editor.js's own paste handler.
+    holder.addEventListener("paste", listener, true);
+    return () => holder.removeEventListener("paste", listener, true);
+  }, [isMounted, handleMarkdownPaste]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
