@@ -56,11 +56,25 @@ export default function MarketHighlightTicker({
     [data?.headlines]
   )
 
-  if (status === "done" && headlines.length === 0) return null
+  // Keep the same footprint as the skeleton when there's nothing to show,
+  // otherwise everything below the hero jumps up (CLS).
+  if (status === "done" && headlines.length === 0) {
+    return (
+      <div className={`flex h-[78px] w-full items-center border-y border-gray-100 bg-surface-light px-4 dark:border-gray-800 dark:bg-surface-dark ${className}`}>
+        <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-accent dark:text-accentDark">
+          <Newspaper aria-hidden className="h-4 w-4" />
+          <span>{title}</span>
+        </div>
+        <a href="/market" className="ml-auto text-xs text-gray-500 underline dark:text-light/60">
+          View markets
+        </a>
+      </div>
+    )
+  }
 
   if (status !== "done") {
     return (
-      <div className={`w-full overflow-hidden border-y border-gray-100 bg-surface-light py-2 dark:border-gray-800 dark:bg-surface-dark ${className}`}>
+      <div className={`h-[78px] w-full overflow-hidden border-y border-gray-100 bg-surface-light py-2 dark:border-gray-800 dark:bg-surface-dark ${className}`}>
         <div className="mb-2 flex items-center justify-between px-4">
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-accent dark:text-accentDark">
             <Newspaper aria-hidden className="h-4 w-4" />
@@ -78,7 +92,7 @@ export default function MarketHighlightTicker({
   }
 
   return (
-    <section className={`w-full overflow-hidden border-y border-gray-100 bg-surface-light py-2 dark:border-gray-800 dark:bg-surface-dark group ${className}`}>
+    <section className={`h-[78px] w-full overflow-hidden border-y border-gray-100 bg-surface-light py-2 dark:border-gray-800 dark:bg-surface-dark group ${className}`}>
       <div className="mb-2 flex items-center justify-between px-4">
         <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-accent dark:text-accentDark">
           <Newspaper aria-hidden className="h-4 w-4" />
