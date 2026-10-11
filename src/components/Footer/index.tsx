@@ -5,6 +5,7 @@ import { DribbbleIcon, FacebookIcon, LinkedinIcon, TwitterIcon } from "../icon"
 import Link from "next/link"
 import siteMetadata from "@/src/utils/sitemetadata"
 import { Rss, Search } from "lucide-react"
+import { sendPublicMail } from "@/src/utils/publicMail"
 
 const Footer = () => {
   const [email, setEmail] = useState("")
@@ -15,10 +16,19 @@ const Footer = () => {
     if (!email) return
 
     setStatus("loading")
-    // Simulate subscription
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    setStatus("success")
-    setEmail("")
+    try {
+      await sendPublicMail({
+        type: "newsletter",
+        subject: "New newsletter subscriber",
+        email,
+        message: `${email} subscribed to the NaijUp newsletter.`,
+        metadata: { page: window.location.href },
+      })
+      setStatus("success")
+      setEmail("")
+    } catch {
+      setStatus("error")
+    }
     setTimeout(() => setStatus("idle"), 3000)
   }
 
@@ -60,6 +70,11 @@ const Footer = () => {
         {status === "success" && (
           <p className="mt-3 text-emerald-400 text-sm animate-fade-in">
             Thanks for subscribing! Check your inbox.
+          </p>
+        )}
+        {status === "error" && (
+          <p className="mt-3 text-red-400 text-sm animate-fade-in">
+            Couldn&apos;t subscribe right now. Please try again later.
           </p>
         )}
       </div>
