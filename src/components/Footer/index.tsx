@@ -4,7 +4,8 @@ import React, { useState } from "react"
 import { DribbbleIcon, FacebookIcon, LinkedinIcon, TwitterIcon } from "../icon"
 import Link from "next/link"
 import siteMetadata from "@/src/utils/sitemetadata"
-import { Rss, Search } from "lucide-react"
+import { Rss } from "lucide-react"
+import GoogleDiscoverCTA from "../Elements/GoogleDiscoverCTA"
 import { sendPublicMail } from "@/src/utils/publicMail"
 
 const Footer = () => {
@@ -80,16 +81,7 @@ const Footer = () => {
       </div>
 
       <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row">
-        <a
-          href={siteMetadata.googleDiscover}
-          className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-900 shadow-sm transition-colors hover:bg-accent hover:text-white"
-          aria-label="Find and follow NaijUp on Google Discover"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Search aria-hidden className="h-4 w-4" />
-          Follow on Google Discover
-        </a>
+        <GoogleDiscoverCTA variant="button" />
         <a
           href={siteMetadata.feed}
           className="inline-flex items-center gap-2 rounded-full border border-white/20 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10"

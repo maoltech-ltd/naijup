@@ -18,7 +18,9 @@ const siteMetadata = {
   linkedin: "https://www.linkedin.com/company/naijup/",
   dribbble: "https://dribbble.com/maoltech",
   feed: "https://naijup.ng/feed.xml",
-  googleDiscover: "https://www.google.com/search?q=NaijUp",
+  // Google "preferred source" page: lets readers follow NaijUp so it ranks higher
+  // in their Discover feed and Top Stories.
+  googleDiscover: "https://www.google.com/preferences/source?q=naijup.ng",
   locale: "en-NG",
   
   // Enhanced SEO keywords for finance

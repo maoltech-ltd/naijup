@@ -4,6 +4,8 @@ import Category from "@/src/components/Elements/Category";
 import BlogDetails from "@/src/components/Blog/BlogDetails";
 import BlogContent from "@/src/components/Blog/BlogContent";
 import ShareButtons from "@/src/components/Elements/ShareButtons";
+import FloatingShareBar from "@/src/components/Elements/FloatingShareBar";
+import GoogleDiscoverCTA from "@/src/components/Elements/GoogleDiscoverCTA";
 import EditPostButton from "@/src/components/Post/EditPostButton";
 import CommentSection from "@/src/components/Blog/CommentSection";
 import RelatedPosts from "@/src/components/Blog/RelatedPosts";
@@ -90,6 +92,7 @@ export default function BlogPage({
   }
 
   const imageSrc = blog.image_links || '/default-image.jpg';
+  const shareUrl = `https://naijup.ng/blog/${blog.slug}`;
   
   return (
     <>
@@ -127,11 +130,9 @@ export default function BlogPage({
         </div>
         <MarketHighlightTicker className="mb-8" />
         <BlogDetails blog={blog} slug={blog.slug} />
-        <div className="px-5 md:px-10">
-          <ShareButtons
-            url={`https://naijup.ng/blog/${blog.slug}`} 
-            title={blog.title}
-          />
+        <div className="mt-6 flex flex-col gap-4 border-y border-dark/10 px-5 py-4 md:px-10 lg:flex-row lg:items-center lg:justify-between dark:border-light/10">
+          <ShareButtons url={shareUrl} title={blog.title} variant="compact" />
+          <GoogleDiscoverCTA variant="button" className="self-start lg:self-auto" />
         </div>
 
         <div className="grid grid-cols-12 gap-y-8 px-5 md:px-10 lg:gap-10 sxl:gap-16 mt-8">
@@ -158,9 +159,12 @@ export default function BlogPage({
               <AnalysisSummary analysisMeta={blog.analysis_meta} />
             )}
             <BlogContent content={blog.content} />
+            <ShareButtons url={shareUrl} title={blog.title} className="mt-12" />
+            <GoogleDiscoverCTA className="mt-6" />
           </div>
           {/* <RenderMdx blog={blog} /> */}
         </div>
+        <FloatingShareBar url={shareUrl} title={blog.title} />
         <RelatedPosts posts={relatedPosts} />
         <CommentSection
           postId={Number(blog.id)}
