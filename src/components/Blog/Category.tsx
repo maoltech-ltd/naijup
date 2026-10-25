@@ -1,4 +1,4 @@
-import { cs } from "@/src/utils";
+import { cs, formatTag } from "@/src/utils";
 import { CategoryProp } from "@/src/utils/props";
 import Link from "next/link";
 
@@ -19,7 +19,7 @@ const Category: React.FC<CategoryProp> = ({
           : "bg-light text-dark dark:bg-dark dark:text-light"
       )}
     >
-      #{name}
+      {formatTag(name)}
     </Link>
   );
 };

@@ -1,5 +1,6 @@
 import { blogDetailsProp } from '@/src/utils/props'
 import Link from 'next/link'
+import { formatTag } from '@/src/utils'
 import React from 'react'
 
 const BlogDetails: React.FC<blogDetailsProp> = ({blog, slug}) => {
@@ -20,7 +21,7 @@ const BlogDetails: React.FC<blogDetailsProp> = ({blog, slug}) => {
         {formattedDate}
       </time>
       <Link href={`/categories/${blog.category}`} className="m-3">
-        #{primaryTag}
+        {formatTag(primaryTag)}
       </Link>
     </div>
   )

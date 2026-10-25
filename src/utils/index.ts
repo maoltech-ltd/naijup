@@ -9,3 +9,5 @@ export const sortBlogs = (blogs: any) => {
         }
     );
 };
+
+export const formatTag = (tag: string = "") => `#${String(tag).trim().replace(/^#+\s*/, "")}`;

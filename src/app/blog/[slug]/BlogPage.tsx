@@ -11,6 +11,7 @@ import CommentSection from "@/src/components/Blog/CommentSection";
 import RelatedPosts from "@/src/components/Blog/RelatedPosts";
 import AuthorSection, { AuthorProfile } from "@/src/components/User/AuthorSection";
 import MarketHighlightTicker from "@/src/components/markets/MarketHighlightTicker";
+import { formatTag } from "@/src/utils";
 
 export interface Blog {
   id: string;
@@ -148,7 +149,7 @@ export default function BlogPage({
                     href={`/categories/${blog.category}`}
                     className="text-sm font-medium text-dark/75 hover:text-accent dark:text-light/70 dark:hover:text-accentDark"
                   >
-                    #{tag}
+                    {formatTag(tag)}
                   </Link>
                 ))}
               </div>
