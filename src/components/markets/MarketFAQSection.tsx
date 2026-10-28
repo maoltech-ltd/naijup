@@ -32,7 +32,8 @@ const MarketFAQSection = () => {
           <h3 className="font-semibold text-lg dark:text-light">Where do the inflation and fuel price figures come from?</h3>
           <p className="text-gray-700 dark:text-light">
             Inflation (CPI) and average petroleum product prices are taken from the
-            latest monthly releases published by the National Bureau of Statistics (NBS).
+            latest monthly releases published by the National Bureau of Statistics (NBS). Policy and money-market rates
+            (MPR, 91-day T-bills, NOFR, and the NFEM dollar rate) come from the Central Bank of Nigeria.
           </p>
         </div>
 

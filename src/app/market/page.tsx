@@ -10,6 +10,7 @@ const MarketEquity = dynamic(() => import("@/src/components/markets/MarketEquity
 const MarketBond = dynamic(() => import("@/src/components/markets/MarketBond"));
 const MarketETF = dynamic(() => import("@/src/components/markets/MarketETF"));
 const NBSIndicators = dynamic(() => import("@/src/components/markets/NBSIndicators"));
+const CBNKeyRates = dynamic(() => import("@/src/components/markets/CBNKeyRates"));
 const MarketIntroSEOSection = dynamic(() => import("@/src/components/markets/MarketIntroSection"));
 const MarketHighlightTicker = dynamic(() => import("@/src/components/markets/MarketHighlightTicker"));
 const WhatWeTrackSection = dynamic(() => import("@/src/components/markets/WhatWeTrackSection"));
@@ -17,7 +18,7 @@ const MarketFAQSection = dynamic(() => import("@/src/components/markets/MarketFA
 
 const title = "Nigeria Market Insights | NGN FX, NGX Stocks, Inflation & Fuel Prices";
 const description =
-  "Get updates on Nigeria's financial markets and economy, including NGN exchange rates, NGX stock performance, FGN bond yields, ETF prices, crypto market data, NBS inflation and petrol prices.";
+  "Get updates on Nigeria's financial markets and economy, including NGN exchange rates, NGX stock performance, FGN bond yields, ETF prices, crypto market data, CBN key rates, NBS inflation and petrol prices.";
 const marketUrl = `${siteMetadata.siteUrl}/market`;
 const imageUrl = `${siteMetadata.siteUrl}${siteMetadata.socialBanner}`;
 
@@ -41,6 +42,8 @@ export const metadata: Metadata = {
     "Naira to Dollar",
     "Nigeria inflation rate",
     "NBS CPI",
+    "CBN monetary policy rate",
+    "91-day treasury bill rate",
     "Food inflation Nigeria",
     "Petrol price Nigeria",
     "Diesel price Nigeria",
@@ -144,7 +147,8 @@ const Market = () => {
           </div>
         </div>
 
-        <div id="economy" className="scroll-mt-28">
+        <div id="economy" className="scroll-mt-28 space-y-8">
+          <CBNKeyRates />
           <NBSIndicators />
         </div>
 

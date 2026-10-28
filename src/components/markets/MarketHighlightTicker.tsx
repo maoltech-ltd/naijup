@@ -52,7 +52,7 @@ export default function MarketHighlightTicker({
   }, [])
 
   const headlines = useMemo(
-    () => (data?.headlines || []).filter(Boolean).slice(0, 18),
+    () => (data?.headlines || []).filter(Boolean).slice(0, 30),
     [data?.headlines]
   )
 
@@ -102,7 +102,11 @@ export default function MarketHighlightTicker({
       </div>
 
       <div className="relative overflow-hidden">
-        <div className="flex animate-marquee whitespace-nowrap group-hover:animate-marquee-paused">
+        {/* Scale the loop with the item count so more headlines don't scroll faster. */}
+        <div
+          className="flex animate-marquee whitespace-nowrap group-hover:animate-marquee-paused"
+          style={{ animationDuration: `${Math.max(75, headlines.length * 4)}s` }}
+        >
           {[...headlines, ...headlines].map((headline, index) => {
             const tone = getTone(headline)
             const Icon = tone === "down" ? TrendingDown : TrendingUp
