@@ -160,6 +160,10 @@ const Header = () => {
             Analysis
           </Link>
 
+          <Link href="/premium" className="rounded-full px-4 py-2 text-sm font-semibold text-amber-700 transition-colors hover:bg-amber-50 dark:text-amber-300 dark:hover:bg-amber-400/10">
+            Premium
+          </Link>
+
           <Link href="/portfolio" className="rounded-full px-4 py-2 text-sm text-slate-700 transition-colors hover:bg-slate-100 hover:text-accent dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-accentDark">
             Portfolio
           </Link>
@@ -210,6 +214,11 @@ const Header = () => {
           {canViewAdminReports && (
             <Link href="/admin/reports" className="rounded-full px-4 py-2 text-sm text-slate-700 transition-colors hover:bg-slate-100 hover:text-emerald-600 dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-emerald-400">
               Admin Reports
+            </Link>
+          )}
+          {canViewAdminReports && (
+            <Link href="/admin/premium" className="rounded-full px-4 py-2 text-sm text-slate-700 transition-colors hover:bg-slate-100 hover:text-emerald-600 dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-emerald-400">
+              Premium Admin
             </Link>
           )}
         </nav>
@@ -267,6 +276,14 @@ const Header = () => {
                     onClick={toggleMenu}
                   >
                     Investment Analysis
+                  </Link>
+
+                  <Link
+                    href="/premium"
+                    className="rounded-xl px-4 py-3 text-base font-semibold text-amber-700 transition-colors hover:bg-amber-50 dark:text-amber-300 dark:hover:bg-amber-400/10"
+                    onClick={toggleMenu}
+                  >
+                    Premium
                   </Link>
 
                   <Link

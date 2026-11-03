@@ -1,6 +1,7 @@
 import { BlogProp } from "@/src/utils/props"
 import Link from "next/link"
 import Category from "../Elements/Category"
+import PremiumBadge from "../Premium/PremiumBadge"
 import Image from "next/image"
 
 interface BlogLayoutOneProps extends BlogProp {
@@ -34,6 +35,7 @@ const BlogLayoutOne: React.FC<BlogLayoutOneProps> = ({ blog, priority = false })
           name={blog.category}
           className="px-6 text-xs sm:text-sm py-1 sm:py-2 !border"
         />
+        {blog.is_premium && <PremiumBadge className="ml-2 align-middle" />}
         <Link href={`/blog/${blog.slug}`} className="mt-6">
           <h2 className="font-bold capitalize text-sm xs:text-base sm:text-xl md:text-2xl text-light mt-2 sm:mt-4">
             <span

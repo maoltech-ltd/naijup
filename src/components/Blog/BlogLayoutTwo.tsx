@@ -1,4 +1,5 @@
 import formatDate from "@/src/utils/dateFormatter"
+import PremiumBadge from "../Premium/PremiumBadge"
 import { BlogProp } from "@/src/utils/props"
 import Image from "next/image"
 import Link from "next/link"
@@ -32,6 +33,7 @@ const BlogLayoutTwo: React.FC<BlogLayoutTwoProps> = ({ blog, priority = false })
       <div className="col-span-12 lg:col-span-8 w-full">
         <span className="inline-block w-full uppercase text-accent dark:text-accentDark font-semibold text-xs sm:text-sm">
           {blog.category}
+          {blog.is_premium && <PremiumBadge className="ml-2 align-middle" />}
         </span>
         <Link href={`/blog/${blog.slug}`} className="inline-block my-1">
           <h2 className="font-semibold capitalize text-base sm:text-lg">

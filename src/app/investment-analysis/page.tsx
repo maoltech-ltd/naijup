@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import siteMetadata from "@/src/utils/sitemetadata";
+import PremiumBadge from "@/src/components/Premium/PremiumBadge";
 
 export const revalidate = 300;
 
@@ -65,6 +66,15 @@ export default async function InvestmentAnalysisPage({
         Research
       </p>
       <h1 className="mt-3 text-3xl font-bold md:text-5xl">Investment Analysis &amp; Guides</h1>
+      <div className="mt-4 flex flex-wrap items-center gap-3">
+        <PremiumBadge />
+        <p className="text-sm text-gray dark:text-light/60">
+          Full analysis is for Premium members.{" "}
+          <Link href="/premium" className="font-semibold text-accent underline-offset-2 hover:underline dark:text-accentDark">
+            See plans
+          </Link>
+        </p>
+      </div>
       <p className="mt-4 max-w-3xl text-gray dark:text-light/60">
         Stock research and market analysis from NaijUp&apos;s editorial team — ratings, price targets,
         and the reasoning behind them. This is analysis and commentary, not personalized financial

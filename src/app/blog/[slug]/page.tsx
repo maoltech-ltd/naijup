@@ -21,6 +21,7 @@ type BlogPost = {
   updated_at?: string;
   slug: string;
   tags?: string[];
+  is_premium?: boolean;
 };
 
 const baseUrl = siteMetadata.siteUrl;
@@ -232,7 +233,16 @@ function BlogStructuredData({ blog, slug }: { blog: BlogPost; slug: string }) {
         articleSection: blog.category,
         keywords: blog.tags?.join(", "),
         description,
-        isAccessibleForFree: true,
+        isAccessibleForFree: !blog.is_premium,
+        ...(blog.is_premium
+          ? {
+              hasPart: {
+                "@type": "WebPageElement",
+                isAccessibleForFree: false,
+                cssSelector: ".premium-paywall",
+              },
+            }
+          : {}),
         wordCount: plainContent(blog.content).split(" ").filter(Boolean).length || undefined,
       },
       {

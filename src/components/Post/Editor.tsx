@@ -43,6 +43,9 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
   const [postKind, setPostKind] = useState<"article" | "analysis">(
     post?.post_type === "analysis" ? "analysis" : "article"
   );
+  // Free by default; Investment Analysis posts are always premium.
+  const [isPremium, setIsPremium] = useState<boolean>(Boolean(post?.is_premium));
+  const premiumLocked = postKind === "analysis";
   const [analysisRating, setAnalysisRating] = useState(post?.analysis_meta?.rating || "");
   const [analysisTargetPrice, setAnalysisTargetPrice] = useState(
     post?.analysis_meta?.target_price != null ? String(post.analysis_meta.target_price) : ""
@@ -131,6 +134,7 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
         author: user.userId,
         tags: tags,
         post_type: postKind,
+        is_premium: premiumLocked || isPremium,
         analysis_meta:
           postKind === "analysis"
             ? {
@@ -491,6 +495,42 @@ const Editor = ({ post, user }: { post: Post | null; user: UserState }) => {
                 Investment Analysis
               </button>
             </div>
+          </div>
+
+          <div className="mt-4">
+            <label className="font-semibold dark:text-white">Access</label>
+            <div className="mt-2 flex gap-2">
+              <button
+                type="button"
+                onClick={() => setIsPremium(false)}
+                disabled={premiumLocked}
+                className={`rounded-md px-4 py-2 text-sm font-medium border disabled:opacity-50 ${
+                  !premiumLocked && !isPremium
+                    ? "bg-blue-600 text-white border-blue-600"
+                    : "bg-white text-black border-gray-300 dark:bg-[#1e1e1e] dark:text-white dark:border-gray-700"
+                }`}
+              >
+                Free
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsPremium(true)}
+                className={`rounded-md px-4 py-2 text-sm font-medium border ${
+                  premiumLocked || isPremium
+                    ? "bg-amber-500 text-white border-amber-500"
+                    : "bg-white text-black border-gray-300 dark:bg-[#1e1e1e] dark:text-white dark:border-gray-700"
+                }`}
+              >
+                Premium
+              </button>
+            </div>
+            <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+              {premiumLocked
+                ? "Investment Analysis posts are always premium."
+                : isPremium
+                ? "Only subscribers can read past the opening paragraphs."
+                : "Everyone can read this post."}
+            </p>
           </div>
 
           {postKind === "analysis" && (

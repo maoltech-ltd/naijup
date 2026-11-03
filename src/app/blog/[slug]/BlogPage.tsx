@@ -2,7 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import Category from "@/src/components/Elements/Category";
 import BlogDetails from "@/src/components/Blog/BlogDetails";
-import BlogContent from "@/src/components/Blog/BlogContent";
+import PremiumContent from "@/src/components/Premium/PremiumContent";
+import PremiumBadge from "@/src/components/Premium/PremiumBadge";
 import ShareButtons from "@/src/components/Elements/ShareButtons";
 import FloatingShareBar from "@/src/components/Elements/FloatingShareBar";
 import GoogleDiscoverCTA from "@/src/components/Elements/GoogleDiscoverCTA";
@@ -28,6 +29,8 @@ export interface Blog {
   comments_count?: number;
   views_count?: number;
   post_type?: "article" | "analysis";
+  is_premium?: boolean;
+  is_locked?: boolean;
   analysis_meta?: {
     rating?: "buy" | "hold" | "sell" | "accumulate" | "";
     target_price?: number | null;
@@ -106,6 +109,7 @@ export default function BlogPage({
                 link={`/categories/${blog.category}`}
                 className="px-5 py-2 text-xs"
               />
+              {blog.is_premium && <PremiumBadge className="ml-3 align-middle" />}
               <h1 className="mt-6 max-w-4xl text-3xl font-bold capitalize !leading-tight md:text-5xl">
                 {blog.title}
               </h1>
@@ -159,7 +163,12 @@ export default function BlogPage({
             {blog.post_type === "analysis" && (
               <AnalysisSummary analysisMeta={blog.analysis_meta} />
             )}
-            <BlogContent content={blog.content} />
+            <PremiumContent
+              slug={blog.slug}
+              content={blog.content}
+              isPremium={blog.is_premium}
+              isLocked={blog.is_locked}
+            />
             <ShareButtons url={shareUrl} title={blog.title} className="mt-12" />
             <GoogleDiscoverCTA className="mt-6" />
           </div>

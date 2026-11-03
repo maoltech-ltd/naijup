@@ -20,6 +20,9 @@ export interface Post {
     slug: string;
     post_type?: "article" | "analysis";
     analysis_meta?: AnalysisMeta;
+    is_premium?: boolean;
+    // True when the API sent only a preview (reader can't see the full post).
+    is_locked?: boolean;
 }
 
 interface PostState {
@@ -39,8 +42,10 @@ export const fetchPostByTitle = createAsyncThunk('posts/fetchPostByTitle', async
     return response.data;
 })
 
-export const fetchPostBySlug = createAsyncThunk('posts/fetchPostBySlug', async (slug: string) => {
-    const response = await api.get(`v1/blog/post/slug/${slug}/`);
+// Pass the token so authors and admins get the full text of premium posts.
+export const fetchPostBySlug = createAsyncThunk('posts/fetchPostBySlug', async ({ slug, token }: { slug: string; token?: string }) => {
+    const headers = token ? { Authorization: `Bearer ${token}` } : undefined;
+    const response = await api.get(`v1/blog/post/slug/${slug}/`, { headers });
     return response.data;
 })
 
