@@ -15,10 +15,37 @@ import {
   startPremiumCheckout,
 } from "@/src/utils/premium";
 
-const PERKS = [
-  "Full access to every premium post",
-  "The Investment Analysis section: ratings, price targets and research",
-  "An email whenever a new post goes live",
+const BENEFITS = [
+  {
+    icon: "🔓",
+    title: "Every premium post, in full",
+    body: "Read our premium articles end to end, with no previews or paywalls.",
+  },
+  {
+    icon: "📈",
+    title: "Investment Analysis",
+    body: "Stock ratings, price targets and in-depth research on Nigerian companies.",
+  },
+  {
+    icon: "🚫",
+    title: "Ad-free reading",
+    body: "No Google ads anywhere on NaijUp while you're signed in.",
+  },
+  {
+    icon: "✉️",
+    title: "New-post alerts",
+    body: "An email whenever a new post goes live. Turn it off any time.",
+  },
+  {
+    icon: "⏰",
+    title: "Expiry reminders",
+    body: "We email you before your access ends, so you're never cut off by surprise.",
+  },
+  {
+    icon: "💳",
+    title: "No auto-renewal",
+    body: "One-off payment by card or bank transfer. You choose when to extend.",
+  },
 ];
 
 function errorText(error: any) {
@@ -83,14 +110,22 @@ export default function PremiumPage() {
     <main className="mx-auto max-w-4xl px-5 py-12 text-dark dark:text-light md:py-16">
       <p className="text-xs font-bold uppercase tracking-widest text-amber-700 dark:text-amber-300">NaijUp Premium</p>
       <h1 className="mt-2 text-3xl font-bold md:text-4xl">Read everything on NaijUp</h1>
-      <ul className="mt-6 space-y-2">
-        {PERKS.map((perk) => (
-          <li key={perk} className="flex gap-2 text-dark/80 dark:text-light/80">
-            <span aria-hidden="true" className="text-amber-600 dark:text-amber-300">✓</span>
-            {perk}
-          </li>
-        ))}
-      </ul>
+      <section aria-labelledby="premium-benefits" className="mt-8">
+        <h2 id="premium-benefits" className="text-lg font-bold">
+          {activeUntil ? "Your Premium benefits" : "What you get with Premium"}
+        </h2>
+        <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {BENEFITS.map((benefit) => (
+            <li key={benefit.title} className="flex gap-3 rounded-2xl border border-dark/10 p-4 dark:border-light/10">
+              <span aria-hidden="true" className="text-xl leading-none">{benefit.icon}</span>
+              <div>
+                <p className="font-semibold">{benefit.title}</p>
+                <p className="mt-1 text-sm text-dark/70 dark:text-light/70">{benefit.body}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
 
       {activeUntil && (
         <div className="mt-8 rounded-2xl border border-emerald-300/60 bg-emerald-50 p-5 dark:border-emerald-400/30 dark:bg-emerald-400/5">

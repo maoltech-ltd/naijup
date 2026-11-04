@@ -198,13 +198,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           `}
         </Script>
 
-        {/* Google Adsense - lazyOnload to not block rendering */}
-        <Script
-          id="google-adsense"
-          strategy="lazyOnload"
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9335680421453806"
-          crossOrigin="anonymous"
-        />
+        {/* Google Adsense is loaded by <AdSense /> in ClientWrapper so it can be
+            skipped for logged-in Premium readers. */}
       </body>
     </html>
   )

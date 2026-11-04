@@ -17,6 +17,7 @@ import Link from "next/link";
 import { RootState } from "@/src/redux/store";
 import { motion } from "framer-motion";
 import { canAccessAdminReports } from "@/src/utils/adminAccess";
+import PremiumFeeEditor from "@/src/components/Premium/PremiumFeeEditor";
 import { BarChart3, Eye, FileText, PenLine, ShieldCheck, UserPlus, Users } from "lucide-react";
 
 const formatCurrency = (amount: number) =>
@@ -156,6 +157,14 @@ export default function AuthorDashboardClient() {
                       Open Admin Reports
                     </Link>
                   )}
+                  {canViewAdminReports && (
+                    <Link
+                      href="/admin/premium"
+                      className="px-4 py-2 bg-amber-600 text-white rounded-lg text-center hover:bg-amber-700 transition"
+                    >
+                      Manage Premium
+                    </Link>
+                  )}
                 </div>
               </motion.div>
 
@@ -224,6 +233,8 @@ export default function AuthorDashboardClient() {
                     })}
                   </div>
                 )}
+
+                {user.token && <PremiumFeeEditor token={user.token} />}
 
                 <div className="mt-8 grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
                   <div className="rounded-xl border border-gray-200 p-4 dark:border-gray-700">

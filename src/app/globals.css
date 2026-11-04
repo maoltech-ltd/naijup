@@ -154,3 +154,11 @@
     @apply inline-block px-3 py-1 text-xs font-semibold uppercase tracking-wide rounded-full bg-accent/10 text-accent dark:bg-accentDark/20 dark:text-accentDark;
   }
 }
+
+/* Premium readers: hide any AdSense units that were placed before the
+   Premium check finished (see components/Ads/AdSense.tsx). */
+html.naijup-ad-free ins.adsbygoogle,
+html.naijup-ad-free .google-auto-placed,
+html.naijup-ad-free .adsbygoogle-noablate {
+  display: none !important;
+}

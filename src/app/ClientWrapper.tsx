@@ -7,6 +7,7 @@ import Script from "next/script";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import GoogleDiscoverCTA from "../components/Elements/GoogleDiscoverCTA";
+import AdSense from "../components/Ads/AdSense";
 
 export default function ClientWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -28,6 +29,7 @@ export default function ClientWrapper({ children }: { children: React.ReactNode 
       {shouldShowHeaderFooter && <GoogleDiscoverCTA variant="strip" />}
       {children}
       {shouldShowHeaderFooter && <Footer />}
+      <AdSense />
     </ReduxProvider>
   );
 }
