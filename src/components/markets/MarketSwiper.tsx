@@ -7,6 +7,19 @@ import { useAppDispatch } from "@/src/redux/hooks/dispatch";
 import { useSelector } from "react-redux";
 import { RootState } from "@/src/redux/store";
 import { fetchFxRates, fetchMarketEquity, fetchMarketSnapshot } from "@/src/redux/slice/marketSlice";
+import { NbsIndicator, useNbsIndicators } from "../Hooks/useNbsIndicators";
+import { useCbnKeyRates } from "../Hooks/useCbnKeyRates";
+
+// A rise in inflation or fuel prices hurts households, so "up" is shown red.
+const nbsTone = (direction: NbsIndicator["direction"]) =>
+  direction === "up" ? "text-red-500" : direction === "down" ? "text-green-500" : "text-gray-500";
+
+const signed = (value: number, digits = 2) => `${value >= 0 ? "+" : ""}${value.toFixed(digits)}`;
+
+const formatCbnRate = (value: number, unit: string) =>
+  unit === "NGN"
+    ? `₦${value.toLocaleString("en-NG", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+    : `${value.toFixed(2)}%`;
 
 const MarketSwiper = () => {
   const dispatch = useAppDispatch();
@@ -14,6 +27,12 @@ const MarketSwiper = () => {
   const fx = useSelector((state: RootState) => state.fx);
   const snapshot = useSelector((state: RootState) => state.snapshot);
   const equity = useSelector((state: RootState) => state.equity);
+  // NBS / CBN load independently: their slides appear once data arrives and
+  // are simply left out if either source is unavailable.
+  const { data: nbs } = useNbsIndicators();
+  const { data: cbn } = useCbnKeyRates();
+  const inflationHeadline = nbs?.inflation?.headline;
+  const inflationComponents = (nbs?.inflation?.components || []).filter((item) => item.code !== "ALL_ITEMS");
 
   useEffect(() => {
     if (fx.status === "idle") dispatch(fetchFxRates());
@@ -120,6 +139,82 @@ const MarketSwiper = () => {
             </ul>
           </div>
         </SwiperSlide>
+        {/* --- NBS Inflation --- */}
+        {inflationHeadline && (
+          <SwiperSlide>
+            <div className={slideClass}>
+              <h3 className="font-bold text-lg mb-2">
+                Inflation (NBS){inflationHeadline.period ? ` · ${inflationHeadline.period}` : ""}
+              </h3>
+              <div className="flex items-baseline justify-between text-sm">
+                <span className="text-gray-500">Headline (y/y)</span>
+                <span className="text-right">
+                  <span className="font-bold text-base">{inflationHeadline.value.toFixed(2)}%</span>
+                  {inflationHeadline.change !== null && (
+                    <span className={`ml-2 text-xs ${nbsTone(inflationHeadline.direction)}`}>
+                      {signed(inflationHeadline.change)} pts
+                    </span>
+                  )}
+                </span>
+              </div>
+              <ul className="mt-2 text-sm space-y-1">
+                {inflationComponents.slice(0, 4).map((item) => (
+                  <li key={item.code} className="flex justify-between">
+                    <span>{item.label}</span>
+                    <span>
+                      {item.value.toFixed(2)}%
+                      {item.change !== null && (
+                        <span className={`ml-2 text-xs ${nbsTone(item.direction)}`}>{signed(item.change)}</span>
+                      )}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </SwiperSlide>
+        )}
+
+        {/* --- NBS Fuel Prices --- */}
+        {!!nbs?.petroleum?.length && (
+          <SwiperSlide>
+            <div className={slideClass}>
+              <h3 className="font-bold text-lg mb-2">Fuel Prices (NBS)</h3>
+              <ul className="text-sm space-y-1">
+                {nbs.petroleum.slice(0, 5).map((item) => (
+                  <li key={item.code} className="flex justify-between gap-2">
+                    <span className="truncate" title={item.name || item.label}>
+                      {item.code}
+                      {item.period && <span className="ml-1 text-xs text-gray-500">{item.period}</span>}
+                    </span>
+                    <span className="flex-none">
+                      ₦{item.value.toLocaleString("en-NG", { maximumFractionDigits: 2 })}
+                      {item.change_percent !== null && (
+                        <span className={`ml-2 text-xs ${nbsTone(item.direction)}`}>{signed(item.change_percent, 1)}%</span>
+                      )}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </SwiperSlide>
+        )}
+
+        {/* --- CBN Key Rates --- */}
+        {!!cbn?.rates?.length && (
+          <SwiperSlide>
+            <div className={slideClass}>
+              <h3 className="font-bold text-lg mb-2">CBN Key Rates</h3>
+              <ul className="text-sm space-y-1">
+                {cbn.rates.slice(0, 5).map((rate) => (
+                  <li key={rate.code} className="flex justify-between gap-2">
+                    <span className="truncate">{rate.label}</span>
+                    <span className="flex-none font-medium">{formatCbnRate(rate.value, rate.unit)}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </SwiperSlide>
+        )}
       </Swiper>
     </div>
   );

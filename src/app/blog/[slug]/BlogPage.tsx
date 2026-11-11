@@ -10,6 +10,7 @@ import GoogleDiscoverCTA from "@/src/components/Elements/GoogleDiscoverCTA";
 import EditPostButton from "@/src/components/Post/EditPostButton";
 import CommentSection from "@/src/components/Blog/CommentSection";
 import RelatedPosts from "@/src/components/Blog/RelatedPosts";
+import ReadTracker from "@/src/components/Blog/ReadTracker";
 import AuthorSection, { AuthorProfile } from "@/src/components/User/AuthorSection";
 import MarketHighlightTicker from "@/src/components/markets/MarketHighlightTicker";
 import { formatTag } from "@/src/utils";
@@ -100,6 +101,7 @@ export default function BlogPage({
   
   return (
     <>
+      <ReadTracker slug={blog.slug} />
       <article className="pb-16">
         <div className="relative mb-8 grid min-h-[72vh] w-full bg-dark text-light lg:grid-cols-[0.95fr_1.05fr]">
           <div className="order-2 flex flex-col justify-end px-5 py-10 sm:px-10 md:px-16 lg:order-1">
