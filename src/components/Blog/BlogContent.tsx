@@ -55,23 +55,34 @@ const BlogContent = ({ content }: any) => {
           );
         }
 
-        // Handle images
-        // Handle images
+        // Handle images. Real dimensions (when the uploader stored them) reserve
+        // the right space; otherwise a 16:9 box is reserved. `sizes` matches the
+        // ~72ch reading column so phones don't download desktop renditions, and
+        // Cloudinary's q_auto replaces the old fixed quality=35 (visibly soft).
         if (item.type === "image") {
+          const src = item.data?.file?.url || item.data?.url;
+          if (!src) return null;
+          const caption = String(item.data?.caption || "").replace(/<[^>]+>/g, "").trim();
+          const width = Number(item.data?.file?.width) || 1600;
+          const height = Number(item.data?.file?.height) || 900;
           return (
-            <div key={index} className="mb-8">
+            <figure key={index} className="not-prose my-8">
               <Image
-                src={item.data.file.url} // Corrected URL reference
-                alt={item.data.caption || "Image"} // Corrected alt text reference
-                width={800}
-                height={400}
-                quality={35}
-                className="object-cover w-full"
+                src={src}
+                alt={caption || "Article image"}
+                width={width}
+                height={height}
+                sizes="(max-width: 768px) 100vw, 760px"
+                className={`h-auto w-full rounded-xl bg-dark/5 dark:bg-light/5 ${
+                  item.data?.withBorder ? "border border-dark/10 dark:border-light/10" : ""
+                }`}
               />
-              {item.data.caption && (
-                <p className="text-center text-sm mt-2">{item.data.caption}</p>
+              {caption && (
+                <figcaption className="mt-3 border-l-2 border-accent/40 pl-3 text-sm leading-6 text-gray dark:border-accentDark/40 dark:text-light/60">
+                  {caption}
+                </figcaption>
               )}
-            </div>
+            </figure>
           );
         }
 

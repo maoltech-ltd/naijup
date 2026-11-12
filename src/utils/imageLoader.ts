@@ -12,7 +12,10 @@ export default function imageLoader({ src, width, quality }: LoaderParams): stri
   if (match) {
     const base = match[0].replace(/^http:/, "https:")
     const rest = src.slice(match[0].length)
-    return `${base}f_auto,q_${quality ?? "auto"},w_${width},c_limit/${rest}`
+    // Small renditions (thumbnails, side-rail cards) use Cloudinary's "eco"
+    // auto-quality: visually identical at that size and noticeably fewer bytes.
+    const q = quality ?? (width <= 384 ? "auto:eco" : "auto")
+    return `${base}f_auto,q_${q},w_${width},c_limit/${rest}`
   }
   // Local /public assets and other hosts are served as-is.
   return src

@@ -41,7 +41,7 @@ export default function RelatedPosts({ posts = [] }: RelatedPostsProps) {
             >
               <Link
                 href={`/blog/${post.slug}`}
-                className="relative aspect-[4/3] overflow-hidden rounded-md bg-dark/5 dark:bg-light/5"
+                className="relative aspect-[4/3] overflow-hidden rounded-lg bg-dark/5 dark:bg-light/5"
               >
                 {post.image_links && (
                   <Image

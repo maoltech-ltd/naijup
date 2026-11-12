@@ -1,7 +1,5 @@
-import Image from "next/image";
+import FramedImage from "@/src/components/Elements/FramedImage";
 import Link from "next/link";
-import Category from "@/src/components/Elements/Category";
-import BlogDetails from "@/src/components/Blog/BlogDetails";
 import PremiumContent from "@/src/components/Premium/PremiumContent";
 import PremiumBadge from "@/src/components/Premium/PremiumBadge";
 import ShareButtons from "@/src/components/Elements/ShareButtons";
@@ -13,7 +11,7 @@ import RelatedPosts from "@/src/components/Blog/RelatedPosts";
 import ReadTracker from "@/src/components/Blog/ReadTracker";
 import AuthorSection, { AuthorProfile } from "@/src/components/User/AuthorSection";
 import MarketHighlightTicker from "@/src/components/markets/MarketHighlightTicker";
-import { formatTag } from "@/src/utils";
+import { formatReads, formatTag, readingTime } from "@/src/utils";
 
 export interface Blog {
   id: string;
@@ -98,46 +96,74 @@ export default function BlogPage({
 
   const imageSrc = blog.image_links || '/default-image.jpg';
   const shareUrl = `https://naijup.ng/blog/${blog.slug}`;
+  const authorName =
+    [author?.first_name, author?.last_name].filter(Boolean).join(" ") || author?.username;
+  const minutes = readingTime(blog.content);
+  const publishedLabel = blog.publication_date
+    ? new Intl.DateTimeFormat("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        timeZone: "Africa/Lagos",
+        timeZoneName: "short",
+      }).format(new Date(blog.publication_date))
+    : "";
   
   return (
     <>
       <ReadTracker slug={blog.slug} />
       <article className="pb-16">
-        <div className="relative mb-8 grid min-h-[72vh] w-full bg-dark text-light lg:grid-cols-[0.95fr_1.05fr]">
-          <div className="order-2 flex flex-col justify-end px-5 py-10 sm:px-10 md:px-16 lg:order-1">
-            <div className="max-w-3xl">
-              <Category
-                name={blog.category}
-                link={`/categories/${blog.category}`}
-                className="px-5 py-2 text-xs"
-              />
-              {blog.is_premium && <PremiumBadge className="ml-3 align-middle" />}
-              <h1 className="mt-6 max-w-4xl text-3xl font-bold capitalize !leading-tight md:text-5xl">
-                {blog.title}
-              </h1>
-              <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-light/70">
-                <span>{blog.views_count ?? 0} reads</span>
-                <span>{blog.likes_count ?? 0} likes</span>
-                <span>{blog.comments_count ?? 0} comments</span>
-              </div>
+        <header className="px-5 pt-8 sm:px-10 md:pt-12">
+          <div className="mx-auto max-w-4xl">
+            <div className="flex flex-wrap items-center gap-3">
+              <Link
+                href={`/categories/${blog.category}`}
+                className="text-xs font-bold uppercase tracking-[0.18em] text-accent hover:underline dark:text-accentDark"
+              >
+                {blog.category}
+              </Link>
+              {blog.post_type === "analysis" && (
+                <span className="rounded-full bg-dark/[0.06] px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide text-dark/70 dark:bg-light/10 dark:text-light/70">
+                  Analysis
+                </span>
+              )}
+              {blog.is_premium && <PremiumBadge />}
+            </div>
+            <h1 className="mt-4 text-3xl font-extrabold leading-[1.12] tracking-tight text-dark text-balance dark:text-light sm:text-4xl md:text-5xl">
+              {blog.title}
+            </h1>
+            <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-dark/10 pt-4 text-sm text-gray dark:border-light/10 dark:text-light/55">
+              {authorName && (
+                <>
+                  <span className="font-semibold text-dark dark:text-light">By {authorName}</span>
+                  <span aria-hidden className="h-1 w-1 rounded-full bg-current opacity-50" />
+                </>
+              )}
+              <time dateTime={blog.publication_date}>{publishedLabel}</time>
+              <span aria-hidden className="h-1 w-1 rounded-full bg-current opacity-50" />
+              <span>{minutes} min read</span>
+              <span aria-hidden className="h-1 w-1 rounded-full bg-current opacity-50" />
+              <span>{formatReads(blog.views_count)} reads</span>
             </div>
           </div>
-          <div className="relative order-1 min-h-[42vh] lg:order-2 lg:min-h-[72vh]">
-            <Image
-              src={imageSrc}
-              alt={blog.title}
-              fill
-              quality={55}
-              className="object-cover object-center"
-              priority
-              sizes="(max-width: 1024px) 100vw, 55vw"
-            />
-            <div className="absolute inset-0 bg-dark/15" />
-          </div>
-        </div>
-        <MarketHighlightTicker className="mb-8" />
-        <BlogDetails blog={blog} slug={blog.slug} />
-        <div className="mt-6 flex flex-col gap-4 border-y border-dark/10 px-5 py-4 md:px-10 lg:flex-row lg:items-center lg:justify-between dark:border-light/10">
+        </header>
+
+        {/* Uncropped cover in a fixed frame: covers are often infographics with
+            text, so they're shown whole over a blurred fill (see FramedImage). */}
+        <figure className="mx-auto mt-8 max-w-5xl sm:px-10">
+          <FramedImage
+            src={imageSrc}
+            alt={blog.title}
+            priority
+            sizes="(max-width: 640px) 100vw, (max-width: 1100px) 90vw, 960px"
+            className="aspect-[16/10] w-full sm:rounded-2xl"
+          />
+        </figure>
+
+        <MarketHighlightTicker className="mt-8" />
+        <div className="mt-8 flex flex-col gap-4 border-y border-dark/10 px-5 py-4 md:px-10 lg:flex-row lg:items-center lg:justify-between dark:border-light/10">
           <ShareButtons url={shareUrl} title={blog.title} variant="compact" />
           <GoogleDiscoverCTA variant="button" className="self-start lg:self-auto" />
         </div>
@@ -161,7 +187,8 @@ export default function BlogPage({
               </div>
             </aside>
           </div>
-          <div className="col-span-12 lg:col-span-9">
+          <div className="col-span-12 min-w-0 lg:col-span-9">
+            <div className="max-w-[72ch]">
             {blog.post_type === "analysis" && (
               <AnalysisSummary analysisMeta={blog.analysis_meta} />
             )}
@@ -173,6 +200,7 @@ export default function BlogPage({
             />
             <ShareButtons url={shareUrl} title={blog.title} className="mt-12" />
             <GoogleDiscoverCTA className="mt-6" />
+            </div>
           </div>
           {/* <RenderMdx blog={blog} /> */}
         </div>

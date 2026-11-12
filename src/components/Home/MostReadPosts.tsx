@@ -1,7 +1,9 @@
 import formatDate from "@/src/utils/dateFormatter";
 import { Eye } from "lucide-react";
-import Image from "next/image";
+import FramedImage from "../Elements/FramedImage";
 import Link from "next/link";
+import SectionHeader from "./SectionHeader";
+import { formatReads } from "@/src/utils";
 
 type MostReadPost = {
   id: string | number;
@@ -23,42 +25,24 @@ export default function MostReadPosts({ posts = [] }: MostReadPostsProps) {
   const [lead, ...rest] = posts;
 
   return (
-    <section className="w-full px-5 pt-16 sm:px-10 md:px-24 md:pt-24 sxl:px-32">
-      <div className="grid gap-8 border-y border-dark/10 py-8 dark:border-light/10 lg:grid-cols-[1.2fr_0.8fr]">
+    <section className="w-full px-5 pt-14 sm:px-10 md:px-24 md:pt-20 sxl:px-32">
+      <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:gap-12">
         <div>
-          <div className="mb-5 flex items-end justify-between gap-4">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-accent dark:text-accentDark">
-                Last 90 days
-              </p>
-              <h2 className="text-2xl font-bold text-dark dark:text-light md:text-4xl">
-                Most Read
-              </h2>
-            </div>
-            <Link
-              href="/categories/all"
-              className="text-sm font-semibold text-accent underline underline-offset-4 dark:text-accentDark"
-            >
-              View all
-            </Link>
-          </div>
+          <SectionHeader eyebrow="Last 90 days" title="Most Read" href="/categories/all" />
 
-          <article className="group grid gap-5 sm:grid-cols-[0.9fr_1fr]">
-            <Link
-              href={`/blog/${lead.slug}`}
-              className="relative aspect-[16/10] overflow-hidden rounded-md bg-dark/5 dark:bg-light/5"
-            >
+          <article className="group">
+            <Link href={`/blog/${lead.slug}`} className="block" aria-label={lead.title}>
               {lead.image_links && (
-                <Image
+                <FramedImage
                   src={lead.image_links}
                   alt={lead.title}
-                  fill
-                  className="object-cover transition duration-300 group-hover:scale-105"
-                  sizes="(max-width: 1024px) 100vw, 45vw"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="aspect-[3/2] w-full rounded-xl"
+                  imgClassName="transition-transform duration-500 group-hover:scale-[1.03]"
                 />
               )}
             </Link>
-            <div className="flex flex-col justify-center">
+            <div className="mt-5">
               <Link
                 href={`/categories/${lead.category}`}
                 className="text-xs font-semibold uppercase text-accent dark:text-accentDark"
@@ -66,7 +50,7 @@ export default function MostReadPosts({ posts = [] }: MostReadPostsProps) {
                 {lead.category}
               </Link>
               <Link href={`/blog/${lead.slug}`}>
-                <h3 className="mt-2 text-2xl font-bold leading-tight text-dark transition group-hover:text-accent dark:text-light dark:group-hover:text-accentDark">
+                <h3 className="mt-2 text-2xl font-extrabold leading-tight tracking-tight text-balance sm:text-3xl text-dark transition group-hover:text-accent dark:text-light dark:group-hover:text-accentDark">
                   {lead.title}
                 </h3>
               </Link>
@@ -74,17 +58,17 @@ export default function MostReadPosts({ posts = [] }: MostReadPostsProps) {
                 {lead.publication_date && <span>{formatDate(lead.publication_date)}</span>}
                 <span className="inline-flex items-center gap-1">
                   <Eye size={16} />
-                  {lead.views_count ?? 0} reads
+                  {formatReads(lead.views_count)} reads
                 </span>
               </div>
             </div>
           </article>
         </div>
 
-        <div className="divide-y divide-dark/10 dark:divide-light/10">
+        <ol className="divide-y divide-dark/10 dark:divide-light/10 lg:pt-1">
           {rest.slice(0, 5).map((post, index) => (
-            <article key={post.id} className="group flex gap-4 py-4 first:pt-0">
-              <span className="mt-0.5 w-8 shrink-0 font-serif text-2xl text-dark/25 dark:text-light/25">
+            <li key={post.id} className="group flex gap-4 py-4 first:pt-0">
+              <span className="mt-0.5 w-8 shrink-0 text-2xl font-extrabold tabular-nums text-accent/40 dark:text-accentDark/40">
                 {String(index + 2).padStart(2, "0")}
               </span>
               <div>
@@ -101,12 +85,12 @@ export default function MostReadPosts({ posts = [] }: MostReadPostsProps) {
                 </Link>
                 <p className="mt-2 inline-flex items-center gap-1 text-xs text-gray dark:text-light/50">
                   <Eye size={14} />
-                  {post.views_count ?? 0} reads
+                  {formatReads(post.views_count)} reads
                 </p>
               </div>
-            </article>
+            </li>
           ))}
-        </div>
+        </ol>
       </div>
     </section>
   );

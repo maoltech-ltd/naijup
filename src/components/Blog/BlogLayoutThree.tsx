@@ -1,6 +1,6 @@
 import formatDate from "@/src/utils/dateFormatter"
 import PremiumBadge from "../Premium/PremiumBadge"
-import Image from "next/image"
+import FramedImage from "../Elements/FramedImage"
 import Link from "next/link"
 
 interface BlogLayoutThreeProps {
@@ -8,45 +8,44 @@ interface BlogLayoutThreeProps {
   priority?: boolean
 }
 
+// Vertical grid card: uncropped 3:2-framed image, category, clamped headline, date.
 const BlogLayoutThree: React.FC<BlogLayoutThreeProps> = ({ blog, priority = false }) => {
   if (!blog?.slug || !blog?.image_links || !blog?.title) return null
 
   return (
-    <div className="group flex flex-col items-center text-dark dark:text-light">
-      <Link href={`/blog/${blog.slug}`} className="h-full w-full rounded-xl overflow-hidden relative aspect-[4/3]">
-        <Image
-          src={blog.image_links}
-          alt={blog.title}
-          fill
-          priority={priority}
-          loading={priority ? "eager" : "lazy"}
-          quality={65}
-          className="object-cover object-center group-hover:scale-105 transition-all ease duration-300"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
-        />
-      </Link>
+    <div className="group relative flex h-full flex-col text-dark dark:text-light">
+      <FramedImage
+        src={blog.image_links}
+        alt=""
+        priority={priority}
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        className="aspect-[3/2] w-full rounded-xl"
+        imgClassName="transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+      />
 
-      <div className="flex flex-col w-full mt-4">
-        <span className="uppercase text-accent dark:text-accentDark font-semibold text-xs sm:text-sm">
-          {blog.category}
-          {blog.is_premium && <PremiumBadge className="ml-2 align-middle" />}
-        </span>
-        <Link href={`/blog/${blog.slug}`} className="inline-block my-1">
-          <h2 className="font-semibold capitalize text-base sm:text-lg">
-            <span
-              className="bg-gradient-to-r from-accent/50 to-accent/50 dark:from-accentDark/50
-              dark:to-accentDark/50
-              bg-[length:0px_6px]
-              group-hover:bg-[length:100%_6px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500"
-            >
-              {blog.title}
-            </span>
-          </h2>
-        </Link>
-
-        <span className="capitalize text-gray dark:text-light/50 font-semibold text-sm sm:text-base">
-          {formatDate(blog.publication_date)}
-        </span>
+      <div className="mt-4 flex flex-1 flex-col">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-accent dark:text-accentDark">
+            {blog.category}
+          </span>
+          {blog.is_premium && <PremiumBadge />}
+        </div>
+        <h3 className="mt-1.5 text-lg font-bold leading-snug line-clamp-3">
+          <Link
+            href={`/blog/${blog.slug}`}
+            className="transition-colors after:absolute after:inset-0 group-hover:text-accent dark:group-hover:text-accentDark"
+          >
+            {blog.title}
+          </Link>
+        </h3>
+        {blog.publication_date && (
+          <time
+            dateTime={blog.publication_date}
+            className="mt-auto pt-3 text-xs font-medium text-gray dark:text-light/50"
+          >
+            {formatDate(blog.publication_date)}
+          </time>
+        )}
       </div>
     </div>
   )

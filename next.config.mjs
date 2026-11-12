@@ -7,7 +7,10 @@ const nextConfig = {
     // Cloudinary does the resizing/format conversion; see src/utils/imageLoader.ts
     loader: 'custom',
     loaderFile: './src/utils/imageLoader.ts',
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
+    // Capped at 1600: no layout on the site renders an image wider than ~1440 CSS
+    // px, and dropping the 1920/2048 rungs avoids multi-hundred-KB downloads on
+    // large/retina screens. 480 gives small phones and half-width cards a closer fit.
+    deviceSizes: [480, 640, 750, 828, 1080, 1280, 1600],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 60 * 60 * 24 * 30,
     remotePatterns: [
