@@ -1,0 +1,19 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "naijup",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2025-12-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "observability": {
+    "enabled": true
+  }
+  // Custom domain: uncomment after the naijup.ng zone is on Cloudflare.
+  // "routes": [
+  //   { "pattern": "naijup.ng", "custom_domain": true },
+  //   { "pattern": "www.naijup.ng", "custom_domain": true }
+  // ]
+}

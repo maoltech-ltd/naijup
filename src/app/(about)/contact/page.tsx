@@ -1,5 +1,5 @@
 import Image from "next/image"
-import profileCharacter from "../../../../public/image/character.png"
+import profileCharacter from "../../../../public/image/character.webp"
 import siteMetadata from "@/src/utils/sitemetadata";
 import ContactForm from "./ContactForm";
 

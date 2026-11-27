@@ -1,8 +1,8 @@
 "use client"
 
 // Global next/image loader. Cloudinary images are resized and format-converted
-// by Cloudinary itself (f_auto picks avif/webp per browser) instead of Vercel's
-// /_next/image optimizer, which is quota-limited and returns 402 for new images.
+// by Cloudinary itself (f_auto picks avif/webp per browser) instead of the platform
+// /_next/image optimizer, so no image optimizer is needed on Cloudflare Workers.
 const CLOUDINARY_UPLOAD = /^https?:\/\/res\.cloudinary\.com\/[^/]+\/image\/upload\//
 
 type LoaderParams = { src: string; width: number; quality?: number }

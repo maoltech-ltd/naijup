@@ -96,6 +96,20 @@ const nextConfig = {
 
   async redirects() {
     return [
+      // www -> apex (previously in vercel.json). The explicit "/" rule is needed
+      // because OpenNext leaves an empty :path* unsubstituted in the Location.
+      {
+        source: '/',
+        has: [{ type: 'host', value: 'www.naijup.ng' }],
+        destination: 'https://naijup.ng/',
+        permanent: true,
+      },
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.naijup.ng' }],
+        destination: 'https://naijup.ng/:path*',
+        permanent: true,
+      },
       {
         source: '/home',
         destination: '/',
@@ -106,3 +120,9 @@ const nextConfig = {
 }
 
 export default nextConfig
+
+// Exposes Cloudflare bindings (R2, env vars) to `next dev`.
+if (process.env.NODE_ENV === 'development') {
+  const { initOpenNextCloudflareForDev } = await import('@opennextjs/cloudflare')
+  initOpenNextCloudflareForDev()
+}

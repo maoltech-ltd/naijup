@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import profileCharacter from "@/public/image/character.png";
+import profileCharacter from "@/public/image/character.webp";
 
 const AboutCoverSection = () => {
   return (
