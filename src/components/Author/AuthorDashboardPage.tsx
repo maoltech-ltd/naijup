@@ -19,6 +19,7 @@ import { motion } from "framer-motion";
 import { canAccessAdminReports } from "@/src/utils/adminAccess";
 import PremiumFeeEditor from "@/src/components/Premium/PremiumFeeEditor";
 import PostCacheTools from "@/src/components/Admin/PostCacheTools";
+import ClearPostCacheButton from "@/src/components/Admin/ClearPostCacheButton";
 import { BarChart3, Eye, FileText, PenLine, ShieldCheck, UserPlus, Users } from "lucide-react";
 
 const formatCurrency = (amount: number) =>
@@ -332,6 +333,7 @@ export default function AuthorDashboardClient() {
                                 <span>{post.category}</span>
                                 <span>{post.total_views} total views</span>
                                 <span>{post.monthly_views} cycle views</span>
+                                <ClearPostCacheButton slug={post.slug} token={user.token} />
                               </div>
                             </div>
                           ))}
@@ -387,6 +389,7 @@ export default function AuthorDashboardClient() {
                     >
                       View Post →
                     </Link>
+                    <ClearPostCacheButton slug={post.slug} token={user.token} className="ml-4 mt-2" />
 
                     {hoveredId === post.id && (
                       <motion.div

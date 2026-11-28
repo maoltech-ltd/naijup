@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/src/redux/store";
 import api from "@/src/api";
 import AdminProtectedRoute from "@/src/components/AdminProtectedRoute";
+import ClearPostCacheButton from "@/src/components/Admin/ClearPostCacheButton";
 
 interface AdminAuthorSummary {
   author_id: number;
@@ -235,7 +236,8 @@ export default function AdminReportsPage() {
                           <th className="py-3 pr-4">Category</th>
                           <th className="py-3 pr-4">Published</th>
                           <th className="py-3 pr-4">Total Views</th>
-                          <th className="py-3">Monthly Views</th>
+                          <th className="py-3 pr-4">Monthly Views</th>
+                          <th className="py-3">Cache</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
@@ -245,7 +247,10 @@ export default function AdminReportsPage() {
                             <td className="py-4 pr-4">{post.category}</td>
                             <td className="py-4 pr-4">{formatDate(post.publication_date)}</td>
                             <td className="py-4 pr-4">{post.total_views}</td>
-                            <td className="py-4">{post.monthly_views}</td>
+                            <td className="py-4 pr-4">{post.monthly_views}</td>
+                            <td className="py-4">
+                              <ClearPostCacheButton slug={post.slug} token={user?.token} />
+                            </td>
                           </tr>
                         ))}
                       </tbody>
