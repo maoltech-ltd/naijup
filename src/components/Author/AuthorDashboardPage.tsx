@@ -18,6 +18,7 @@ import { RootState } from "@/src/redux/store";
 import { motion } from "framer-motion";
 import { canAccessAdminReports } from "@/src/utils/adminAccess";
 import PremiumFeeEditor from "@/src/components/Premium/PremiumFeeEditor";
+import PostCacheTools from "@/src/components/Admin/PostCacheTools";
 import { BarChart3, Eye, FileText, PenLine, ShieldCheck, UserPlus, Users } from "lucide-react";
 
 const formatCurrency = (amount: number) =>
@@ -235,6 +236,7 @@ export default function AuthorDashboardClient() {
                 )}
 
                 {user.token && <PremiumFeeEditor token={user.token} />}
+                {user.token && <PostCacheTools token={user.token} />}
 
                 <div className="mt-8 grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
                   <div className="rounded-xl border border-gray-200 p-4 dark:border-gray-700">
